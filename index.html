@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zero Matriks - Beta</title>
+    <title>Zero Matriks - Ultimate</title>
     <style>
-
+        /* === TEMA DARLING IN THE FRANXX === */
         :root {
             --bg-dark: #0f0a0d; 
             --bg-panel: rgba(15, 10, 12, 0.88); 
             --pink-02: #ff66a3; 
             --red-franxx: #e60000; 
             --red-glow: #ff1a40; 
+            --cyan-glow: #00ffff;
             --text-main: #f0f0f0;
             --text-muted: #b3a5ab;
             --border-color: #4d1a2e; 
@@ -20,9 +21,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-dark);
-            
-            /* Background Gambar */
-            background-image: url('https://alphacoders.com/zero-two-%28darling-in-the-franxx%29-wallpapers'); 
+            background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop'); 
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -36,9 +35,10 @@
             background: linear-gradient(90deg, rgba(15,10,12,0.95) 0%, rgba(255,26,64,0.2) 50%, rgba(15,10,12,0.95) 100%);
             border-bottom: 2px solid var(--red-glow);
             text-align: center;
-            padding: 15px 10px; /* Padding disesuaikan untuk HP */
+            padding: 15px 10px; 
             box-shadow: 0 0 20px rgba(255, 26, 64, 0.4);
             backdrop-filter: blur(5px);
+            position: relative;
         }
 
         header h1 {
@@ -48,140 +48,73 @@
             letter-spacing: 3px;
             text-transform: uppercase;
             text-shadow: 0 0 10px var(--red-glow);
-            font-size: 1.8em; /* Ukuran font disesuaikan */
+            font-size: 1.8em; 
+        }
+
+        /* Dropdown Bahasa */
+        .lang-selector { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); }
+        .lang-selector select {
+            background: rgba(15, 10, 12, 0.9); color: var(--pink-02); border: 1px solid var(--red-glow);
+            padding: 5px 10px; border-radius: 4px; font-weight: bold; outline: none; cursor: pointer;
         }
 
         .container {
-            display: flex;
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 15px; /* Padding di kiri kanan untuk jarak aman */
-            gap: 20px;
-            flex-direction: row; /* Default layout: Desktop */
-            align-items: flex-start;
+            display: flex; max-width: 1200px; margin: 30px auto; padding: 0 15px; 
+            gap: 20px; flex-direction: row; align-items: flex-start;
         }
 
         .main-content {
-            flex: 3;
-            background: var(--bg-panel);
-            backdrop-filter: blur(12px); 
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 25px; /* Sedikit dikurangi untuk efisiensi ruang HP */
-            min-height: 600px;
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 102, 163, 0.05);
-            max-width: 100%;
-            overflow: hidden; 
-            width: 100%;
-            box-sizing: border-box; /* Mencegah overflow padding */
+            flex: 3; background: var(--bg-panel); backdrop-filter: blur(12px); 
+            border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; 
+            min-height: 600px; box-shadow: 0 0 25px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 102, 163, 0.05);
+            width: 100%; box-sizing: border-box; overflow: hidden; 
         }
 
         .sidebar {
-            flex: 1;
-            background: var(--bg-panel);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            height: fit-content;
-            min-width: 250px;
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
-            width: 100%;
-            box-sizing: border-box;
+            flex: 1; background: var(--bg-panel); backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color); border-radius: 12px; padding: 20px;
+            height: fit-content; min-width: 250px; box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+            width: 100%; box-sizing: border-box;
         }
 
-        /* === MEDIA QUERY: RESPONSIF UNTUK HP / LAYAR KECIL === */
+        /* Responsif HP */
         @media screen and (max-width: 768px) {
-            .container {
-                flex-direction: column-reverse; /* Membalik urutan: Sidebar di bawah, Konten di atas */
-                margin: 15px auto;
-            }
-            .sidebar {
-                min-width: 100%; /* Memaksa sidebar memanjang penuh */
-                margin-bottom: 30px;
-            }
-            .main-content {
-                min-height: auto; /* Membiarkan tinggi menyesuaikan konten */
-                padding: 15px; /* Padding lebih sempit agar ruang lebih luas di HP */
-            }
-            header h1 {
-                font-size: 1.5em; /* Judul lebih kecil di HP */
-            }
-            .flex-center {
-                flex-direction: column; /* Tombol auto-fill disusun vertikal agar tidak numpuk */
-                gap: 10px;
-            }
-            .flex-center button {
-                width: 100%; /* Tombol memanjang di HP agar mudah disentuh */
-            }
+            .container { flex-direction: column-reverse; margin: 15px auto; }
+            .sidebar { min-width: 100%; margin-bottom: 30px; }
+            .main-content { min-height: auto; padding: 15px; }
+            header h1 { font-size: 1.5em; text-align: left; }
+            .lang-selector { right: 10px; }
+            .flex-center { flex-direction: column; gap: 10px; }
+            .flex-center button { width: 100%; }
         }
 
-        h2 { color: var(--red-glow); border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-top: 0; text-shadow: 0 0 5px rgba(255,26,64,0.3);}
+        h2 { color: var(--red-glow); border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-top: 0; text-shadow: 0 0 5px rgba(255,26,64,0.3); }
         p { color: var(--text-muted); }
         
         .sidebar ul { list-style: none; padding: 0; margin: 0; }
         .sidebar li { margin-bottom: 10px; }
         .sidebar a {
-            display: block;
-            color: var(--text-main);
-            text-decoration: none;
-            padding: 12px 15px; /* Sedikit dibesarkan agar mudah diklik di HP */
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
+            display: block; color: var(--text-main); text-decoration: none; padding: 12px 15px; 
+            border-radius: 6px; transition: all 0.3s ease; border-left: 3px solid transparent;
         }
-        .sidebar a:hover, .sidebar a.active {
-            background-color: rgba(255, 102, 163, 0.15);
-            color: var(--pink-02);
-            border-left: 3px solid var(--red-glow);
-            text-shadow: 0 0 5px rgba(255, 102, 163, 0.5);
-        }
+        .sidebar a:hover, .sidebar a.active { background-color: rgba(255, 102, 163, 0.15); color: var(--pink-02); border-left: 3px solid var(--red-glow); text-shadow: 0 0 5px rgba(255, 102, 163, 0.5); }
 
-        .setup-box {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--border-color);
-            padding: 15px; /* Disesuaikan untuk HP */
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        .matrix-input-box {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--border-color);
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-            overflow-x: auto; /* Mencegah kotak jebol jika layar sangat kecil */
-        }
-
-        .scroll-wrapper {
-            overflow: auto;
-            max-height: 60vh;
-            max-width: 100%;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.7);
-        }
+        .setup-box { background: rgba(0, 0, 0, 0.5); border: 1px solid var(--border-color); padding: 15px; border-radius: 8px; margin-top: 20px; }
+        .matrix-input-box { background: rgba(0, 0, 0, 0.5); border: 1px solid var(--border-color); padding: 15px; border-radius: 8px; margin-top: 20px; overflow-x: auto; }
+        .scroll-wrapper { overflow: auto; max-height: 60vh; max-width: 100%; border: 1px solid var(--border-color); border-radius: 4px; padding: 10px; background: rgba(0, 0, 0, 0.7); }
 
         input[type="number"] {
-            background-color: rgba(15, 10, 12, 0.9);
-            border: 1px solid var(--border-color);
-            color: white;
-            padding: 8px 4px; /* Padding disesuaikan */
-            border-radius: 4px;
-            width: 50px; /* Lebar dikecilkan sedikit agar muat banyak di HP */
-            text-align: center;
+            background-color: rgba(15, 10, 12, 0.9); border: 1px solid var(--border-color);
+            color: white; padding: 8px 4px; border-radius: 4px; width: 50px; text-align: center;
         }
         input[type="number"]:focus { outline: none; border-color: var(--red-glow); box-shadow: 0 0 8px rgba(255, 26, 64, 0.5); }
         
         button {
             background-color: transparent; color: var(--red-glow); border: 1px solid var(--red-glow);
-            padding: 10px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: all 0.3s; margin: 0 5px;
-            box-sizing: border-box; /* Mencegah overflow width */
+            padding: 10px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: all 0.3s; margin: 0 5px; box-sizing: border-box; 
         }
         button:hover { background-color: var(--red-glow); color: var(--bg-dark); box-shadow: 0 0 10px var(--red-glow); }
-        button.primary { background-color: transparent; color: var(--pink-02); border-color: var(--pink-02); }
+        button.primary { color: var(--pink-02); border-color: var(--pink-02); }
         button.primary:hover { background-color: var(--pink-02); color: var(--bg-dark); box-shadow: 0 0 10px var(--pink-02); }
         button.auto { border-color: #ff99c2; color: #ff99c2; font-size: 0.9em; padding: 10px;}
         button.auto:hover { background-color: #ff99c2; color: var(--bg-dark); box-shadow: 0 0 10px #ff99c2; }
@@ -189,50 +122,33 @@
         .grid-row { display: flex; justify-content: center; gap: 5px; margin-bottom: 5px; width: max-content; }
         .flex-center { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
         
-        .matrix-table {
-            margin: 0 auto; border-collapse: collapse; background-color: rgba(0, 0, 0, 0.6);
-            border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.5);
-        }
+        .matrix-table { margin: 0 auto; border-collapse: collapse; background-color: rgba(0, 0, 0, 0.6); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.5); }
         .matrix-table th, .matrix-table td { border: 1px solid var(--border-color); padding: 8px; text-align: center; min-width: 35px; }
         .matrix-table th { background-color: rgba(255, 102, 163, 0.15); color: var(--pink-02); }
         .matrix-table tr:nth-child(even) td { background-color: rgba(255, 255, 255, 0.03); }
         .matrix-table td.divider { border-left: 2px dashed var(--pink-02); }
 
-        .step-panel {
-            background: rgba(0, 0, 0, 0.6); border-left: 4px solid var(--red-glow);
-            border-radius: 0 8px 8px 0; padding: 15px; margin-top: 20px; text-align: center;
-            overflow-x: auto;
-        }
+        .step-panel { background: rgba(0, 0, 0, 0.6); border-left: 4px solid var(--red-glow); border-radius: 0 8px 8px 0; padding: 15px; margin-top: 20px; text-align: center; overflow-x: auto; }
         .step-title { color: var(--red-glow); margin-bottom: 15px; font-size: 0.95em; font-weight: bold; }
         .result-box { margin-top: 20px; padding: 15px; border: 1px solid var(--pink-02); border-radius: 8px; background: rgba(255,102,163,0.08); text-align: center; font-size: 1.1em; overflow: auto; max-height: 40vh;}
         
-        .toggle-container { margin-top: 15px; text-align: center; color: var(--pink-02); font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.8); font-size: 0.9em;}
-        .toggle-container input { transform: scale(1.2); margin-right: 8px; accent-color: var(--red-glow);}
-        
-        .method-desc {
-            background: rgba(255, 26, 64, 0.08);
-            border-left: 4px solid var(--red-glow);
-            padding: 15px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            font-size: 0.95em;
-            text-align: justify;
-        }
-
-        /* Container untuk input Row x Col agar fleksibel di HP */
-        .dim-input-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+        .toggle-container { margin-top: 15px; text-align: center; color: var(--pink-02); font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.8); font-size: 0.9em; }
+        .toggle-container input { transform: scale(1.2); margin-right: 8px; accent-color: var(--red-glow); }
+        .method-desc { background: rgba(255, 26, 64, 0.08); border-left: 4px solid var(--red-glow); padding: 15px; border-radius: 4px; margin-bottom: 20px; font-size: 0.95em; text-align: justify; }
+        .dim-input-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Zero Matriks</h1>
+        <div class="lang-selector">
+            <select id="languageSelect" onchange="changeLanguage()">
+                <option value="id" selected>🇮🇩 ID</option>
+                <option value="en">🇬🇧 EN</option>
+                <option value="jp">🇯🇵 JP</option>
+            </select>
+        </div>
     </header>
 
     <div class="container">
@@ -240,590 +156,671 @@
 
         <aside class="sidebar">
             <ul>
-                <li><a href="#" id="nav-home" onclick="navigate('home')" class="active">Home</a></li>
-                <li><a href="#" id="nav-gauss" onclick="navigate('gauss')">Gauss-Jordan Elimination</a></li>
-                <li><a href="#" id="nav-cramer" onclick="navigate('cramer')">Cramer's Rule</a></li>
-                <li><a href="#" id="nav-addsub" onclick="navigate('addsub')">Addition / Subtraction</a></li>
-                <li><a href="#" id="nav-trans" onclick="navigate('trans')">Matrix Transpose</a></li>
-                <li><a href="#" id="nav-rank" onclick="navigate('rank')">Matrix Rank</a></li>
-                <li><a href="#" id="nav-det" onclick="navigate('det')">Determinant</a></li>
-                <li><a href="#" id="nav-cofactor" onclick="navigate('cofactor')">Cofactor Matrix</a></li>
-                <li><a href="#" id="nav-inv" onclick="navigate('inv')">Inverse Matrix</a></li>
+                <li><a href="#" id="nav-home" onclick="navigate('home')" class="active" data-lang="nav_home">Home</a></li>
+                <li><a href="#" id="nav-gauss" onclick="navigate('gauss')" data-lang="nav_gauss">Gauss-Jordan Elimination</a></li>
+                <li><a href="#" id="nav-cramer" onclick="navigate('cramer')" data-lang="nav_cramer">Cramer's Rule</a></li>
+                <li><a href="#" id="nav-addsub" onclick="navigate('addsub')" data-lang="nav_addsub">Addition / Subtraction</a></li>
+                <li><a href="#" id="nav-trans" onclick="navigate('trans')" data-lang="nav_trans">Matrix Transpose</a></li>
+                <li><a href="#" id="nav-rank" onclick="navigate('rank')" data-lang="nav_rank">Matrix Rank</a></li>
+                <li><a href="#" id="nav-det" onclick="navigate('det')" data-lang="nav_det">Determinant</a></li>
+                <li><a href="#" id="nav-cofactor" onclick="navigate('cofactor')" data-lang="nav_cofactor">Cofactor Matrix</a></li>
+                <li><a href="#" id="nav-inv" onclick="navigate('inv')" data-lang="nav_inv">Inverse Matrix</a></li>
             </ul>
         </aside>
     </div>
 
     <script>
-        let currentMode = 'home';
+        // === KAMUS MULTI-BAHASA ===
+        const tr = {
+            id: {
+                nav_home: "Beranda", 
+                nav_gauss: "Eliminasi Gauss-Jordan", 
+                nav_cramer: "Aturan Cramer", 
+                nav_addsub: "Penjumlahan / Pengurangan", 
+                nav_trans: "Transpos Matriks", 
+                nav_rank: "Rank Matriks", 
+                nav_det: "Determinan", 
+                nav_cofactor: "Matriks Kofaktor", 
+                nav_inv: "Invers Matriks",
+                desc_gauss: "Metode Eliminasi Gauss-Jordan mengubah matriks menjadi bentuk eselon baris tereduksi (RREF). Sistem ini otomatis mendeteksi apakah persamaan memiliki solusi unik, tak terhingga, atau tidak konsisten.", 
+                desc_cramer: "Aturan Cramer menyelesaikan sistem persamaan linear menggunakan rasio determinan matriks utama dan matriks modifikasi.", 
+                desc_addsub: "Operasi dasar penjumlahan dan pengurangan elemen-elemen bersesuaian dengan syarat ordo matriks sama.", 
+                desc_trans: "Transpos (A^T) menukar elemen baris menjadi kolom, dan sebaliknya.", 
+                desc_rank: "Rank matriks menunjukkan jumlah maksimum vektor baris yang independen linear.", 
+                desc_det: "Determinan adalah nilai skalar unik dari matriks persegi pembukti eksistensi invers.", 
+                desc_cofactor: "Matriks Kofaktor dibentuk dari nilai determinan sub-matriks (Minor) yang dikalikan dengan rotasi tanda aljabar (-1)^(i+j).", 
+                desc_inv: "Invers Matriks (A^-1) dikerjakan menggunakan metode reduksi baris Gauss-Jordan pada matriks augmentasi [A | I].",
+                ui_size: "Ukuran:", 
+                ui_var: "Variabel:", 
+                ui_row: "Baris:", 
+                ui_col: "Kolom:", 
+                ui_set: "Atur Matriks", 
+                ui_in: "Input Matriks", 
+                ui_calc: "Kalkulasi", 
+                ui_clr: "Bersihkan", 
+                ui_clrall: "Bersih Semua", 
+                ui_step: "Tampilkan Solusi / Jalan Pengerjaan", 
+                ui_log: "Log Solusi", 
+                step_init: "Matriks Awal", 
+                step_res: "Hasil Akhir",
+                alert_max: "Maksimal ordo matriks adalah 100x100!",
+                no_sol: "Sistem persamaan tidak konsisten (Tidak ada solusi).",
+                inf_sol: "Sistem memiliki banyak solusi (Tak terhingga)."
+            },
+            en: {
+                nav_home: "Home", 
+                nav_gauss: "Gauss-Jordan", 
+                nav_cramer: "Cramer's Rule", 
+                nav_addsub: "Add / Subtract", 
+                nav_trans: "Transpose", 
+                nav_rank: "Matrix Rank", 
+                nav_det: "Determinant", 
+                nav_cofactor: "Cofactor Matrix", 
+                nav_inv: "Inverse",
+                desc_gauss: "Gauss-Jordan transforms a matrix into Reduced Row Echelon Form (RREF). The system automatically detects unique, infinite, or inconsistent solutions.", 
+                desc_cramer: "Cramer's Rule solves linear equations using ratios of determinants.", 
+                desc_addsub: "Basic element-wise addition and subtraction. Matrices must have equal dimensions.", 
+                desc_trans: "Transpose (A^T) swaps rows with columns.", 
+                desc_rank: "Rank indicates the maximum number of linearly independent rows.", 
+                desc_det: "A scalar value exclusively calculated from a square matrix.", 
+                desc_cofactor: "Cofactors are formed by calculating the determinant of Minor sub-matrices multiplied by (-1)^(i+j).", 
+                desc_inv: "Inverse Matrix (A^-1) is universally solved using Gauss-Jordan reduction on [A | I].",
+                ui_size: "Size:", 
+                ui_var: "Variables:", 
+                ui_row: "Rows:", 
+                ui_col: "Cols:", 
+                ui_set: "Set Matrix", 
+                ui_in: "Input Matrix", 
+                ui_calc: "Calculate", 
+                ui_clr: "Clear", 
+                ui_clrall: "Clear All", 
+                ui_step: "Show Step-by-Step Solutions", 
+                ui_log: "Solution Log", 
+                step_init: "Initial Matrix", 
+                step_res: "Final Result",
+                alert_max: "Maximum size is 100x100!",
+                no_sol: "System is inconsistent (No solution).",
+                inf_sol: "System has infinitely many solutions."
+            },
+            jp: {
+                nav_home: "ホーム", 
+                nav_gauss: "ガウス・ジョルダン法", 
+                nav_cramer: "クラメルの公式", 
+                nav_addsub: "加算 / 減算", 
+                nav_trans: "転置行列", 
+                nav_rank: "階数 (ランク)", 
+                nav_det: "行列式", 
+                nav_cofactor: "余因子行列", 
+                nav_inv: "逆行列",
+                desc_gauss: "ガウス・ジョルダン消去法は、基本行変形を用いて行列を被約行階段形に変換します。システムは解の性質を自動的に検出します。", 
+                desc_cramer: "クラメルの公式は、行列式の比を用いて連立一次方程式を解きます。", 
+                desc_addsub: "対応する成分を足し引きする基本操作。行列は同じ次元である必要があります。", 
+                desc_trans: "転置 (A^T) は行と列を入れ替えます。", 
+                desc_rank: "線形独立な行ベクトルの最大数を示します。", 
+                desc_det: "正方行列の固有のスカラー値です。", 
+                desc_cofactor: "小行列式の行列式を計算し、代数的符号 (-1)^(i+j) を掛けることで得られます。", 
+                desc_inv: "逆行列 (A^-1) は拡大行列 [A | I] で計算されます。",
+                ui_size: "サイズ:", 
+                ui_var: "変数:", 
+                ui_row: "行:", 
+                ui_col: "列:", 
+                ui_set: "設定", 
+                ui_in: "行列入力", 
+                ui_calc: "計算する", 
+                ui_clr: "クリア", 
+                ui_clrall: "全てクリア", 
+                ui_step: "解決策 / ステップを表示", 
+                ui_log: "計算ログ", 
+                step_init: "初期行列", 
+                step_res: "最終結果",
+                alert_max: "最大サイズは 100x100 です！",
+                no_sol: "連立方程式は矛盾しています（解なし）。",
+                inf_sol: "システムには無数の解があります。"
+            }
+        };
+
+        // === STATE VARIABLES ===
+        let lang = 'id';
+        let mode = 'home';
         let rows = 2, cols = 3;
 
-        function navigate(mode) {
-            currentMode = mode;
-            document.querySelectorAll('.sidebar a').forEach(el => el.classList.remove('active'));
-            if(document.getElementById('nav-' + mode)) document.getElementById('nav-' + mode).classList.add('active');
+        function t(k) { return tr[lang][k] || k; }
 
-            const content = document.getElementById('app-content');
+        function changeLanguage() { 
+            lang = document.getElementById('languageSelect').value; 
+            document.querySelectorAll('.sidebar a').forEach(e => { 
+                let k = e.getAttribute('data-lang'); 
+                if(tr[lang][k]) e.innerText = tr[lang][k]; 
+            }); 
+            navigate(mode); 
+        }
+
+        // === FUNGSI NAVIGASI ===
+        function navigate(m) {
+            mode = m; 
+            document.querySelectorAll('.sidebar a').forEach(e => e.classList.remove('active')); 
+            if(document.getElementById('nav-' + m)) document.getElementById('nav-' + m).classList.add('active');
             
-            if (mode === 'home') {
-                content.innerHTML = `
+            let c = document.getElementById('app-content');
+            
+            if(m === 'home') {
+                c.innerHTML = `
                     <h2>Zero Matrix System</h2>
-                    <p>Sistem ini sekarang dilengkapi dengan deskripsi metode, <b>Automated Step-by-Step Generator</b>, dan <b>Auto Fill Hybrid</b>.</p>
                     <div class="setup-box">
-                        <h3 style="color: var(--pink-02); margin-top:0;">New Features:</h3>
-                        <p>✓ <b>Mobile Responsive:</b> Tampilan otomatis menyesuaikan layar HP (Sidebar turun ke bawah agar konten utama luas).<br>
-                           ✓ <b>Smart Auto Fill:</b> Terdapat opsi input angka negatif-positif <i>(+/-)</i> atau khusus positif <i>(+)</i> pada matriks.</p>
-                           ✓ <b>Metode Terdefinisi:</b> Terdapat ringkasan teori di atas setiap operasi pengerjaan untuk memudahkan pembelajaran.</p>
-                    </div>`;
+                        <p>✓ <b>Multi-Language:</b> ID, EN, JP.<br>
+                        ✓ <b>Unrestricted Engine:</b> Merender <i>Step-by-step</i> secara instan untuk ordo apa pun tanpa <i>lazy loading</i>.<br>
+                        ✓ <b>Smart RREF:</b> Deteksi cerdas untuk matriks dengan Solusi Tak Terhingga & Tidak Ada Solusi.</p>
+                    </div>`; 
                 return;
             }
 
-            let title = "", description = "", setupHtml = "";
-            let isSquare = (mode === 'det' || mode === 'inv' || mode === 'cofactor');
-            let isCramer = (mode === 'cramer');
-            let isDouble = (mode === 'addsub');
-
-            switch(mode) {
-                case 'gauss': 
-                    title = "Gauss-Jordan Elimination"; 
-                    description = "Metode Eliminasi Gauss-Jordan mengubah matriks menjadi bentuk eselon baris tereduksi (Reduced Row Echelon Form) menggunakan serangkaian operasi baris elementer. Metode ini sangat efektif untuk menemukan solusi unik dari sistem persamaan linear yang kompleks.";
-                    break;
-                case 'cramer': 
-                    title = "Cramer's Rule"; 
-                    description = "Aturan Cramer menyelesaikan sistem persamaan linear menggunakan rasio determinan. Nilai setiap variabel ditemukan dengan membagi determinan matriks modifikasi (di mana satu kolom variabel diganti oleh konstanta) dengan determinan matriks koefisien utama.";
-                    break;
-                case 'addsub': 
-                    title = "Matrix Addition & Subtraction"; 
-                    description = "Penjumlahan dan pengurangan matriks adalah operasi dasar yang dilakukan dengan menambah atau mengurangkan elemen-elemen yang berada pada posisi yang bersesuaian dari dua buah matriks. Syarat utamanya adalah kedua matriks harus memiliki ordo (ukuran baris dan kolom) yang persis sama.";
-                    break;
-                case 'trans': 
-                    title = "Matrix Transpose"; 
-                    description = "Transpos Matriks (A<sup>T</sup>) adalah operasi pemutaran yang menukar elemen baris menjadi kolom, dan sebaliknya. Secara matematis, elemen yang awalnya berada di baris <i>i</i> dan kolom <i>j</i> akan berpindah posisi menjadi baris <i>j</i> dan kolom <i>i</i>.";
-                    break;
-                case 'rank': 
-                    title = "Matrix Rank"; 
-                    description = "Rank matriks menunjukkan jumlah maksimum vektor baris atau kolom yang independen linear (tidak bisa dibentuk dari kelipatan baris/kolom lain). Biasanya dihitung dengan cara mereduksi matriks dan menghitung jumlah baris terakhir yang tidak bernilai nol semua.";
-                    break;
-                case 'det': 
-                    title = "Matrix Determinant"; 
-                    description = "Determinan adalah sebuah nilai skalar unik yang dapat dihitung secara eksklusif dari matriks persegi. Nilai determinan sangat penting karena menentukan sifat matriks, salah satunya adalah penentu apakah matriks tersebut memiliki invers (determinan tidak boleh bernilai nol).";
-                    break;
-                case 'cofactor': 
-                    title = "Cofactor Matrix"; 
-                    description = "Matriks Kofaktor dibentuk dengan mengganti setiap elemen awal dengan nilai kofaktornya. Kofaktor didapatkan dengan cara menghitung nilai determinan dari sub-matriks (disebut Minor) yang tersisa setelah baris <i>i</i> dan kolom <i>j</i> dihilangkan, lalu dikalikan dengan rotasi tanda aljabar (-1)<sup>i+j</sup>.";
-                    break;
-                case 'inv': 
-                    title = "Inverse Matrix"; 
-                    description = "Invers Matriks (A<sup>-1</sup>) adalah matriks yang jika dikalikan dengan matriks asalnya (A) akan menghasilkan matriks Identitas (I). Pada kalkulator ini, penyelesaian Invers dieksekusi secara universal menggunakan metode reduksi baris Gauss-Jordan pada matriks augmentasi gabungan [A | I].";
-                    break;
+            let isSq = (m === 'det' || m === 'inv' || m === 'cofactor');
+            let isCr = (m === 'cramer');
+            let isDbl = (m === 'addsub');
+            
+            let html = `<h2>${t('nav_'+m)}</h2>
+                        <div class="method-desc">${t('desc_'+m)}</div>
+                        <div class="setup-box"><div class="dim-input-group">`;
+            
+            if(isSq) {
+                html += `<span>${t('ui_size')}</span>
+                         <input type="number" id="dim-n" value="${rows}" min="1" max="100">
+                         <span>x</span><span id="dim-n-disp">${rows}</span>
+                         <button class="primary" onclick="buildGrid('sq')">${t('ui_set')}</button>`;
             }
-
-            setupHtml += `<h2>${title}</h2>`;
-            setupHtml += `<div class="method-desc">${description}</div>`;
-            setupHtml += `<div class="setup-box">`;
-            
-            // Penggunaan wrapper khusus agar input responsif
-            if (isSquare) {
-                setupHtml += `
-                    <div class="dim-input-group">
-                        <span>Matrix Size:</span>
-                        <input type="number" id="dim-n" value="3" min="1" max="100">
-                        <span>x</span><span id="dim-n-disp">3</span>
-                        <button class="primary" onclick="buildInputGrid('square')">Set matrix</button>
-                    </div>`;
-            } else if (isCramer) {
-                setupHtml += `
-                    <div class="dim-input-group">
-                        <span>Variables / Equations:</span>
-                        <input type="number" id="dim-n" value="3" min="1" max="100">
-                        <button class="primary" onclick="buildInputGrid('cramer')">Set matrix</button>
-                    </div>`;
-            } else {
-                setupHtml += `
-                    <div class="dim-input-group">
-                        <span>Rows:</span><input type="number" id="dim-row" value="2" min="1" max="100">
-                        <span>Cols:</span><input type="number" id="dim-col" value="3" min="1" max="100">
-                        <button class="primary" onclick="buildInputGrid('${isDouble ? 'double' : 'single'}')">Set matrix</button>
-                    </div>`;
+            else if(isCr) { 
+                let v = cols - 1; 
+                html += `<span>${t('ui_var')}</span>
+                         <input type="number" id="dim-n" value="${v}" min="1" max="100">
+                         <button class="primary" onclick="buildGrid('cr')">${t('ui_set')}</button>`; 
             }
-            setupHtml += `</div><div id="matrix-input-area"></div><div id="solution-area"></div>`;
+            else {
+                html += `<span>${t('ui_row')}</span>
+                         <input type="number" id="dim-row" value="${rows}" min="1" max="100">
+                         <span>${t('ui_col')}</span>
+                         <input type="number" id="dim-col" value="${cols}" min="1" max="100">
+                         <button class="primary" onclick="buildGrid('${isDbl?'db':'sg'}')">${t('ui_set')}</button>`;
+            }
             
-            content.innerHTML = setupHtml;
+            c.innerHTML = html + `</div></div><div id="matrix-input-area"></div><div id="solution-area"></div>`;
             
-            if(isSquare || isCramer) {
-                document.getElementById('dim-n').addEventListener('input', function() {
-                    let disp = document.getElementById('dim-n-disp');
-                    if(disp) disp.innerText = this.value;
+            if(isSq || isCr) {
+                document.getElementById('dim-n').addEventListener('input', function() { 
+                    let d = document.getElementById('dim-n-disp'); 
+                    if(d) d.innerText = this.value; 
                 });
             }
+            buildGrid(isSq ? 'sq' : isCr ? 'cr' : isDbl ? 'db' : 'sg');
         }
 
-        function buildInputGrid(type) {
+        // === FUNGSI MEMBANGUN GRID INPUT ===
+        function buildGrid(type) {
             document.getElementById('solution-area').innerHTML = '';
-            let inputArea = document.getElementById('matrix-input-area');
             
-            if (type === 'square') {
-                rows = cols = parseInt(document.getElementById('dim-n').value);
-            } else if (type === 'cramer') {
-                rows = parseInt(document.getElementById('dim-n').value);
-                cols = rows + 1; 
-            } else {
-                rows = parseInt(document.getElementById('dim-row').value);
-                cols = parseInt(document.getElementById('dim-col').value);
-            }
-
-            if (rows > 100 || cols > 100) {
-                alert("Maksimal ordo matriks adalah 100x100!");
-                return;
-            }
-
+            if(type === 'sq') { rows = cols = parseInt(document.getElementById('dim-n').value); } 
+            else if(type === 'cr') { rows = parseInt(document.getElementById('dim-n').value); cols = rows + 1; } 
+            else { rows = parseInt(document.getElementById('dim-row').value); cols = parseInt(document.getElementById('dim-col').value); }
+            
+            if(rows > 100 || cols > 100) return alert(t('alert_max'));
+            
             let html = `<div class="matrix-input-box">`;
-
-            if (type === 'double') {
-                html += `<div style="display:flex; justify-content:space-around; flex-wrap:wrap; gap:20px;">
-                            <div style="max-width: 100%; overflow:auto;"><h3 style="color:var(--red-glow); text-align:center;">Matrix A</h3>${generateGridHTML('A', rows, cols)}</div>
-                            <div style="max-width: 100%; overflow:auto;"><h3 style="color:var(--red-glow); text-align:center;">Matrix B</h3>${generateGridHTML('B', rows, cols)}</div>
-                         </div>`;
-                html += `<div class="flex-center" style="margin-top:20px;">
-                            <button class="auto" onclick="autoFill('A', true); autoFill('B', true);">⚡ Auto All (+/-)</button>
-                            <button class="auto" onclick="autoFill('A', false); autoFill('B', false);">⚡ Auto All (+)</button>
-                            <button onclick="clearMatrix('A'); clearMatrix('B');">Clear All</button>
-                            <button class="primary" onclick="solve('add')">A + B</button>
-                            <button class="primary" onclick="solve('sub')">A - B</button>
-                         </div>`;
+            if(type === 'db') {
+                html += `
+                    <div style="display:flex; justify-content:space-around; flex-wrap:wrap; gap:20px;">
+                        <div><h3 style="color:var(--red-glow); text-align:center;">Matrix A</h3>${genHTML('A', rows, cols)}</div>
+                        <div><h3 style="color:var(--red-glow); text-align:center;">Matrix B</h3>${genHTML('B', rows, cols)}</div>
+                    </div>
+                    <div class="flex-center" style="margin-top:20px;">
+                        <button class="auto" onclick="aF('A',1); aF('B',1);">⚡ Auto (+/-)</button>
+                        <button class="auto" onclick="aF('A',0); aF('B',0);">⚡ Auto (+)</button>
+                        <button onclick="cM('A'); cM('B');">${t('ui_clrall')}</button>
+                        <button class="primary" onclick="solve('add')">A + B</button>
+                        <button class="primary" onclick="solve('sub')">A - B</button>
+                    </div>`;
             } else {
-                html += `<h3 style="color:var(--red-glow); text-align:center;">Input Matrix</h3>
-                         ${generateGridHTML('A', rows, cols)}`;
-                html += `<div class="flex-center" style="margin-top:20px;">
-                            <button class="auto" onclick="autoFill('A', true)">⚡ Auto (+/-)</button>
-                            <button class="auto" onclick="autoFill('A', false)">⚡ Auto (+)</button>
-                            <button onclick="clearMatrix('A')">Clear</button>
-                            <button class="primary" onclick="solve('${currentMode}')">Calculate</button>
-                         </div>`;
+                html += `
+                    <h3 style="color:var(--red-glow); text-align:center;">${t('ui_in')}</h3>
+                    ${genHTML('A', rows, cols)}
+                    <div class="flex-center" style="margin-top:20px;">
+                        <button class="auto" onclick="aF('A',1)">⚡ Auto (+/-)</button>
+                        <button class="auto" onclick="aF('A',0)">⚡ Auto (+)</button>
+                        <button onclick="cM('A')">${t('ui_clr')}</button>
+                        <button class="primary" onclick="solve('${mode}')">${t('ui_calc')}</button>
+                    </div>`;
             }
+            document.getElementById('matrix-input-area').innerHTML = html + `
+                <div class="toggle-container">
+                    <label><input type="checkbox" id="show-steps" checked> ${t('ui_step')}</label>
+                </div></div>`;
+        }
+
+        function genHTML(pf, r, c) { 
+            let h = `<div class="scroll-wrapper"><div style="display:inline-flex; flex-direction:column; align-items:center;">`; 
+            for(let i=0; i<r; i++) { 
+                h += `<div class="grid-row">`; 
+                for(let j=0; j<c; j++) h += `<input type="number" id="c_${pf}_${i}_${j}" placeholder="0">`; 
+                h += `</div>`; 
+            } 
+            return h + `</div></div>`; 
+        }
+
+        function cM(pf) { 
+            for(let i=0; i<rows; i++) {
+                for(let j=0; j<cols; j++) { 
+                    let c = document.getElementById(`c_${pf}_${i}_${j}`); 
+                    if(c) c.value = ''; 
+                } 
+            }
+            document.getElementById('solution-area').innerHTML = ''; 
+        }
+
+        function aF(pf, neg) { 
+            for(let i=0; i<rows; i++) {
+                for(let j=0; j<cols; j++) { 
+                    let c = document.getElementById(`c_${pf}_${i}_${j}`); 
+                    if(c) c.value = neg ? Math.floor(Math.random() * 19) - 9 : Math.floor(Math.random() * 10); 
+                } 
+            }
+        }
+
+        function getM(pf, r, c) { 
+            let m = []; 
+            for(let i=0; i<r; i++) { 
+                let rw = []; 
+                for(let j=0; j<c; j++) { 
+                    let v = parseFloat(document.getElementById(`c_${pf}_${i}_${j}`).value); 
+                    rw.push(isNaN(v) ? 0 : v); 
+                } 
+                m.push(rw); 
+            } 
+            return m; 
+        }
+
+        function fN(n) { 
+            if(typeof n === 'string') return n;
+            if(Math.abs(n) < 1e-10) return 0;
+            if(Math.abs(n) > 1e10) return n.toExponential(3); 
+            return Number.isInteger(n) ? n : parseFloat(n.toFixed(4)); 
+        }
+
+        function rT(m, title, isA=false, dI=-1) { 
+            let h = `<div class="step-panel step-render"><div class="step-title">${title}</div><div style="overflow-x:auto;"><table class="matrix-table"><tbody>`; 
+            m.forEach(r => { 
+                h += `<tr>`; 
+                r.forEach((v,i) => {
+                    h += `<td ${(isA && i === dI) ? 'class="divider"' : ''}>${fN(v)}</td>`;
+                }); 
+                h += `</tr>`; 
+            }); 
+            return h + `</tbody></table></div></div>`; 
+        }
+
+        function cln(m) { return JSON.parse(JSON.stringify(m)); }
+
+        function cD(m) { 
+            if(!m.length) return 0; 
+            if(m.length === 1) return m[0][0]; 
             
-            html += `<div class="toggle-container">
-                        <label><input type="checkbox" id="show-steps" checked> Tampilkan Solusi / Jalan Pengerjaan</label>
-                     </div>`;
-
-            html += `</div>`;
-            inputArea.innerHTML = html;
-        }
-
-        function generateGridHTML(prefix, r, c) {
-            let html = `<div class="scroll-wrapper"><div style="display:inline-flex; flex-direction:column; align-items:center;">`;
-            for (let i = 0; i < r; i++) {
-                html += `<div class="grid-row">`;
-                for (let j = 0; j < c; j++) {
-                    html += `<input type="number" id="cell_${prefix}_${i}_${j}" placeholder="0">`;
-                }
-                html += `</div>`;
-            }
-            html += `</div></div>`;
-            return html;
-        }
-
-        function clearMatrix(prefix) {
-            for (let i = 0; i < rows; i++) {
-                for (let j = 0; j < cols; j++) {
-                    let cell = document.getElementById(`cell_${prefix}_${i}_${j}`);
-                    if(cell) cell.value = '';
-                }
-            }
-            document.getElementById('solution-area').innerHTML = '';
-        }
-
-        function autoFill(prefix, includeNegative) {
-            for(let i = 0; i < rows; i++) {
-                for(let j = 0; j < cols; j++) {
-                    let cell = document.getElementById(`cell_${prefix}_${i}_${j}`);
-                    if(cell) {
-                        if (includeNegative) {
-                            cell.value = Math.floor(Math.random() * 19) - 9;
-                        } else {
-                            cell.value = Math.floor(Math.random() * 10);
-                        }
+            let mt = cln(m), n = mt.length, d = 1; 
+            for(let i=0; i<n; i++) { 
+                let p = mt[i][i]; 
+                if(Math.abs(p) < 1e-10) { 
+                    let s = false; 
+                    for(let k=i+1; k<n; k++) {
+                        if(Math.abs(mt[k][i]) > 1e-10) { 
+                            let tp = mt[i]; mt[i] = mt[k]; mt[k] = tp; 
+                            d *= -1; p = mt[i][i]; s = true; break; 
+                        } 
                     }
-                }
-            }
+                    if(!s) return 0; 
+                } 
+                for(let k=i+1; k<n; k++) { 
+                    let f = mt[k][i]/p; 
+                    for(let j=i; j<n; j++) mt[k][j] -= f * mt[i][j]; 
+                } 
+                d *= mt[i][i]; 
+            } 
+            return d; 
         }
 
-        function getMatrix(prefix, r, c) {
-            let mat = [];
-            for (let i = 0; i < r; i++) {
-                let row = [];
-                for (let j = 0; j < c; j++) {
-                    let val = parseFloat(document.getElementById(`cell_${prefix}_${i}_${j}`).value);
-                    row.push(isNaN(val) ? 0 : val);
-                }
-                mat.push(row);
-            }
-            return mat;
-        }
-
-        function formatNum(num) {
-            if(typeof num === 'string') return num;
-            if(Math.abs(num) > 1e10 || (Math.abs(num) < 1e-5 && num !== 0)) return num.toExponential(3);
-            return Number.isInteger(num) ? num : parseFloat(num.toFixed(3));
-        }
-
-        function renderTable(mat, title, isAugmented = false, dividerIndex = -1) {
-            let html = `<div class="step-panel step-render"><div class="step-title">${title}</div><div style="overflow-x:auto;"><table class="matrix-table"><tbody>`;
-            mat.forEach(row => {
-                html += `<tr>`;
-                row.forEach((val, index) => { 
-                    let cls = (isAugmented && index === dividerIndex) ? 'class="divider"' : '';
-                    html += `<td ${cls}>${formatNum(val)}</td>`; 
-                });
-                html += `</tr>`;
-            });
-            html += `</tbody></table></div></div>`;
-            return html;
-        }
-
-        function cloneMat(m) { return JSON.parse(JSON.stringify(m)); }
-
-        function calcDetRowReduction(matrix) {
-            if(matrix.length === 0) return 0;
-            if(matrix.length === 1) return matrix[0][0];
-            let mat = cloneMat(matrix);
-            let n = mat.length;
-            let det = 1;
-            
-            for (let i = 0; i < n; i++) {
-                let pivot = mat[i][i];
-                if (Math.abs(pivot) < 1e-10) {
-                    let swapped = false;
-                    for (let k = i + 1; k < n; k++) {
-                        if (Math.abs(mat[k][i]) > 1e-10) {
-                            let temp = mat[i]; mat[i] = mat[k]; mat[k] = temp;
-                            det *= -1; pivot = mat[i][i]; swapped = true;
-                            break;
-                        }
-                    }
-                    if (!swapped) return 0;
-                }
-                for (let k = i + 1; k < n; k++) {
-                    let factor = mat[k][i] / pivot;
-                    for (let j = i; j < n; j++) mat[k][j] -= factor * mat[i][j];
-                }
-                det *= mat[i][i];
-            }
-            return det;
-        }
-
-        function solve(operation) {
-            let A = getMatrix('A', rows, cols);
-            let solution = document.getElementById('solution-area');
+        // === FUNGSI MATEMATIKA UTAMA (DIRECT RENDER - TANPA LAZY) ===
+        function solve(op) {
+            let A = getM('A', rows, cols);
+            let s = document.getElementById('solution-area');
             let showSteps = document.getElementById('show-steps').checked;
             
-            let htmlOut = `<h3 style="margin-top:40px; color:var(--pink-02); border-bottom: 1px solid var(--border-color);">Solution Log</h3>`;
+            let htmlOut = `<h3 style="margin-top:40px; color:var(--pink-02); border-bottom: 1px solid var(--border-color);">${t('ui_log')}</h3>`;
             
-            if (operation === 'add' || operation === 'sub') {
-                let B = getMatrix('B', rows, cols);
-                let C = [], StepMat = [];
-                let opSign = operation === 'add' ? '+' : '-';
+            // --- ADD / SUBTRACT ---
+            if (op === 'add' || op === 'sub') {
+                let B = getM('B', rows, cols);
+                let C = [], SM = [];
+                let sign = (op === 'add') ? '+' : '-';
                 
-                for (let i = 0; i < rows; i++) {
-                    let rowC = [], rowS = [];
-                    for (let j = 0; j < cols; j++) {
-                        rowC.push(operation === 'add' ? A[i][j] + B[i][j] : A[i][j] - B[i][j]);
-                        if(showSteps) rowS.push(`${A[i][j]} ${opSign} ${B[i][j]}`);
-                    }
-                    C.push(rowC);
-                    if(showSteps) StepMat.push(rowS);
+                for(let i=0; i<rows; i++) { 
+                    let rC = [], rS = []; 
+                    for(let j=0; j<cols; j++) { 
+                        let val = (op === 'add') ? (A[i][j] + B[i][j]) : (A[i][j] - B[i][j]);
+                        rC.push(val); 
+                        if(showSteps) rS.push(`${fN(A[i][j])} ${sign} ${fN(B[i][j])}`); 
+                    } 
+                    C.push(rC); 
+                    if(showSteps) SM.push(rS); 
                 }
-                
-                if(showSteps) {
-                    htmlOut += renderTable(A, "Matrix A");
-                    htmlOut += renderTable(B, "Matrix B");
-                    htmlOut += renderTable(StepMat, "Proses Kalkulasi Elemen per Elemen");
-                }
-                htmlOut += renderTable(C, `Hasil Akhir (Matrix A ${opSign} Matrix B)`);
+                if(showSteps) { htmlOut += rT(A, "Matrix A") + rT(B, "Matrix B") + rT(SM, "Process"); } 
+                htmlOut += rT(C, `${t('step_res')} (A ${sign} B)`);
             
-            } else if (operation === 'trans') {
-                let C = [];
-                for (let j = 0; j < cols; j++) {
-                    let row = [];
-                    for (let i = 0; i < rows; i++) { row.push(A[i][j]); }
-                    C.push(row);
+            // --- TRANSPOSE ---
+            } else if (op === 'trans') {
+                let C = []; 
+                for(let j=0; j<cols; j++) { 
+                    let rw = []; 
+                    for(let i=0; i<rows; i++) { rw.push(A[i][j]); }
+                    C.push(rw); 
                 }
-                if(showSteps) htmlOut += renderTable(A, "Matrix Awal (Menukar Baris menjadi Kolom)");
-                htmlOut += renderTable(C, `Hasil Akhir Transpose (${cols}x${rows})`);
+                if(showSteps) htmlOut += rT(A, t('step_init')); 
+                htmlOut += rT(C, `${t('step_res')} (${cols}x${rows})`);
 
-            } else if (operation === 'gauss') {
-                let mat = cloneMat(A);
-                if(showSteps) htmlOut += renderTable(mat, "Matriks Awal (Matriks Augmentasi)");
+            // --- GAUSS-JORDAN ELIMINATION (DENGAN EVALUASI SOLUSI) ---
+            } else if (op === 'gauss') {
+                let m = cln(A); 
+                if(showSteps) htmlOut += rT(m, t('step_init'));
                 
                 let r = rows, c = cols, lead = 0;
-                for (let rTarget = 0; rTarget < r; rTarget++) {
-                    if (c <= lead) break;
-                    let i = rTarget;
-                    
-                    while (mat[i][lead] === 0) {
-                        i++;
-                        if (r === i) { i = rTarget; lead++; if (c === lead) break; }
-                    }
+                for(let rt=0; rt<r; rt++) { 
+                    if(c <= lead) break; 
+                    let i = rt; 
+                    while(Math.abs(m[i][lead]) < 1e-10) { 
+                        i++; 
+                        if(r === i) { i = rt; lead++; if(c === lead) break; } 
+                    } 
                     if(c === lead) break;
-
-                    if (i !== rTarget) {
-                        let temp = mat[i]; mat[i] = mat[rTarget]; mat[rTarget] = temp;
-                        if(showSteps) htmlOut += renderTable(cloneMat(mat), `Tukar Baris ${rTarget+1} dengan Baris ${i+1}`);
+                    
+                    if(i !== rt) { 
+                        let tp = m[i]; m[i] = m[rt]; m[rt] = tp; 
+                        if(showSteps) htmlOut += rT(cln(m), "Swap Row"); 
                     }
-
-                    let pivot = mat[rTarget][lead];
-                    if (pivot !== 1 && pivot !== 0) {
-                        for (let j = 0; j < c; j++) mat[rTarget][j] /= pivot;
-                        if(showSteps) htmlOut += renderTable(cloneMat(mat), `Bagi Baris ${rTarget+1} dengan ${formatNum(pivot)} (Membentuk Leading 1)`);
+                    
+                    let p = m[rt][lead]; 
+                    if(Math.abs(p) > 1e-10) { 
+                        for(let j=0; j<c; j++) { m[rt][j] /= p; }
+                        if(showSteps && Math.abs(p - 1) > 1e-10) htmlOut += rT(cln(m), `Divide Row ${rt+1} by ${fN(p)}`); 
                     }
-
-                    let eliminated = false;
-                    for (let k = 0; k < r; k++) {
-                        if (k !== rTarget) {
-                            let factor = mat[k][lead];
-                            if (factor !== 0) {
-                                for (let j = 0; j < c; j++) mat[k][j] -= factor * mat[rTarget][j];
-                                eliminated = true;
-                            }
-                        }
+                    
+                    let eli = false; 
+                    for(let k=0; k<r; k++) { 
+                        if(k !== rt) { 
+                            let f = m[k][lead]; 
+                            if(Math.abs(f) > 1e-10) { 
+                                for(let j=0; j<c; j++) { m[k][j] -= f * m[rt][j]; }
+                                eli = true; 
+                            } 
+                        } 
                     }
-                    if(showSteps && eliminated) htmlOut += renderTable(cloneMat(mat), `Eliminasi elemen pada kolom ${lead+1} di baris lain menjadi 0`);
+                    if(showSteps && eli) htmlOut += rT(cln(m), `Eliminate elements in column ${lead+1}`); 
                     lead++;
                 }
 
-                if(!showSteps) htmlOut += renderTable(mat, "Hasil Eliminasi Gauss-Jordan");
+                if(!showSteps) htmlOut += rT(m, t('step_res'));
                 
-                htmlOut += `<div class="result-box"><h4 style="margin:0; color:var(--red-glow);">Bentuk Persamaan Linear (Solution Set):</h4>`;
+                // Evaluasi Tipe Solusi (Unik, Infinite, Tidak Ada Solusi)
+                let isConsistent = true;
+                let rankA = 0;
+                
                 for(let i=0; i<rows; i++) {
-                    htmlOut += `X<sub>${i+1}</sub> = <b>${formatNum(mat[i][cols-1])}</b><br>`;
+                    let allZeroA = true;
+                    for(let j=0; j<cols-1; j++) {
+                        if (Math.abs(m[i][j]) > 1e-10) { allZeroA = false; break; }
+                    }
+                    let bZero = Math.abs(m[i][cols-1]) <= 1e-10;
+                    
+                    if (!allZeroA) {
+                        rankA++;
+                    } else if (!bZero) {
+                        isConsistent = false;
+                        break;
+                    }
                 }
+                
+                htmlOut += `<div class="result-box">`;
+                
+                // Tampilkan warning jika tidak konsisten/infinite, tetapi tetap lanjutkan mencetak X
+                if (!isConsistent) {
+                    htmlOut += `<h4 style="margin:0 0 10px 0; color:red;">${t('no_sol')}</h4>`;
+                } else if (rankA < cols - 1) {
+                    htmlOut += `<h4 style="margin:0 0 10px 0; color:var(--cyan-glow);">${t('inf_sol')}</h4>`;
+                }
+                
+                // SELALU TAMPILKAN NILAI X (Merespons permintaan agar tidak dihapus)
+                htmlOut += `<h4 style="margin:0; color:var(--red-glow);">${lang === 'id' ? 'Bentuk Persamaan Linear (Solution Set):' : 'Linear Equation Form (Solution Set):'}</h4>`; 
+                
+                // Loop mencetak nilai X sebanyak baris yang dimasukkan (seperti di screenshot awal)
+                for(let i=0; i<rows; i++) { 
+                    let val = fN(m[i][cols-1]);
+                    if (Math.abs(val) < 1e-10) val = 0;
+                    htmlOut += `X<sub>${i+1}</sub> = <b>${val}</b><br>`; 
+                }
+                
                 htmlOut += `</div>`;
 
-            } else if (operation === 'rank') {
-                let mat = cloneMat(A);
-                if(showSteps) htmlOut += renderTable(mat, "Matriks Awal");
+            // --- MATRIX RANK ---
+            } else if (op === 'rank') {
+                let m = cln(A); 
+                if(showSteps) htmlOut += rT(m, t('step_init')); 
                 
-                let rank = cols;
-                for (let row = 0; row < rank; row++) {
-                    if (mat[row][row] !== 0) {
-                        for (let col = 0; col < rows; col++) {
-                            if (col !== row) {
-                                let mult = mat[col][row] / mat[row][row];
-                                for (let i = 0; i < rank; i++) mat[col][i] -= mult * mat[row][i];
-                            }
-                        }
-                        if(showSteps && row < rows-1) htmlOut += renderTable(cloneMat(mat), `Eliminasi baris berdasarkan Pivot Baris ${row+1}`);
-                    } else {
-                        let reduce = true;
-                        for (let i = row + 1; i < rows; i++) {
-                            if (mat[i][row] !== 0) {
-                                let temp = mat[row]; mat[row] = mat[i]; mat[i] = temp;
-                                if(showSteps) htmlOut += renderTable(cloneMat(mat), `Tukar Baris ${row+1} dengan Baris ${i+1}`);
-                                reduce = false; break;
-                            }
-                        }
-                        if (reduce) { rank--; for (let i = 0; i < rows; i++) mat[i][row] = mat[i][rank]; }
-                        row--;
+                let rk = cols;
+                for(let rw=0; rw<rk; rw++) { 
+                    if(Math.abs(m[rw][rw]) > 1e-10) { 
+                        for(let c=0; c<rows; c++) { 
+                            if(c !== rw) { 
+                                let mt = m[c][rw]/m[rw][rw]; 
+                                for(let i=0; i<rk; i++) { m[c][i] -= mt * m[rw][i]; }
+                            } 
+                        } 
+                        if(showSteps && rw < rows-1) htmlOut += rT(cln(m), "Eliminate by Pivot"); 
                     }
+                    else { 
+                        let rd = true; 
+                        for(let i=rw+1; i<rows; i++) { 
+                            if(Math.abs(m[i][rw]) > 1e-10) { 
+                                let tp = m[rw]; m[rw] = m[i]; m[i] = tp; 
+                                if(showSteps) htmlOut += rT(cln(m), "Swap Row"); 
+                                rd = false; break; 
+                            } 
+                        } 
+                        if(rd) { rk--; for(let i=0; i<rows; i++) { m[i][rw] = m[i][rk]; } } 
+                        rw--; 
+                    } 
                 }
-                htmlOut += `<div class="result-box">Jumlah baris non-zero (Rank of Matrix): <b>${rank}</b></div>`;
+                htmlOut += `<div class="result-box">Rank = <b>${rk}</b></div>`;
 
-            } else if (operation === 'det') {
-                let det = calcDetRowReduction(A);
-                if(showSteps) htmlOut += renderTable(A, "Matriks Awal");
-                htmlOut += `<div class="result-box">Determinant = <b>${formatNum(det)}</b></div>`;
+            // --- DETERMINANT ---
+            } else if (op === 'det') {
+                let d = cD(A); 
+                if(Math.abs(d) < 1e-10) d = 0;
+                if(showSteps) htmlOut += rT(A, t('step_init')); 
+                htmlOut += `<div class="result-box">Determinant = <b>${fN(d)}</b></div>`;
 
-            } else if (operation === 'cramer') {
-                let mat = cloneMat(A);
-                let n = rows;
+            // --- CRAMER'S RULE ---
+            } else if (op === 'cramer') {
+                let m = cln(A); let n = rows; let D = []; 
+                for(let i=0; i<n; i++) { D.push(m[i].slice(0,n)); }
+                let detD = cD(D); 
+                if(Math.abs(detD) < 1e-10) detD = 0;
                 
-                let D = [];
-                for(let i = 0; i < n; i++) D.push(mat[i].slice(0, n));
+                if(showSteps) htmlOut += rT(D, `D Matrix`);
+                htmlOut += `<div class="result-box" style="padding:10px;">Det(D) = <b>${fN(detD)}</b></div>`;
                 
-                let detD = calcDetRowReduction(D);
-                if(showSteps) htmlOut += renderTable(D, `Matriks Koefisien (D)`);
-                htmlOut += `<div class="result-box" style="padding:10px;">Det(D) = <b>${formatNum(detD)}</b></div>`;
-
-                if (Math.abs(detD) < 1e-10) {
-                    htmlOut += `<div class="result-box" style="border-color:red; color:red;">Determinan D adalah 0. Aturan Cramer gagal karena sistem persamaan tidak memiliki solusi unik (Singular).</div>`;
-                } else {
-                    for(let v = 0; v < n; v++) {
-                        let Dx = cloneMat(D);
-                        for(let i = 0; i < n; i++) Dx[i][v] = mat[i][n]; 
+                if(Math.abs(detD) === 0) {
+                    htmlOut += `<div class="result-box" style="color:red;">${t('no_sol')} (Det = 0)</div>`;
+                } else { 
+                    for(let v=0; v<n; v++) { 
+                        let Dx = cln(D); 
+                        for(let i=0; i<n; i++) { Dx[i][v] = m[i][n]; }
+                        let detDx = cD(Dx); 
+                        if(Math.abs(detDx) < 1e-10) detDx = 0;
                         
-                        let detDx = calcDetRowReduction(Dx);
-                        if(showSteps) htmlOut += renderTable(Dx, `Matriks D<sub>${v+1}</sub> (Kolom ${v+1} diganti konstanta)`);
-                        
+                        if(showSteps) htmlOut += rT(Dx, `D<sub>${v+1}</sub> Matrix`);
                         let x = detDx / detD;
-                        htmlOut += `<div class="result-box" style="margin-top:10px; overflow-x:auto;">
-                                    Det(D<sub>${v+1}</sub>) = <b>${formatNum(detDx)}</b> <br><br>
-                                    <span style="color:var(--red-glow);">X<sub>${v+1}</sub> = Det(D<sub>${v+1}</sub>) / Det(D)</span><br>
-                                    X<sub>${v+1}</sub> = ${formatNum(detDx)} / ${formatNum(detD)} = <b>${formatNum(x)}</b>
-                                    </div>`;
-                    }
-                }
-
-            } else if (operation === 'cofactor') {
-                if (rows === 1) {
-                    htmlOut += renderTable([[1]], "Matriks Kofaktor (Untuk matriks 1x1 selalu bernilai 1)");
-                    solution.innerHTML = htmlOut;
-                    solution.scrollIntoView({ behavior: 'smooth' });
-                    return;
-                }
-
-                let C = [];
-                let MinorMat = [];
-                let cofactorStepsHTML = '';
-                
-                if(showSteps) {
-                    htmlOut += renderTable(A, "Matriks Awal");
-                    cofactorStepsHTML = `<div class="result-box" style="text-align:left;">
-                        <h4 style="color:var(--red-glow); margin-top:0; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
-                            Langkah 1: Menghitung Minor (M<sub>ij</sub>) & Kofaktor (C<sub>ij</sub>) per Elemen
-                        </h4>
-                        <p style="font-size:0.9em; color:var(--text-muted);">Rumus Kofaktor: C<sub>ij</sub> = (-1)<sup>i+j</sup> × Det(M<sub>ij</sub>)</p>
-                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">`;
-                }
-                
-                for (let i = 0; i < rows; i++) {
-                    let rowC = [];
-                    let rowM = [];
-                    for (let j = 0; j < cols; j++) {
+                        if(Math.abs(x) < 1e-10) x = 0;
                         
-                        let minor = [];
-                        for (let r = 0; r < rows; r++) {
-                            if (r === i) continue;
-                            let mRow = [];
-                            for (let c = 0; c < cols; c++) {
-                                if (c === j) continue;
-                                mRow.push(A[r][c]);
+                        htmlOut += `
+                        <div class="result-box" style="margin-top:10px; overflow-x:auto;">
+                            Det(D<sub>${v+1}</sub>) = <b>${fN(detDx)}</b><br>
+                            <span style="color:var(--red-glow);">X<sub>${v+1}</sub> = Det(D<sub>${v+1}</sub>) / Det(D)</span><br>
+                            X<sub>${v+1}</sub> = ${fN(detDx)} / ${fN(detD)} = <b>${fN(x)}</b>
+                        </div>`; 
+                    } 
+                }
+
+            // --- COFACTOR MATRIX ---
+            } else if (op === 'cofactor') {
+                if(rows === 1) { 
+                    htmlOut += rT([[1]], t('step_res')); 
+                    s.innerHTML = htmlOut; 
+                    return; 
+                }
+                
+                let C = []; let MinorMat = []; 
+                let st = `<div class="result-box" style="text-align:left;">
+                          <h4 style="color:var(--red-glow); margin-top:0;">Step 1: Minor (M) & Cofactor (C)</h4>
+                          <p>C<sub>ij</sub> = (-1)<sup>i+j</sup> &times; Det(M<sub>ij</sub>)</p>
+                          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:15px;">`;
+                
+                if(showSteps) htmlOut += rT(A, t('step_init'));
+                
+                for(let i=0; i<rows; i++) { 
+                    let rC = []; let rM = []; 
+                    for(let j=0; j<cols; j++) {
+                        let mr = []; 
+                        for(let r=0; r<rows; r++) { 
+                            if(r === i) continue; 
+                            let mR = []; 
+                            for(let c=0; c<cols; c++) { 
+                                if(c === j) continue; 
+                                mR.push(A[r][c]); 
+                            } 
+                            mr.push(mR); 
+                        }
+                        
+                        let dM = cD(mr);
+                        if(Math.abs(dM) < 1e-10) dM = 0;
+                        
+                        let sg = ((i+j)%2 === 0) ? 1 : -1;
+                        let cf = sg * dM;
+                        let ds = ""; 
+                        
+                        if(Math.abs(cf) < 1e-10) cf = 0; 
+                        
+                        rC.push(cf); 
+                        rM.push(dM);
+                        
+                        if(showSteps) { 
+                            if(mr.length === 2) { 
+                                let a = mr[0][0], b = mr[0][1], cv = mr[1][0], d = mr[1][1]; 
+                                ds = `(${fN(a)} &times; ${fN(d)}) - (${fN(b)} &times; ${fN(cv)})`; 
+                            } else if(mr.length === 1) {
+                                ds = `${fN(mr[0][0])}`;
                             }
-                            minor.push(mRow);
+                            
+                            let mh = `<div style="overflow-x:auto;"><table class="matrix-table" style="font-size:0.85em; margin:8px 0; background:rgba(0,0,0,0.8);"><tbody>`; 
+                            mr.forEach(rr => { 
+                                mh += `<tr>`; 
+                                rr.forEach(v => mh += `<td style="padding:4px;">${fN(v)}</td>`); 
+                                mh += `</tr>`; 
+                            }); 
+                            mh += `</tbody></table></div>`;
+                            
+                            st += `<div style="background:rgba(0,0,0,0.6); padding:10px; border-radius:5px; border:1px solid #4d1a2e;">
+                                     <span style="color:var(--red-glow); font-weight:bold;">R${i+1}, C${j+1}</span><br>
+                                     M = ${mh}
+                                     <span style="font-size:0.9em; color:var(--text-muted);">Det(M) = ${ds}</span><br>
+                                     M = <b>${fN(dM)}</b><hr style="border-color:#4d1a2e; margin:8px 0;">
+                                     C = (-1)<sup>${i+1}+${j+1}</sup> &times; M<br>
+                                     C = <span style="color:${sg>0?'#ff99c2':'#ff3333'};">${sg>0?'(+1)':'(-1)'}</span> &times; ${fN(dM)} = <b style="color:var(--pink-02);">${fN(cf)}</b>
+                                   </div>`;
                         }
-                        
-                        let detM = calcDetRowReduction(minor);
-                        
-                        let detCalcStr = "";
-                        if(minor.length === 2) {
-                            let a = minor[0][0], b = minor[0][1], cv = minor[1][0], d = minor[1][1];
-                            detCalcStr = `Det(M) = (${formatNum(a)} &times; ${formatNum(d)}) - (${formatNum(b)} &times; ${formatNum(cv)})`;
-                        } else if (minor.length === 1) {
-                            detCalcStr = `Det(M) = ${formatNum(minor[0][0])}`;
-                        }
-                        
-                        let sign = ((i + j) % 2 === 0) ? 1 : -1;
-                        let cof = sign * detM;
-                        
-                        if (Math.abs(cof) < 1e-10) cof = 0;
-                        if (Math.abs(detM) < 1e-10) detM = 0;
-                        
-                        rowC.push(cof);
-                        rowM.push(detM);
-                        
-                        if (showSteps) {
-                            let mHtml = `<div style="overflow-x:auto;"><table class="matrix-table" style="font-size:0.85em; margin: 8px 0; background:rgba(0,0,0,0.8);"><tbody>`;
-                            minor.forEach(mr => {
-                                mHtml += `<tr>`;
-                                mr.forEach(v => mHtml += `<td style="padding:4px 8px;">${formatNum(v)}</td>`);
-                                mHtml += `</tr>`;
-                            });
-                            mHtml += `</tbody></table></div>`;
-
-                            cofactorStepsHTML += `
-                                <div style="background: rgba(0,0,0,0.6); padding:10px; border-radius:5px; border:1px solid #4d1a2e; overflow-x:hidden;">
-                                    <span style="color:var(--red-glow); font-weight:bold;">Posisi Baris ${i+1}, Kolom ${j+1}</span><br>
-                                    M<sub>${i+1},${j+1}</sub> = ${mHtml}
-                                    <span style="font-size:0.9em; color:var(--text-muted);">${detCalcStr}</span><br>
-                                    M<sub>${i+1},${j+1}</sub> = <b>${formatNum(detM)}</b><hr style="border-color:#4d1a2e; margin:8px 0;">
-                                    C<sub>${i+1},${j+1}</sub> = (-1)<sup>${i+1}+${j+1}</sup> &times; M<sub>${i+1},${j+1}</sub><br>
-                                    C<sub>${i+1},${j+1}</sub> = <span style="color:${sign > 0 ? '#ff99c2' : '#ff3333'};">${sign > 0 ? '(+1)' : '(-1)'}</span> &times; ${formatNum(detM)} = <b style="color:var(--pink-02);">${formatNum(cof)}</b>
-                                </div>
-                            `;
-                        }
-                    }
-                    C.push(rowC);
-                    MinorMat.push(rowM);
+                    } 
+                    C.push(rC); 
+                    MinorMat.push(rM);
                 }
                 
-                if (showSteps) {
-                    cofactorStepsHTML += `</div></div>`;
-                    htmlOut += cofactorStepsHTML;
+                if(showSteps) { 
+                    htmlOut += st + `</div></div>` + rT(MinorMat, "Step 2: Minor Matrix"); 
+                    let sM = []; 
+                    for(let i=0; i<rows; i++) { 
+                        let sr = []; 
+                        for(let j=0; j<cols; j++) { sr.push(((i+j)%2 === 0) ? '+' : '-'); } 
+                        sM.push(sr); 
+                    } 
+                    htmlOut += rT(sM, "Step 3: Cofactor Sign Pattern"); 
+                }
+                htmlOut += rT(C, t('step_res'));
+
+            // --- INVERSE MATRIX ---
+            } else if (op === 'inv') {
+                let ag = []; 
+                for(let i=0; i<rows; i++) { 
+                    let rw = [...A[i]]; 
+                    for(let j=0; j<rows; j++) { rw.push(i === j ? 1 : 0); }
+                    ag.push(rw); 
+                } 
+                
+                if(showSteps) htmlOut += rT(cln(ag), "[A | I]", true, rows);
+                
+                let l = 0, ps = true; 
+                for(let r=0; r<rows; r++) { 
+                    if(rows <= l) break; 
+                    let i = r; 
+                    while(Math.abs(ag[i][l]) < 1e-10) { 
+                        i++; 
+                        if(rows === i) { i = r; l++; if(rows === l) { ps = false; break; } } 
+                    } 
+                    if(!ps) break;
                     
-                    htmlOut += renderTable(MinorMat, "Langkah 2: Matriks Minor (Kumpulan Nilai Det M<sub>ij</sub>)");
+                    if(i !== r) { 
+                        let tp = ag[i]; ag[i] = ag[r]; ag[r] = tp; 
+                        if(showSteps) htmlOut += rT(cln(ag), `Swap`, true, rows); 
+                    } 
                     
-                    let signMat = [];
-                    for(let i=0; i<rows; i++){
-                        let sr = [];
-                        for(let j=0; j<cols; j++){
-                            sr.push(((i+j)%2===0) ? '+' : '-');
-                        }
-                        signMat.push(sr);
-                    }
-                    htmlOut += renderTable(signMat, "Langkah 3: Pola Tanda Kofaktor Aljabar");
+                    let p = ag[r][l];
+                    if(Math.abs(p - 1) > 1e-10) { 
+                        for(let j=0; j<rows*2; j++) { ag[r][j] /= p; }
+                        if(showSteps) htmlOut += rT(cln(ag), `Divide by ${fN(p)}`, true, rows); 
+                    } 
+                    
+                    let el = false;
+                    for(let k=0; k<rows; k++) { 
+                        if(k !== r) { 
+                            let f = ag[k][l]; 
+                            if(Math.abs(f) > 1e-10) { 
+                                for(let j=0; j<rows*2; j++) { ag[k][j] -= f * ag[r][j]; }
+                                el = true; 
+                            } 
+                        } 
+                    } 
+                    if(showSteps && el) htmlOut += rT(cln(ag), `Eliminate`, true, rows); 
+                    l++;
                 }
                 
-                htmlOut += renderTable(C, "Langkah 4: Matriks Kofaktor (Hasil Akhir Gabungan Langkah 2 & 3)");
-
-            } else if (operation === 'inv') {
-                let aug = [];
-                for(let i=0; i<rows; i++) {
-                    let row = [...A[i]];
-                    for(let j=0; j<rows; j++) row.push(i===j ? 1 : 0);
-                    aug.push(row);
-                }
-                
-                if(showSteps) htmlOut += renderTable(cloneMat(aug), "Matriks Augmentasi [A | I]", true, rows);
-
-                let lead = 0, possible = true;
-                for (let r = 0; r < rows; r++) {
-                    if (rows <= lead) break;
-                    let i = r;
-                    while (aug[i][lead] === 0) {
-                        i++;
-                        if (rows === i) { i = r; lead++; if (rows === lead) { possible = false; break; } }
+                if(!ps) { 
+                    htmlOut += `<div class="result-box" style="color:red;">${t('no_sol')} (Det = 0)</div>`; 
+                } else { 
+                    let I = []; 
+                    for(let i=0; i<rows; i++) { I.push(ag[i].slice(rows)); }
+                    if(!showSteps) {
+                        htmlOut += rT(I, t('step_res')); 
+                    } else {
+                        htmlOut += `<div class="result-box">Inverse Extracted</div>` + rT(I, `A<sup>-1</sup>`); 
                     }
-                    if(!possible) break;
-
-                    if (i !== r) {
-                        let temp = aug[i]; aug[i] = aug[r]; aug[r] = temp;
-                        if(showSteps) htmlOut += renderTable(cloneMat(aug), `Tukar Baris ${r+1} dengan Baris ${i+1}`, true, rows);
-                    }
-
-                    let pivot = aug[r][lead];
-                    if(pivot !== 1) {
-                        for (let j = 0; j < rows*2; j++) aug[r][j] /= pivot;
-                        if(showSteps) htmlOut += renderTable(cloneMat(aug), `Bagi Baris ${r+1} dengan ${formatNum(pivot)}`, true, rows);
-                    }
-
-                    let eliminated = false;
-                    for (let k = 0; k < rows; k++) {
-                        if (k !== r) {
-                            let factor = aug[k][lead];
-                            if(factor !== 0) {
-                                for (let j = 0; j < rows*2; j++) aug[k][j] -= factor * aug[r][j];
-                                eliminated = true;
-                            }
-                        }
-                    }
-                    if(showSteps && eliminated) htmlOut += renderTable(cloneMat(aug), `Eliminasi Kolom ${lead+1}`, true, rows);
-                    lead++;
-                }
-
-                if(!possible) {
-                    htmlOut += `<div class="result-box" style="border-color:red; color:red;">Matriks Singular (Determinan = 0). Invers tidak dapat ditemukan.</div>`;
-                } else {
-                    let I = [];
-                    for(let i=0; i<rows; i++) I.push(aug[i].slice(rows));
-                    
-                    if(!showSteps) htmlOut += renderTable(I, `A<sup>-1</sup> (Inverse Matrix)`);
-                    else htmlOut += `<div class="result-box" style="color:var(--red-glow);">Hasil Ekstraksi Sisi Kanan menjadi Matriks Invers</div>` + renderTable(I, `A<sup>-1</sup>`);
                 }
             }
-
-            solution.innerHTML = htmlOut;
-            solution.scrollIntoView({ behavior: 'smooth' });
+            
+            s.innerHTML = htmlOut; 
+            s.scrollIntoView({ behavior: 'smooth' });
         }
-
-        window.onload = () => navigate('home');
+        
+        window.onload = () => changeLanguage();
     </script>
 </body>
 </html>
