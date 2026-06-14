@@ -3,25 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZeroTwo Matriks - Versi Beta</title>
+    <title>ZeroTwo Matriks - Ultimate Edition</title>
     <style>
-        /* === TEMA DARLING IN THE FRANXX === */
+        /* === TEMA DARLING IN THE FRANXX (ZERO TWO PALETTE) === */
         :root {
-            --bg-dark: #0d1117;
-            --bg-panel: rgba(22, 27, 34, 0.85);
-            --pink-02: #ff66a3;
-            --red-franxx: #ff3333;
-            --cyan-glow: #00e6e6;
-            --text-main: #c9d1d9;
-            --text-muted: #8b949e;
-            --border-color: #30363d;
+            --bg-dark: #0f0a0d; /* Latar belakang gelap dengan sentuhan kemerahan */
+            --bg-panel: rgba(15, 10, 12, 0.88); /* Panel lebih gelap agar teks terbaca di atas background gambar */
+            --pink-02: #ff66a3; /* Merah muda rambut Zero Two */
+            --red-franxx: #e60000; /* Merah gelap seragam Franxx */
+            --red-glow: #ff1a40; /* Merah neon untuk menggantikan warna Cyan sebelumnya */
+            --text-main: #f0f0f0;
+            --text-muted: #b3a5ab;
+            --border-color: #4d1a2e; /* Border dengan nuansa merah maroon */
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-dark);
-            background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
-            background-size: 20px 20px;
+            
+            /* === UBAH URL GAMBAR DI BAWAH INI === */
+            /* Gunakan link web (https://...) atau file lokal (contoh: url('zerotwo.jpg');) */
+            background-image: url('https://alphacoders.com/zero-two-%28darling-in-the-franxx%29-wallpapers'); 
+            
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: var(--text-main);
             margin: 0;
             padding: 0;
@@ -29,20 +35,21 @@
         }
 
         header {
-            background: linear-gradient(90deg, rgba(13,17,23,1) 0%, rgba(255,102,163,0.1) 50%, rgba(13,17,23,1) 100%);
-            border-bottom: 2px solid var(--pink-02);
+            background: linear-gradient(90deg, rgba(15,10,12,0.95) 0%, rgba(255,26,64,0.2) 50%, rgba(15,10,12,0.95) 100%);
+            border-bottom: 2px solid var(--red-glow);
             text-align: center;
             padding: 15px 0;
-            box-shadow: 0 0 15px rgba(255, 102, 163, 0.2);
+            box-shadow: 0 0 20px rgba(255, 26, 64, 0.4);
+            backdrop-filter: blur(5px);
         }
 
         header h1 {
             margin: 0;
             color: var(--pink-02);
             font-weight: 800;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            text-shadow: 0 0 8px var(--pink-02);
+            text-shadow: 0 0 10px var(--red-glow);
         }
 
         .container {
@@ -56,12 +63,12 @@
         .main-content {
             flex: 3;
             background: var(--bg-panel);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px); /* Efek kaca yang lebih kuat */
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 30px;
             min-height: 600px;
-            box-shadow: inset 0 0 20px rgba(0, 230, 230, 0.05);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 102, 163, 0.05);
             max-width: 100%;
             overflow: hidden; 
         }
@@ -69,15 +76,16 @@
         .sidebar {
             flex: 1;
             background: var(--bg-panel);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 20px;
             height: fit-content;
             min-width: 200px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
         }
 
-        h2 { color: var(--cyan-glow); border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-top: 0; }
+        h2 { color: var(--red-glow); border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-top: 0; text-shadow: 0 0 5px rgba(255,26,64,0.3);}
         p { color: var(--text-muted); }
         
         .sidebar ul { list-style: none; padding: 0; margin: 0; }
@@ -92,14 +100,14 @@
             border-left: 3px solid transparent;
         }
         .sidebar a:hover, .sidebar a.active {
-            background-color: rgba(255, 102, 163, 0.1);
+            background-color: rgba(255, 102, 163, 0.15);
             color: var(--pink-02);
-            border-left: 3px solid var(--pink-02);
+            border-left: 3px solid var(--red-glow);
             text-shadow: 0 0 5px rgba(255, 102, 163, 0.5);
         }
 
         .setup-box {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.5);
             border: 1px solid var(--border-color);
             padding: 20px;
             border-radius: 8px;
@@ -107,7 +115,7 @@
         }
 
         .matrix-input-box {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.5);
             border: 1px solid var(--border-color);
             padding: 20px;
             border-radius: 8px;
@@ -121,57 +129,56 @@
             border: 1px solid var(--border-color);
             border-radius: 4px;
             padding: 10px;
-            background: #010409;
+            background: rgba(0, 0, 0, 0.7);
         }
 
         input[type="number"] {
-            background-color: #0d1117;
-            border: 1px solid #30363d;
+            background-color: rgba(15, 10, 12, 0.9);
+            border: 1px solid var(--border-color);
             color: white;
             padding: 8px;
             border-radius: 4px;
             width: 60px;
             text-align: center;
         }
-        input[type="number"]:focus { outline: none; border-color: var(--cyan-glow); box-shadow: 0 0 8px rgba(0, 230, 230, 0.5); }
+        input[type="number"]:focus { outline: none; border-color: var(--red-glow); box-shadow: 0 0 8px rgba(255, 26, 64, 0.5); }
         
         button {
-            background-color: transparent; color: var(--cyan-glow); border: 1px solid var(--cyan-glow);
+            background-color: transparent; color: var(--red-glow); border: 1px solid var(--red-glow);
             padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: all 0.3s; margin: 0 5px;
         }
-        button:hover { background-color: var(--cyan-glow); color: var(--bg-dark); box-shadow: 0 0 10px var(--cyan-glow); }
+        button:hover { background-color: var(--red-glow); color: var(--bg-dark); box-shadow: 0 0 10px var(--red-glow); }
         button.primary { background-color: transparent; color: var(--pink-02); border-color: var(--pink-02); }
         button.primary:hover { background-color: var(--pink-02); color: var(--bg-dark); box-shadow: 0 0 10px var(--pink-02); }
-        button.auto { border-color: #ffd700; color: #ffd700; font-size: 0.9em; padding: 8px 10px;}
-        button.auto:hover { background-color: #ffd700; color: var(--bg-dark); box-shadow: 0 0 10px #ffd700; }
+        button.auto { border-color: #ff99c2; color: #ff99c2; font-size: 0.9em; padding: 8px 10px;}
+        button.auto:hover { background-color: #ff99c2; color: var(--bg-dark); box-shadow: 0 0 10px #ff99c2; }
 
         .grid-row { display: flex; justify-content: center; gap: 5px; margin-bottom: 5px; width: max-content; }
         .flex-center { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
         
         .matrix-table {
-            margin: 0 auto; border-collapse: collapse; background-color: #010409;
-            border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            margin: 0 auto; border-collapse: collapse; background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.5);
         }
         .matrix-table th, .matrix-table td { border: 1px solid var(--border-color); padding: 8px 12px; text-align: center; min-width: 40px; }
-        .matrix-table th { background-color: rgba(255, 102, 163, 0.1); color: var(--pink-02); }
-        .matrix-table tr:nth-child(even) td { background-color: rgba(255, 255, 255, 0.02); }
+        .matrix-table th { background-color: rgba(255, 102, 163, 0.15); color: var(--pink-02); }
+        .matrix-table tr:nth-child(even) td { background-color: rgba(255, 255, 255, 0.03); }
         .matrix-table td.divider { border-left: 2px dashed var(--pink-02); }
 
         .step-panel {
-            background: rgba(0, 0, 0, 0.4); border-left: 4px solid var(--cyan-glow);
+            background: rgba(0, 0, 0, 0.6); border-left: 4px solid var(--red-glow);
             border-radius: 0 8px 8px 0; padding: 20px; margin-top: 20px; text-align: center;
             overflow-x: auto;
         }
-        .step-title { color: var(--cyan-glow); margin-bottom: 15px; font-size: 0.95em; font-weight: bold; }
-        .result-box { margin-top: 20px; padding: 15px; border: 1px solid var(--pink-02); border-radius: 8px; background: rgba(255,102,163,0.05); text-align: center; font-size: 1.2em; overflow: auto; max-height: 40vh;}
+        .step-title { color: var(--red-glow); margin-bottom: 15px; font-size: 0.95em; font-weight: bold; }
+        .result-box { margin-top: 20px; padding: 15px; border: 1px solid var(--pink-02); border-radius: 8px; background: rgba(255,102,163,0.08); text-align: center; font-size: 1.2em; overflow: auto; max-height: 40vh;}
         
-        .toggle-container { margin-top: 15px; text-align: center; color: var(--pink-02); font-weight: bold;}
-        .toggle-container input { transform: scale(1.3); margin-right: 8px; accent-color: var(--pink-02);}
+        .toggle-container { margin-top: 15px; text-align: center; color: var(--pink-02); font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.8);}
+        .toggle-container input { transform: scale(1.3); margin-right: 8px; accent-color: var(--red-glow);}
         
-        /* Box deskripsi metode khusus */
         .method-desc {
-            background: rgba(0, 230, 230, 0.05);
-            border-left: 4px solid var(--cyan-glow);
+            background: rgba(255, 26, 64, 0.08);
+            border-left: 4px solid var(--red-glow);
             padding: 15px;
             border-radius: 4px;
             margin-bottom: 20px;
@@ -208,7 +215,6 @@
         let currentMode = 'home';
         let rows = 2, cols = 3;
 
-        // === ROUTER NAVIGASI ===
         function navigate(mode) {
             currentMode = mode;
             document.querySelectorAll('.sidebar a').forEach(el => el.classList.remove('active'));
@@ -221,10 +227,10 @@
                     <h2>ZeroTwo Matrix System Beta</h2>
                     <p>Sistem ini sekarang dilengkapi dengan deskripsi metode, <b>Automated Step-by-Step Generator</b>, dan <b>Auto Fill Hybrid</b>.</p>
                     <div class="setup-box">
-                        <h3 style="color: var(--pink-02); margin-top:0;">Fitur Tambahan Terkini:</h3>
-                        <p>✓ <b>Metode Terdefinisi:</b> Terdapat ringkasan teori di atas setiap operasi pengerjaan untuk memudahkan pembelajaran.<br>
+                        <h3 style="color: var(--pink-02); margin-top:0;">Fitur Tambahan:</h3>
+                        <p>✓ <b>Smart Auto Fill:</b> Terdapat opsi angka negatif-positif <i>(+/-)</i> atau khusus positif <i>(+)</i>.</p>
                            ✓ <b>Detailed Cofactor:</b> Langkah Kofaktor kini mencetak setiap matriks Minor dan rumus silangnya secara presisi.<br>
-                           ✓ <b>Smart Auto Fill:</b> Terdapat opsi angka negatif-positif <i>(+/-)</i> atau khusus positif <i>(+)</i>.</p>
+                           ✓ <b>Metode Terdefinisi:</b> Terdapat ringkasan teori di atas setiap operasi pengerjaan untuk memudahkan pembelajaran.</p>
                     </div>`;
                 return;
             }
@@ -234,7 +240,6 @@
             let isCramer = (mode === 'cramer');
             let isDouble = (mode === 'addsub');
 
-            // Set Title & Description
             switch(mode) {
                 case 'gauss': 
                     title = "Gauss-Jordan Elimination"; 
@@ -303,7 +308,6 @@
             }
         }
 
-        // === BUILDER GRID & KONTROL INPUT ===
         function buildInputGrid(type) {
             document.getElementById('solution-area').innerHTML = '';
             let inputArea = document.getElementById('matrix-input-area');
@@ -327,8 +331,8 @@
 
             if (type === 'double') {
                 html += `<div style="display:flex; justify-content:space-around; flex-wrap:wrap; gap:20px;">
-                            <div style="max-width: 100%;"><h3 style="color:var(--cyan-glow); text-align:center;">Matrix A</h3>${generateGridHTML('A', rows, cols)}</div>
-                            <div style="max-width: 100%;"><h3 style="color:var(--cyan-glow); text-align:center;">Matrix B</h3>${generateGridHTML('B', rows, cols)}</div>
+                            <div style="max-width: 100%;"><h3 style="color:var(--red-glow); text-align:center;">Matrix A</h3>${generateGridHTML('A', rows, cols)}</div>
+                            <div style="max-width: 100%;"><h3 style="color:var(--red-glow); text-align:center;">Matrix B</h3>${generateGridHTML('B', rows, cols)}</div>
                          </div>`;
                 html += `<div class="flex-center" style="margin-top:20px;">
                             <button class="auto" onclick="autoFill('A', true); autoFill('B', true);">⚡ Auto All (+/-)</button>
@@ -338,7 +342,7 @@
                             <button class="primary" onclick="solve('sub')">A - B</button>
                          </div>`;
             } else {
-                html += `<h3 style="color:var(--cyan-glow); text-align:center;">Input Matrix</h3>
+                html += `<h3 style="color:var(--red-glow); text-align:center;">Input Matrix</h3>
                          ${generateGridHTML('A', rows, cols)}`;
                 html += `<div class="flex-center" style="margin-top:20px;">
                             <button class="auto" onclick="autoFill('A', true)">⚡ Auto (+/-)</button>
@@ -385,16 +389,15 @@
                     let cell = document.getElementById(`cell_${prefix}_${i}_${j}`);
                     if(cell) {
                         if (includeNegative) {
-                            cell.value = Math.floor(Math.random() * 19) - 9; // Rentang -9 hingga 9
+                            cell.value = Math.floor(Math.random() * 19) - 9;
                         } else {
-                            cell.value = Math.floor(Math.random() * 10); // Rentang 0 hingga 9
+                            cell.value = Math.floor(Math.random() * 10);
                         }
                     }
                 }
             }
         }
 
-        // === ENGINE MATEMATIKA & PENYELESAIAN ===
         function getMatrix(prefix, r, c) {
             let mat = [];
             for (let i = 0; i < r; i++) {
@@ -430,7 +433,6 @@
 
         function cloneMat(m) { return JSON.parse(JSON.stringify(m)); }
 
-        // Fungsi Helper Cepat Untuk Mencari Determinan (Menghindari Lag)
         function calcDetRowReduction(matrix) {
             if(matrix.length === 0) return 0;
             if(matrix.length === 1) return matrix[0][0];
@@ -460,7 +462,6 @@
             return det;
         }
 
-        // FUNGSI SOLVE UTAMA
         function solve(operation) {
             let A = getMatrix('A', rows, cols);
             let solution = document.getElementById('solution-area');
@@ -468,7 +469,6 @@
             
             let htmlOut = `<h3 style="margin-top:40px; color:var(--pink-02); border-bottom: 1px solid var(--border-color);">Solution Log</h3>`;
             
-            // --- OPERASI PERTAMBAHAN & PENGURANGAN ---
             if (operation === 'add' || operation === 'sub') {
                 let B = getMatrix('B', rows, cols);
                 let C = [], StepMat = [];
@@ -491,7 +491,6 @@
                 }
                 htmlOut += renderTable(C, `Hasil Akhir (Matrix A ${opSign} Matrix B)`);
             
-            // --- OPERASI TRANSPOSE ---
             } else if (operation === 'trans') {
                 let C = [];
                 for (let j = 0; j < cols; j++) {
@@ -502,7 +501,6 @@
                 if(showSteps) htmlOut += renderTable(A, "Matrix Awal (Menukar Baris menjadi Kolom)");
                 htmlOut += renderTable(C, `Hasil Akhir Transpose (${cols}x${rows})`);
 
-            // --- OPERASI GAUSS-JORDAN ELIMINATION ---
             } else if (operation === 'gauss') {
                 let mat = cloneMat(A);
                 if(showSteps) htmlOut += renderTable(mat, "Matriks Awal (Matriks Augmentasi)");
@@ -545,13 +543,12 @@
 
                 if(!showSteps) htmlOut += renderTable(mat, "Hasil Eliminasi Gauss-Jordan");
                 
-                htmlOut += `<div class="result-box"><h4 style="margin:0; color:var(--cyan-glow);">Bentuk Persamaan Linear (Solution Set):</h4>`;
+                htmlOut += `<div class="result-box"><h4 style="margin:0; color:var(--red-glow);">Bentuk Persamaan Linear (Solution Set):</h4>`;
                 for(let i=0; i<rows; i++) {
                     htmlOut += `X<sub>${i+1}</sub> = <b>${formatNum(mat[i][cols-1])}</b><br>`;
                 }
                 htmlOut += `</div>`;
 
-            // --- OPERASI RANK MATRIKS ---
             } else if (operation === 'rank') {
                 let mat = cloneMat(A);
                 if(showSteps) htmlOut += renderTable(mat, "Matriks Awal");
@@ -581,13 +578,11 @@
                 }
                 htmlOut += `<div class="result-box">Jumlah baris non-zero (Rank of Matrix): <b>${rank}</b></div>`;
 
-            // --- OPERASI DETERMINAN ---
             } else if (operation === 'det') {
                 let det = calcDetRowReduction(A);
                 if(showSteps) htmlOut += renderTable(A, "Matriks Awal");
                 htmlOut += `<div class="result-box">Determinant = <b>${formatNum(det)}</b></div>`;
 
-            // --- CRAMER'S RULE ---
             } else if (operation === 'cramer') {
                 let mat = cloneMat(A);
                 let n = rows;
@@ -612,13 +607,12 @@
                         let x = detDx / detD;
                         htmlOut += `<div class="result-box" style="margin-top:10px;">
                                     Det(D<sub>${v+1}</sub>) = <b>${formatNum(detDx)}</b> <br><br>
-                                    <span style="color:var(--cyan-glow);">X<sub>${v+1}</sub> = Det(D<sub>${v+1}</sub>) / Det(D)</span><br>
+                                    <span style="color:var(--red-glow);">X<sub>${v+1}</sub> = Det(D<sub>${v+1}</sub>) / Det(D)</span><br>
                                     X<sub>${v+1}</sub> = ${formatNum(detDx)} / ${formatNum(detD)} = <b>${formatNum(x)}</b>
                                     </div>`;
                     }
                 }
 
-            // --- COFACTOR MATRIX (SUPER DETAILED) ---
             } else if (operation === 'cofactor') {
                 if (rows === 1) {
                     htmlOut += renderTable([[1]], "Matriks Kofaktor (Untuk matriks 1x1 selalu bernilai 1)");
@@ -634,7 +628,7 @@
                 if(showSteps) {
                     htmlOut += renderTable(A, "Matriks Awal");
                     cofactorStepsHTML = `<div class="result-box" style="text-align:left;">
-                        <h4 style="color:var(--cyan-glow); margin-top:0; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
+                        <h4 style="color:var(--red-glow); margin-top:0; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
                             Langkah 1: Menghitung Minor (M<sub>ij</sub>) & Kofaktor (C<sub>ij</sub>) per Elemen
                         </h4>
                         <p style="font-size:0.9em; color:var(--text-muted);">Rumus Kofaktor: C<sub>ij</sub> = (-1)<sup>i+j</sup> × Det(M<sub>ij</sub>)</p>
@@ -646,7 +640,6 @@
                     let rowM = [];
                     for (let j = 0; j < cols; j++) {
                         
-                        // Mengekstrak matriks minor dengan mengabaikan baris i dan kolom j
                         let minor = [];
                         for (let r = 0; r < rows; r++) {
                             if (r === i) continue;
@@ -660,7 +653,6 @@
                         
                         let detM = calcDetRowReduction(minor);
                         
-                        // Menambahkan representasi perkalian silang eksplisit khusus untuk Minor 2x2
                         let detCalcStr = "";
                         if(minor.length === 2) {
                             let a = minor[0][0], b = minor[0][1], cv = minor[1][0], d = minor[1][1];
@@ -672,7 +664,6 @@
                         let sign = ((i + j) % 2 === 0) ? 1 : -1;
                         let cof = sign * detM;
                         
-                        // Cegah kemunculan nilai negatif nol (-0) pada JS
                         if (Math.abs(cof) < 1e-10) cof = 0;
                         if (Math.abs(detM) < 1e-10) detM = 0;
                         
@@ -680,7 +671,6 @@
                         rowM.push(detM);
                         
                         if (showSteps) {
-                            // Render tabel minor HTML
                             let mHtml = `<table class="matrix-table" style="font-size:0.85em; margin: 8px 0; background:rgba(0,0,0,0.8);"><tbody>`;
                             minor.forEach(mr => {
                                 mHtml += `<tr>`;
@@ -690,13 +680,13 @@
                             mHtml += `</tbody></table>`;
 
                             cofactorStepsHTML += `
-                                <div style="background: rgba(0,0,0,0.4); padding:10px; border-radius:5px; border:1px solid #30363d;">
-                                    <span style="color:var(--cyan-glow); font-weight:bold;">Posisi Baris ${i+1}, Kolom ${j+1}</span><br>
+                                <div style="background: rgba(0,0,0,0.6); padding:10px; border-radius:5px; border:1px solid #4d1a2e;">
+                                    <span style="color:var(--red-glow); font-weight:bold;">Posisi Baris ${i+1}, Kolom ${j+1}</span><br>
                                     M<sub>${i+1},${j+1}</sub> = ${mHtml}
                                     <span style="font-size:0.9em; color:var(--text-muted);">${detCalcStr}</span><br>
-                                    M<sub>${i+1},${j+1}</sub> = <b>${formatNum(detM)}</b><hr style="border-color:#30363d; margin:8px 0;">
+                                    M<sub>${i+1},${j+1}</sub> = <b>${formatNum(detM)}</b><hr style="border-color:#4d1a2e; margin:8px 0;">
                                     C<sub>${i+1},${j+1}</sub> = (-1)<sup>${i+1}+${j+1}</sup> &times; M<sub>${i+1},${j+1}</sub><br>
-                                    C<sub>${i+1},${j+1}</sub> = <span style="color:${sign > 0 ? 'lime' : 'orange'};">${sign > 0 ? '(+1)' : '(-1)'}</span> &times; ${formatNum(detM)} = <b style="color:var(--pink-02);">${formatNum(cof)}</b>
+                                    C<sub>${i+1},${j+1}</sub> = <span style="color:${sign > 0 ? '#ff99c2' : '#ff3333'};">${sign > 0 ? '(+1)' : '(-1)'}</span> &times; ${formatNum(detM)} = <b style="color:var(--pink-02);">${formatNum(cof)}</b>
                                 </div>
                             `;
                         }
@@ -709,10 +699,8 @@
                     cofactorStepsHTML += `</div></div>`;
                     htmlOut += cofactorStepsHTML;
                     
-                    // Render Matriks Minor
                     htmlOut += renderTable(MinorMat, "Langkah 2: Matriks Minor (Kumpulan Nilai Det M<sub>ij</sub>)");
                     
-                    // Render Pola Matriks Tanda Kofaktor
                     let signMat = [];
                     for(let i=0; i<rows; i++){
                         let sr = [];
@@ -726,7 +714,6 @@
                 
                 htmlOut += renderTable(C, "Langkah 4: Matriks Kofaktor (Hasil Akhir Gabungan Langkah 2 & 3)");
 
-            // --- OPERASI INVERS MATRIKS [A|I] ---
             } else if (operation === 'inv') {
                 let aug = [];
                 for(let i=0; i<rows; i++) {
@@ -779,7 +766,7 @@
                     for(let i=0; i<rows; i++) I.push(aug[i].slice(rows));
                     
                     if(!showSteps) htmlOut += renderTable(I, `A<sup>-1</sup> (Inverse Matrix)`);
-                    else htmlOut += `<div class="result-box" style="color:var(--cyan-glow);">Hasil Ekstraksi Sisi Kanan menjadi Matriks Invers</div>` + renderTable(I, `A<sup>-1</sup>`);
+                    else htmlOut += `<div class="result-box" style="color:var(--red-glow);">Hasil Ekstraksi Sisi Kanan menjadi Matriks Invers</div>` + renderTable(I, `A<sup>-1</sup>`);
                 }
             }
 
