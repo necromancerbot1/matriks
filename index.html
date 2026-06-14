@@ -12,6 +12,7 @@
             --pink-02: #ff66a3; 
             --red-franxx: #e60000; 
             --red-glow: #ff1a40; 
+            --cyan-glow: #00ffff; /* Ditambahkan agar var(--cyan-glow) berfungsi */
             --text-main: #f0f0f0;
             --text-muted: #b3a5ab;
             --border-color: #4d1a2e; 
@@ -563,39 +564,49 @@
                 if(!showSteps) htmlOut += rT(m, t('step_res'));
                 
                 // Evaluasi Tipe Solusi (Unik, Infinite, Tidak Ada Solusi)
-                let isConsistent = true;
-                let rankA = 0;
-                
-                for(let i=0; i<rows; i++) {
-                    let allZeroA = true;
-                    for(let j=0; j<cols-1; j++) {
-                        if (Math.abs(m[i][j]) > 1e-10) { allZeroA = false; break; }
-                    }
-                    let bZero = Math.abs(m[i][cols-1]) <= 1e-10;
+                // DITAMBAHKAN: Hanya evaluasi ke Persamaan Linear (SPL) jika bentuknya Augmented Matrix (kolom > baris)
+                if (cols > rows) {
+                    let isConsistent = true;
+                    let rankA = 0;
                     
-                    if (!allZeroA) {
-                        rankA++;
-                    } else if (!bZero) {
-                        isConsistent = false;
-                        break;
+                    for(let i=0; i<rows; i++) {
+                        let allZeroA = true;
+                        for(let j=0; j<cols-1; j++) {
+                            if (Math.abs(m[i][j]) > 1e-10) { allZeroA = false; break; }
+                        }
+                        let bZero = Math.abs(m[i][cols-1]) <= 1e-10;
+                        
+                        if (!allZeroA) {
+                            rankA++;
+                        } else if (!bZero) {
+                            isConsistent = false;
+                            break;
+                        }
                     }
-                }
-                
-                htmlOut += `<div class="result-box">`;
-                if (!isConsistent) {
-                    htmlOut += `<h4 style="margin:0; color:red;">${t('no_sol')}</h4>`;
-                } else if (rankA < cols - 1) {
-                    htmlOut += `<h4 style="margin:0; color:var(--cyan-glow);">${t('inf_sol')}</h4>`;
+                    
+                    htmlOut += `<div class="result-box">`;
+                    if (!isConsistent) {
+                        htmlOut += `<h4 style="margin:0; color:red;">${t('no_sol')}</h4>`;
+                    } else if (rankA < cols - 1) {
+                        htmlOut += `<h4 style="margin:0; color:var(--cyan-glow);">${t('inf_sol')}</h4>`;
+                    } else {
+                        // DIPERBAIKI: Mengubah currentLang menjadi lang agar tidak error
+                        htmlOut += `<h4 style="margin:0; color:var(--red-glow);">${lang === 'id' ? 'Bentuk Persamaan Linear (Solution Set):' : 'Linear Equation Form (Solution Set):'}</h4>`; 
+                        // Hanya print sampai (cols - 1) variabel agar tidak mencetak X yang tidak ada
+                        for(let i=0; i<cols-1; i++) { 
+                            let val = fN(m[i][cols-1]);
+                            if (Math.abs(val) < 1e-10) val = 0;
+                            htmlOut += `X<sub>${i+1}</sub> = <b>${val}</b><br>`; 
+                        }
+                    }
+                    htmlOut += `</div>`;
                 } else {
-                    htmlOut += `<h4 style="margin:0; color:var(--red-glow);">${currentLang === 'id' ? 'Bentuk Persamaan Linear (Solution Set):' : 'Linear Equation Form (Solution Set):'}</h4>`; 
-                    // Hanya print sampai (cols - 1) variabel agar tidak mencetak X yang tidak ada
-                    for(let i=0; i<cols-1; i++) { 
-                        let val = fN(m[i][cols-1]);
-                        if (Math.abs(val) < 1e-10) val = 0;
-                        htmlOut += `X<sub>${i+1}</sub> = <b>${val}</b><br>`; 
-                    }
+                    // DITAMBAHKAN: Tampilan untuk input matriks non-augmentasi (seperti 3x3)
+                    htmlOut += `<div class="result-box">
+                        <h4 style="margin:0; color:var(--pink-02);">${lang === 'id' ? 'Matriks Eselon Baris Tereduksi (RREF) Selesai' : 'Reduced Row Echelon Form (RREF) Completed'}</h4>
+                        <span style="font-size: 0.9em; color: var(--text-muted);">${lang === 'id' ? '*Bukan matriks augmentasi (SPL), pencarian himpunan penyelesaian variabel X dilewati.' : '*Not an augmented matrix, X variables solution set evaluation is skipped.'}</span>
+                    </div>`;
                 }
-                htmlOut += `</div>`;
 
             // --- MATRIX RANK ---
             } else if (op === 'rank') {
