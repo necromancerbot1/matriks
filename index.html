@@ -3,28 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZeroTwo Matriks - Ultimate Edition</title>
+    <title>Zero Matriks - Beta</title>
     <style>
-        /* === TEMA DARLING IN THE FRANXX (ZERO TWO PALETTE) === */
+
         :root {
-            --bg-dark: #0f0a0d; /* Latar belakang gelap dengan sentuhan kemerahan */
-            --bg-panel: rgba(15, 10, 12, 0.88); /* Panel lebih gelap agar teks terbaca di atas background gambar */
-            --pink-02: #ff66a3; /* Merah muda rambut Zero Two */
-            --red-franxx: #e60000; /* Merah gelap seragam Franxx */
-            --red-glow: #ff1a40; /* Merah neon untuk menggantikan warna Cyan sebelumnya */
+            --bg-dark: #0f0a0d; 
+            --bg-panel: rgba(15, 10, 12, 0.88); 
+            --pink-02: #ff66a3; 
+            --red-franxx: #e60000; 
+            --red-glow: #ff1a40; 
             --text-main: #f0f0f0;
             --text-muted: #b3a5ab;
-            --border-color: #4d1a2e; /* Border dengan nuansa merah maroon */
+            --border-color: #4d1a2e; 
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-dark);
             
-            /* === UBAH URL GAMBAR DI BAWAH INI === */
-            /* Gunakan link web (https://...) atau file lokal (contoh: url('zerotwo.jpg');) */
+            /* Background Gambar */
             background-image: url('https://alphacoders.com/zero-two-%28darling-in-the-franxx%29-wallpapers'); 
-            
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -38,7 +36,7 @@
             background: linear-gradient(90deg, rgba(15,10,12,0.95) 0%, rgba(255,26,64,0.2) 50%, rgba(15,10,12,0.95) 100%);
             border-bottom: 2px solid var(--red-glow);
             text-align: center;
-            padding: 15px 0;
+            padding: 15px 10px; /* Padding disesuaikan untuk HP */
             box-shadow: 0 0 20px rgba(255, 26, 64, 0.4);
             backdrop-filter: blur(5px);
         }
@@ -50,27 +48,32 @@
             letter-spacing: 3px;
             text-transform: uppercase;
             text-shadow: 0 0 10px var(--red-glow);
+            font-size: 1.8em; /* Ukuran font disesuaikan */
         }
 
         .container {
             display: flex;
             max-width: 1200px;
             margin: 30px auto;
-            padding: 0 20px;
+            padding: 0 15px; /* Padding di kiri kanan untuk jarak aman */
             gap: 20px;
+            flex-direction: row; /* Default layout: Desktop */
+            align-items: flex-start;
         }
 
         .main-content {
             flex: 3;
             background: var(--bg-panel);
-            backdrop-filter: blur(12px); /* Efek kaca yang lebih kuat */
+            backdrop-filter: blur(12px); 
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 30px;
+            padding: 25px; /* Sedikit dikurangi untuk efisiensi ruang HP */
             min-height: 600px;
             box-shadow: 0 0 25px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 102, 163, 0.05);
             max-width: 100%;
             overflow: hidden; 
+            width: 100%;
+            box-sizing: border-box; /* Mencegah overflow padding */
         }
 
         .sidebar {
@@ -81,8 +84,36 @@
             border-radius: 12px;
             padding: 20px;
             height: fit-content;
-            min-width: 200px;
+            min-width: 250px;
             box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* === MEDIA QUERY: RESPONSIF UNTUK HP / LAYAR KECIL === */
+        @media screen and (max-width: 768px) {
+            .container {
+                flex-direction: column-reverse; /* Membalik urutan: Sidebar di bawah, Konten di atas */
+                margin: 15px auto;
+            }
+            .sidebar {
+                min-width: 100%; /* Memaksa sidebar memanjang penuh */
+                margin-bottom: 30px;
+            }
+            .main-content {
+                min-height: auto; /* Membiarkan tinggi menyesuaikan konten */
+                padding: 15px; /* Padding lebih sempit agar ruang lebih luas di HP */
+            }
+            header h1 {
+                font-size: 1.5em; /* Judul lebih kecil di HP */
+            }
+            .flex-center {
+                flex-direction: column; /* Tombol auto-fill disusun vertikal agar tidak numpuk */
+                gap: 10px;
+            }
+            .flex-center button {
+                width: 100%; /* Tombol memanjang di HP agar mudah disentuh */
+            }
         }
 
         h2 { color: var(--red-glow); border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-top: 0; text-shadow: 0 0 5px rgba(255,26,64,0.3);}
@@ -94,7 +125,7 @@
             display: block;
             color: var(--text-main);
             text-decoration: none;
-            padding: 10px 15px;
+            padding: 12px 15px; /* Sedikit dibesarkan agar mudah diklik di HP */
             border-radius: 6px;
             transition: all 0.3s ease;
             border-left: 3px solid transparent;
@@ -109,7 +140,7 @@
         .setup-box {
             background: rgba(0, 0, 0, 0.5);
             border: 1px solid var(--border-color);
-            padding: 20px;
+            padding: 15px; /* Disesuaikan untuk HP */
             border-radius: 8px;
             margin-top: 20px;
         }
@@ -117,9 +148,10 @@
         .matrix-input-box {
             background: rgba(0, 0, 0, 0.5);
             border: 1px solid var(--border-color);
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             margin-top: 20px;
+            overflow-x: auto; /* Mencegah kotak jebol jika layar sangat kecil */
         }
 
         .scroll-wrapper {
@@ -136,21 +168,22 @@
             background-color: rgba(15, 10, 12, 0.9);
             border: 1px solid var(--border-color);
             color: white;
-            padding: 8px;
+            padding: 8px 4px; /* Padding disesuaikan */
             border-radius: 4px;
-            width: 60px;
+            width: 50px; /* Lebar dikecilkan sedikit agar muat banyak di HP */
             text-align: center;
         }
         input[type="number"]:focus { outline: none; border-color: var(--red-glow); box-shadow: 0 0 8px rgba(255, 26, 64, 0.5); }
         
         button {
             background-color: transparent; color: var(--red-glow); border: 1px solid var(--red-glow);
-            padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: all 0.3s; margin: 0 5px;
+            padding: 10px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: all 0.3s; margin: 0 5px;
+            box-sizing: border-box; /* Mencegah overflow width */
         }
         button:hover { background-color: var(--red-glow); color: var(--bg-dark); box-shadow: 0 0 10px var(--red-glow); }
         button.primary { background-color: transparent; color: var(--pink-02); border-color: var(--pink-02); }
         button.primary:hover { background-color: var(--pink-02); color: var(--bg-dark); box-shadow: 0 0 10px var(--pink-02); }
-        button.auto { border-color: #ff99c2; color: #ff99c2; font-size: 0.9em; padding: 8px 10px;}
+        button.auto { border-color: #ff99c2; color: #ff99c2; font-size: 0.9em; padding: 10px;}
         button.auto:hover { background-color: #ff99c2; color: var(--bg-dark); box-shadow: 0 0 10px #ff99c2; }
 
         .grid-row { display: flex; justify-content: center; gap: 5px; margin-bottom: 5px; width: max-content; }
@@ -160,21 +193,21 @@
             margin: 0 auto; border-collapse: collapse; background-color: rgba(0, 0, 0, 0.6);
             border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.5);
         }
-        .matrix-table th, .matrix-table td { border: 1px solid var(--border-color); padding: 8px 12px; text-align: center; min-width: 40px; }
+        .matrix-table th, .matrix-table td { border: 1px solid var(--border-color); padding: 8px; text-align: center; min-width: 35px; }
         .matrix-table th { background-color: rgba(255, 102, 163, 0.15); color: var(--pink-02); }
         .matrix-table tr:nth-child(even) td { background-color: rgba(255, 255, 255, 0.03); }
         .matrix-table td.divider { border-left: 2px dashed var(--pink-02); }
 
         .step-panel {
             background: rgba(0, 0, 0, 0.6); border-left: 4px solid var(--red-glow);
-            border-radius: 0 8px 8px 0; padding: 20px; margin-top: 20px; text-align: center;
+            border-radius: 0 8px 8px 0; padding: 15px; margin-top: 20px; text-align: center;
             overflow-x: auto;
         }
         .step-title { color: var(--red-glow); margin-bottom: 15px; font-size: 0.95em; font-weight: bold; }
-        .result-box { margin-top: 20px; padding: 15px; border: 1px solid var(--pink-02); border-radius: 8px; background: rgba(255,102,163,0.08); text-align: center; font-size: 1.2em; overflow: auto; max-height: 40vh;}
+        .result-box { margin-top: 20px; padding: 15px; border: 1px solid var(--pink-02); border-radius: 8px; background: rgba(255,102,163,0.08); text-align: center; font-size: 1.1em; overflow: auto; max-height: 40vh;}
         
-        .toggle-container { margin-top: 15px; text-align: center; color: var(--pink-02); font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.8);}
-        .toggle-container input { transform: scale(1.3); margin-right: 8px; accent-color: var(--red-glow);}
+        .toggle-container { margin-top: 15px; text-align: center; color: var(--pink-02); font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.8); font-size: 0.9em;}
+        .toggle-container input { transform: scale(1.2); margin-right: 8px; accent-color: var(--red-glow);}
         
         .method-desc {
             background: rgba(255, 26, 64, 0.08);
@@ -185,12 +218,21 @@
             font-size: 0.95em;
             text-align: justify;
         }
+
+        /* Container untuk input Row x Col agar fleksibel di HP */
+        .dim-input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>ZeroTwo Matriks</h1>
+        <h1>Zero Matriks</h1>
     </header>
 
     <div class="container">
@@ -224,12 +266,12 @@
             
             if (mode === 'home') {
                 content.innerHTML = `
-                    <h2>ZeroTwo Matrix System Beta</h2>
+                    <h2>Zero Matrix System</h2>
                     <p>Sistem ini sekarang dilengkapi dengan deskripsi metode, <b>Automated Step-by-Step Generator</b>, dan <b>Auto Fill Hybrid</b>.</p>
                     <div class="setup-box">
-                        <h3 style="color: var(--pink-02); margin-top:0;">Fitur Tambahan:</h3>
-                        <p>✓ <b>Smart Auto Fill:</b> Terdapat opsi angka negatif-positif <i>(+/-)</i> atau khusus positif <i>(+)</i>.</p>
-                           ✓ <b>Detailed Cofactor:</b> Langkah Kofaktor kini mencetak setiap matriks Minor dan rumus silangnya secara presisi.<br>
+                        <h3 style="color: var(--pink-02); margin-top:0;">New Features:</h3>
+                        <p>✓ <b>Mobile Responsive:</b> Tampilan otomatis menyesuaikan layar HP (Sidebar turun ke bawah agar konten utama luas).<br>
+                           ✓ <b>Smart Auto Fill:</b> Terdapat opsi input angka negatif-positif <i>(+/-)</i> atau khusus positif <i>(+)</i> pada matriks.</p>
                            ✓ <b>Metode Terdefinisi:</b> Terdapat ringkasan teori di atas setiap operasi pengerjaan untuk memudahkan pembelajaran.</p>
                     </div>`;
                 return;
@@ -277,24 +319,31 @@
 
             setupHtml += `<h2>${title}</h2>`;
             setupHtml += `<div class="method-desc">${description}</div>`;
-            setupHtml += `<div class="setup-box flex-center">`;
+            setupHtml += `<div class="setup-box">`;
             
+            // Penggunaan wrapper khusus agar input responsif
             if (isSquare) {
                 setupHtml += `
-                    <span>Matrix Size:</span>
-                    <input type="number" id="dim-n" value="3" min="1" max="100">
-                    <span>x</span><span id="dim-n-disp">3</span>
-                    <button class="primary" onclick="buildInputGrid('square')">Set matrix</button>`;
+                    <div class="dim-input-group">
+                        <span>Matrix Size:</span>
+                        <input type="number" id="dim-n" value="3" min="1" max="100">
+                        <span>x</span><span id="dim-n-disp">3</span>
+                        <button class="primary" onclick="buildInputGrid('square')">Set matrix</button>
+                    </div>`;
             } else if (isCramer) {
                 setupHtml += `
-                    <span>Variables / Equations:</span>
-                    <input type="number" id="dim-n" value="3" min="1" max="100">
-                    <button class="primary" onclick="buildInputGrid('cramer')">Set matrix</button>`;
+                    <div class="dim-input-group">
+                        <span>Variables / Equations:</span>
+                        <input type="number" id="dim-n" value="3" min="1" max="100">
+                        <button class="primary" onclick="buildInputGrid('cramer')">Set matrix</button>
+                    </div>`;
             } else {
                 setupHtml += `
-                    <span>Rows:</span><input type="number" id="dim-row" value="2" min="1" max="100">
-                    <span>Cols:</span><input type="number" id="dim-col" value="3" min="1" max="100">
-                    <button class="primary" onclick="buildInputGrid('${isDouble ? 'double' : 'single'}')">Set matrix</button>`;
+                    <div class="dim-input-group">
+                        <span>Rows:</span><input type="number" id="dim-row" value="2" min="1" max="100">
+                        <span>Cols:</span><input type="number" id="dim-col" value="3" min="1" max="100">
+                        <button class="primary" onclick="buildInputGrid('${isDouble ? 'double' : 'single'}')">Set matrix</button>
+                    </div>`;
             }
             setupHtml += `</div><div id="matrix-input-area"></div><div id="solution-area"></div>`;
             
@@ -331,8 +380,8 @@
 
             if (type === 'double') {
                 html += `<div style="display:flex; justify-content:space-around; flex-wrap:wrap; gap:20px;">
-                            <div style="max-width: 100%;"><h3 style="color:var(--red-glow); text-align:center;">Matrix A</h3>${generateGridHTML('A', rows, cols)}</div>
-                            <div style="max-width: 100%;"><h3 style="color:var(--red-glow); text-align:center;">Matrix B</h3>${generateGridHTML('B', rows, cols)}</div>
+                            <div style="max-width: 100%; overflow:auto;"><h3 style="color:var(--red-glow); text-align:center;">Matrix A</h3>${generateGridHTML('A', rows, cols)}</div>
+                            <div style="max-width: 100%; overflow:auto;"><h3 style="color:var(--red-glow); text-align:center;">Matrix B</h3>${generateGridHTML('B', rows, cols)}</div>
                          </div>`;
                 html += `<div class="flex-center" style="margin-top:20px;">
                             <button class="auto" onclick="autoFill('A', true); autoFill('B', true);">⚡ Auto All (+/-)</button>
@@ -418,7 +467,7 @@
         }
 
         function renderTable(mat, title, isAugmented = false, dividerIndex = -1) {
-            let html = `<div class="step-panel step-render"><div class="step-title">${title}</div><table class="matrix-table"><tbody>`;
+            let html = `<div class="step-panel step-render"><div class="step-title">${title}</div><div style="overflow-x:auto;"><table class="matrix-table"><tbody>`;
             mat.forEach(row => {
                 html += `<tr>`;
                 row.forEach((val, index) => { 
@@ -427,7 +476,7 @@
                 });
                 html += `</tr>`;
             });
-            html += `</tbody></table></div>`;
+            html += `</tbody></table></div></div>`;
             return html;
         }
 
@@ -605,7 +654,7 @@
                         if(showSteps) htmlOut += renderTable(Dx, `Matriks D<sub>${v+1}</sub> (Kolom ${v+1} diganti konstanta)`);
                         
                         let x = detDx / detD;
-                        htmlOut += `<div class="result-box" style="margin-top:10px;">
+                        htmlOut += `<div class="result-box" style="margin-top:10px; overflow-x:auto;">
                                     Det(D<sub>${v+1}</sub>) = <b>${formatNum(detDx)}</b> <br><br>
                                     <span style="color:var(--red-glow);">X<sub>${v+1}</sub> = Det(D<sub>${v+1}</sub>) / Det(D)</span><br>
                                     X<sub>${v+1}</sub> = ${formatNum(detDx)} / ${formatNum(detD)} = <b>${formatNum(x)}</b>
@@ -671,16 +720,16 @@
                         rowM.push(detM);
                         
                         if (showSteps) {
-                            let mHtml = `<table class="matrix-table" style="font-size:0.85em; margin: 8px 0; background:rgba(0,0,0,0.8);"><tbody>`;
+                            let mHtml = `<div style="overflow-x:auto;"><table class="matrix-table" style="font-size:0.85em; margin: 8px 0; background:rgba(0,0,0,0.8);"><tbody>`;
                             minor.forEach(mr => {
                                 mHtml += `<tr>`;
                                 mr.forEach(v => mHtml += `<td style="padding:4px 8px;">${formatNum(v)}</td>`);
                                 mHtml += `</tr>`;
                             });
-                            mHtml += `</tbody></table>`;
+                            mHtml += `</tbody></table></div>`;
 
                             cofactorStepsHTML += `
-                                <div style="background: rgba(0,0,0,0.6); padding:10px; border-radius:5px; border:1px solid #4d1a2e;">
+                                <div style="background: rgba(0,0,0,0.6); padding:10px; border-radius:5px; border:1px solid #4d1a2e; overflow-x:hidden;">
                                     <span style="color:var(--red-glow); font-weight:bold;">Posisi Baris ${i+1}, Kolom ${j+1}</span><br>
                                     M<sub>${i+1},${j+1}</sub> = ${mHtml}
                                     <span style="font-size:0.9em; color:var(--text-muted);">${detCalcStr}</span><br>
