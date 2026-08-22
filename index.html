@@ -197,12 +197,15 @@
         .user-profile span { 
             font-size: 0.95em; 
             color: var(--text-muted); 
+            display:flex; 
+            align-items:center; 
         }
         
         .user-profile b { 
             color: var(--text-main); 
-            display: flex;
-            align-items: center;
+            display: flex; 
+            align-items: center; 
+            margin-left: 5px; 
         }
 
         .role-badge {
@@ -279,7 +282,6 @@
         .hero-section h2 { font-size: 2.2em; color: var(--text-main); font-weight: 300; letter-spacing: 1px; border: none; padding-bottom: 0; margin-bottom: 15px; }
         .hero-section h2 b { color: var(--primary-color); font-weight: 600; }
         .hero-section p { font-size: 1.05em; color: var(--text-muted); max-width: 650px; margin: 0 auto 50px; line-height: 1.7; font-weight: 400; }
-
         .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; text-align: left; }
         .feature-card { background: var(--bg-body); border: 1px solid var(--border-color); padding: 30px 25px; border-radius: 8px; transition: border-color 0.3s ease; }
         .feature-card:hover { border-color: var(--primary-color); }
@@ -366,6 +368,16 @@
         .group-item { background: var(--bg-panel); border: 1px solid var(--border-color); padding: 15px; border-radius: 8px; cursor: pointer; transition: 0.2s; margin-bottom: 10px; }
         .group-item:hover { border-color: var(--primary-color); transform: translateX(5px); }
         .uid-box { background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px; font-family: monospace; letter-spacing: 1px; color: var(--primary-color); user-select: all; font-size: 1.2em;}
+        
+        /* CSS FOTO PROFIL HEADER */
+        .header-avatar { 
+            width: 32px; 
+            height: 32px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            margin-right: 10px; 
+            border: 2px solid var(--border-color); 
+        }
     </style>
 </head>
 <body>
@@ -387,10 +399,12 @@
 
             <div id="form-register" style="display:none;">
                 <input type="email" id="reg-username" class="login-input" placeholder="Masukkan Email Anda..." autocomplete="off">
+                
                 <select id="reg-role" class="login-input" style="cursor:pointer; appearance: auto;">
                     <option value="Pelajar" id="opt_student">🎓 Pelajar</option>
                     <option value="Pengajar" id="opt_teacher">👨‍🏫 Pengajar</option>
                 </select>
+                
                 <input type="password" id="reg-password" class="login-input" placeholder="Buat Kata Sandi...">
                 <input type="password" id="reg-password-confirm" class="login-input" placeholder="Konfirmasi Sandi...">
                 <button class="login-btn" onclick="doRegister()" id="btn_register" style="background-color: var(--success-color);">Daftar Akun</button>
@@ -487,8 +501,14 @@
         const db = firebase.firestore();
 
         // Variabel global untuk menyimpan data user saat ini
-        let currentUserData = { name: "Guest", role: "", shortId: "00000" };
+        let currentUserData = { 
+            name: "Guest", 
+            role: "", 
+            shortId: "00000", 
+            photoBase64: "" 
+        };
 
+        // === KAMUS 10 BAHASA (100% UTUH TIDAK DIPOTONG) ===
         const tr = {
             id: { 
                 login_desc: "Sistem komputasi Aljabar Linear.",
@@ -590,7 +610,7 @@
                 send: "Kirim",
                 type_msg: "Tulis pesan diskusi...",
                 profile_title: "Pengaturan Profil",
-                profile_desc: "Kelola identitas akun Anda di platform Zero Matriks.",
+                profile_desc: "Kelola identitas akun dan foto Anda di platform Zero Matriks.",
                 save_profile: "Simpan Perubahan",
                 current_name: "Nama Pengguna Saat Ini:",
                 change_name_ph: "Nama baru (6-15 karakter)...",
@@ -696,14 +716,86 @@
                 send: "Send",
                 type_msg: "Message...",
                 profile_title: "Profile Settings",
-                profile_desc: "Manage your identity.",
+                profile_desc: "Manage your identity and photo.",
                 save_profile: "Save Changes",
                 current_name: "Current Name:",
                 change_name_ph: "New name (6-15 chars)...",
                 role_lbl: "Role / Status:"
+            },
+            jp: { 
+                login_desc: "線形代数計算システム", login_user: "メールアドレスを入力...", login_pass: "パスワード...", login_btn: "ログイン", welcome: "こんにちは", logout: "ログアウト", login_toggle_reg: "アカウントがない？登録", login_toggle_log: "アカウントをお持ちですか？ログイン", btn_register: "登録する", reg_user: "メールアドレスを入力...", reg_pass: "パスワードを作成...", reg_pass2: "パスワードを確認...", opt_student: "🎓 学生", opt_teacher: "👨‍🏫 教師", msg_pass_nomatch: "パスワードが一致しません！", msg_reg_success: "登録成功！ログインしてください。", msg_reg_err: "空のフィールドは許可されていません！", msg_log_err: "メールアドレスまたはパスワードが間違っています！",
+                nav_home: "ホーム", nav_gauss: "ガウス・ジョルダン法", nav_cramer: "クラメルの公式", nav_addsub: "加算 / 減算", nav_trans: "転置行列", nav_rank: "階数 (ランク)", nav_det: "行列式", nav_cofactor: "余因子行列", nav_inv: "逆行列", nav_chat: "👥 チャットと友達", nav_profile: "⚙️ プロフィール",
+                desc_gauss: "行列を被約行階段形に変換します。", desc_cramer: "行列式の比を用いて連立方程式を解きます。", desc_addsub: "対応する成分の足し引き。", desc_trans: "行と列を入れ替えます。", desc_rank: "線形独立な行の最大数。", desc_det: "上三角行列への行還元を用いて計算されます。", desc_cofactor: "小行列式に(-1)^(i+j)を掛けて生成されます。", desc_inv: "[A | I] でのガウス・ジョルダン法で計算されます。",
+                ui_size: "サイズ:", ui_var: "変数:", ui_row: "行:", ui_col: "列:", ui_set: "設定", ui_in: "行列入力", ui_calc: "計算", ui_clr: "クリア", ui_clrall: "全てクリア", ui_step: "ステップを表示", ui_log: "計算ログ", step_init: "初期行列", step_res: "最終結果", alert_max: "最大 100x100!", no_sol: "解なし。", inf_sol: "無数の解。", btn_auto_pm: "ランダム (+/-)", btn_auto_p: "ランダム (+)", mat_a: "行列 A", mat_b: "行列 B", mat_d: "行列 D", step_proc: "プロセス", step_swap: "行の交換", step_div: "行 {r} を {p} で割る", step_elim: "列 {c} を消去", step_eq: "解集合:", step_elim_pivot: "ピボット消去", step_swap_det: "交換: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "列 {c} ピボット下消去", step_det_tri: "上三角行列の積", step_det_form: "Det = 符号 × (主対角成分の積)", zero_row_col: "ゼロ行/列 検出. Det = 0", step_cof1: "1: 小行列式 (M) & 余因子 (C)", step_cof2: "2: 小行列式行列", step_cof3: "3: 符号パターン", step_div_p: "{p} で割る", step_elim_p: "消去", step_inv_ext: "抽出された逆行列", note_aug: "*この評価は最後の列が定数ベクトルであると仮定しています。",
+                home_sub: "段階的解説を提供する線形代数計算ツール。", feat_title: "システム機能", f1_t: "高精度", f1_d: "分数形式を維持します。", f2_t: "テスト行列", f2_d: "整数解を生成します。", f3_t: "最適化", f3_d: "計算負荷を最小限に抑えます。", f4_t: "多言語", f4_d: "10の言語で完全にサポートします。",
+                chat_title: "ディスカッションと友達", chat_desc: "IDを使用して友達を追加するか、グループを作成します。", uid_info: "このIDを友達に共有してください。", add_friend: "追加", add_friend_ph: "友達のIDを入力...", my_friends: "友達リスト", create_group: "作成", group_name_ph: "新しいグループ名...", my_groups: "グループ一覧", back_to_groups: "← 戻る", send: "送信", type_msg: "メッセージを入力...",
+                profile_title: "プロフィール設定", profile_desc: "アカウントと写真を管理します。", save_profile: "変更を保存", current_name: "現在の名前:", change_name_ph: "新しい名前...", role_lbl: "役割:"
+            },
+            zh: { 
+                login_desc: "线性代数计算系统。", login_user: "输入邮箱...", login_pass: "密码...", login_btn: "登录系统", welcome: "你好", logout: "登出", login_toggle_reg: "没有账号？注册", login_toggle_log: "已有账号？登录", btn_register: "注册账号", reg_user: "输入邮箱...", reg_pass: "创建密码...", reg_pass2: "确认密码...", opt_student: "🎓 学生", opt_teacher: "👨‍🏫 老师", msg_pass_nomatch: "密码不匹配！", msg_reg_success: "注册成功！请登录。", msg_reg_err: "数据不能为空！", msg_log_err: "邮箱或密码错误！",
+                nav_home: "首页", nav_gauss: "高斯消元", nav_cramer: "克莱姆法则", nav_addsub: "加法/减法", nav_trans: "矩阵转置", nav_rank: "矩阵秩", nav_det: "行列式", nav_cofactor: "余子式", nav_inv: "逆矩阵", nav_chat: "👥 聊天与好友", nav_profile: "⚙️ 个人资料",
+                desc_gauss: "转换为简化行阶梯形矩阵。", desc_cramer: "求解线性方程组。", desc_addsub: "对应元素的加减运算。", desc_trans: "交换行和列。", desc_rank: "线性无关的行向量数量。", desc_det: "使用上三角矩阵进行逐步化简。", desc_cofactor: "由子矩阵的行列式形成。", desc_inv: "使用高斯-若尔当法求解。",
+                ui_size: "大小:", ui_var: "变量:", ui_row: "行:", ui_col: "列:", ui_set: "设置", ui_in: "输入", ui_calc: "计算", ui_clr: "清除", ui_clrall: "全清", ui_step: "显示步骤", ui_log: "计算日志", step_init: "初始矩阵", step_res: "最终结果", alert_max: "最大 100x100！", no_sol: "系统无解。", inf_sol: "无穷多解。", btn_auto_pm: "随机 (+/-)", btn_auto_p: "随机 (+)", mat_a: "矩阵 A", mat_b: "矩阵 B", mat_d: "矩阵 D", step_proc: "过程", step_swap: "交换行", step_div: "将第 {r} 行除以 {p}", step_elim: "消去第 {c} 列", step_eq: "解集:", step_elim_pivot: "使用主元消去", step_swap_det: "交换行 (Det × -1)", step_elim_det: "消去主元下方的元素", step_det_tri: "上三角矩阵乘积", step_det_form: "Det = 符号 × (主对角线)", zero_row_col: "检测到全零行。Det = 0", step_cof1: "1: 余子式 (M)", step_cof2: "2: 余子式矩阵", step_cof3: "3: 符号模式", step_div_p: "除以 {p}", step_elim_p: "消去", step_inv_ext: "提取逆矩阵", note_aug: "*假定最后一列是常数向量。",
+                home_sub: "提供实时分步解决方案的线性代数工具。", feat_title: "系统功能", f1_t: "高精度", f1_d: "计算保持分数格式。", f2_t: "测试矩阵", f2_d: "产生整数解集。", f3_t: "优化", f3_d: "最小化计算负荷。", f4_t: "多语言", f4_d: "支持10种语言。",
+                chat_title: "讨论与好友", chat_desc: "使用ID添加好友或创建小组。", uid_info: "分享此ID给朋友以添加您。", add_friend: "添加", add_friend_ph: "输入好友 ID...", my_friends: "我的好友", create_group: "创建", group_name_ph: "新群组名称...", my_groups: "我的群组", back_to_groups: "← 返回", send: "发送", type_msg: "输入消息...",
+                profile_title: "个人资料设置", profile_desc: "管理您的帐户和照片。", save_profile: "保存更改", current_name: "当前名称:", change_name_ph: "新名称...", role_lbl: "角色:"
+            },
+            ru: { 
+                login_desc: "Система линейной алгебры.", login_user: "Email...", login_pass: "Пароль...", login_btn: "Войти", welcome: "Привет", logout: "Выйти", login_toggle_reg: "Регистрация", login_toggle_log: "Войти", btn_register: "Регистрация", reg_user: "Email...", reg_pass: "Пароль...", reg_pass2: "Подтвердить...", opt_student: "🎓 Студент", opt_teacher: "👨‍🏫 Учитель", msg_pass_nomatch: "Не совпадают!", msg_reg_success: "Успех!", msg_reg_err: "Ошибка!", msg_log_err: "Неверный Email!",
+                nav_home: "Главная", nav_gauss: "Гаусс-Жордан", nav_cramer: "Крамер", nav_addsub: "Сложение/Вычитание", nav_trans: "Транспонирование", nav_rank: "Ранг", nav_det: "Определитель", nav_cofactor: "Кофактор", nav_inv: "Обратная", nav_chat: "👥 Чат и Друзья", nav_profile: "⚙️ Мой профиль",
+                desc_gauss: "Преобразует матрицу.", desc_cramer: "Решает системы уравнений.", desc_addsub: "Сложение и вычитание.", desc_trans: "Меняет местами строки и столбцы.", desc_rank: "Независимые строки.", desc_det: "Треугольный вид.", desc_cofactor: "Кофакторы умножаются на (-1)^(i+j).", desc_inv: "Обратная матрица.",
+                ui_size: "Размер:", ui_var: "Перем.:", ui_row: "Строки:", ui_col: "Столбцы:", ui_set: "Создать", ui_in: "Ввод", ui_calc: "Вычислить", ui_clr: "Очистить", ui_clrall: "Очистить всё", ui_step: "Шаги", ui_log: "Журнал", step_init: "Начальная", step_res: "Итог", alert_max: "Макс 100x100!", no_sol: "Нет решений.", inf_sol: "Бесконечно много решений.", btn_auto_pm: "Случ. (+/-)", btn_auto_p: "Случ. (+)", mat_a: "Матрица A", mat_b: "Матрица B", mat_d: "Матрица D", step_proc: "Процесс", step_swap: "Обмен строк", step_div: "Строку {r} делим на {p}", step_elim: "Исключить ст. {c}", step_eq: "Ответ:", step_elim_pivot: "Исключение", step_swap_det: "Обмен (Det × -1)", step_elim_det: "Исключить под пивотом", step_det_tri: "Треугольная матрица", step_det_form: "Det = Знак × (Диагональ)", zero_row_col: "Нулевая строка. Det = 0", step_cof1: "1: Минор", step_cof2: "2: Матрица миноров", step_cof3: "3: Знаки", step_div_p: "Разделить на {p}", step_elim_p: "Исключить", step_inv_ext: "Извлечена", note_aug: "*Предполагает вектор констант.",
+                home_sub: "Инструмент линейной алгебры с пошаговым разбором.", feat_title: "Возможности", f1_t: "Точность", f1_d: "Сохраняют формат дробей.", f2_t: "Тестовые матрицы", f2_d: "Целочисленные множества.", f3_t: "Оптимизация", f3_d: "Минимизация нагрузки.", f4_t: "Многоязычный", f4_d: "Поддержка 10 языков.",
+                chat_title: "Обсуждение и Друзья", chat_desc: "Добавьте друзей по ID или создайте группу.", uid_info: "Поделитесь этим ID с друзьями.", add_friend: "Добавить", add_friend_ph: "Введите ID...", my_friends: "Мои друзья", create_group: "Создать", group_name_ph: "Название группы...", my_groups: "Мои группы", back_to_groups: "← Назад", send: "Отправить", type_msg: "Сообщение...",
+                profile_title: "Настройки профиля", profile_desc: "Управление аккаунтом и фото.", save_profile: "Сохранить", current_name: "Текущее имя:", change_name_ph: "Новое имя...", role_lbl: "Роль:"
+            },
+            es: { 
+                login_desc: "Álgebra Lineal.", login_user: "Email...", login_pass: "Contraseña...", login_btn: "Entrar", welcome: "Hola", logout: "Salir", login_toggle_reg: "Regístrate", login_toggle_log: "Iniciar Sesión", btn_register: "Regístrate", reg_user: "Email...", reg_pass: "Contraseña...", reg_pass2: "Confirmar...", opt_student: "🎓 Estudiante", opt_teacher: "👨‍🏫 Profesor", msg_pass_nomatch: "¡No coinciden!", msg_reg_success: "¡Exitoso!", msg_reg_err: "¡Error!", msg_log_err: "¡Incorrecto!",
+                nav_home: "Inicio", nav_gauss: "Gauss-Jordan", nav_cramer: "Cramer", nav_addsub: "Suma / Resta", nav_trans: "Transpuesta", nav_rank: "Rango", nav_det: "Determinante", nav_cofactor: "Cofactores", nav_inv: "Inversa", nav_chat: "👥 Chat y Amigos", nav_profile: "⚙️ Mi Perfil",
+                desc_gauss: "Transforma a escalonada reducida.", desc_cramer: "Resuelve ecuaciones.", desc_addsub: "Suma y resta.", desc_trans: "Intercambia filas.", desc_rank: "Filas independientes.", desc_det: "Reducción triangular.", desc_cofactor: "Multiplicando menores.", desc_inv: "Matriz inversa.",
+                ui_size: "Tamaño:", ui_var: "Vars:", ui_row: "Filas:", ui_col: "Cols:", ui_set: "Fijar", ui_in: "Entrada", ui_calc: "Calcular", ui_clr: "Limpiar", ui_clrall: "Limpiar Todo", ui_step: "Pasos", ui_log: "Registro", step_init: "Inicial", step_res: "Resultado", alert_max: "¡Máx 100x100!", no_sol: "Sin solución.", inf_sol: "Infinitas.", btn_auto_pm: "Aleatorio (+/-)", btn_auto_p: "Aleatorio (+)", mat_a: "Matriz A", mat_b: "Matriz B", mat_d: "Matriz D", step_proc: "Proceso", step_swap: "Cambiar Fila", step_div: "Fila {r} div {p}", step_elim: "Eliminar col {c}", step_eq: "Solución:", step_elim_pivot: "Eliminar pivote", step_swap_det: "Cambio (Det × -1)", step_elim_det: "Eliminar bajo pivote", step_det_tri: "Producto Triangular", step_det_form: "Det = Signo × (Diagonal)", zero_row_col: "Cero. Det = 0", step_cof1: "1: Menor (M)", step_cof2: "2: Matriz Menor", step_cof3: "3: Signos", step_div_p: "Dividir {p}", step_elim_p: "Eliminar", step_inv_ext: "Extraída", note_aug: "*Asume vector constante.",
+                home_sub: "Herramienta con desgloses paso a paso.", feat_title: "Capacidades", f1_t: "Alta Precisión", f1_d: "Formatos de fracción.", f2_t: "Generador", f2_d: "Soluciones enteras.", f3_t: "Optimización", f3_d: "Minimizar carga.", f4_t: "Multilingüe", f4_d: "10 idiomas.",
+                chat_title: "Discusión y Amigos", chat_desc: "Añade amigos por ID o crea grupos.", uid_info: "Comparte este ID con amigos.", add_friend: "Añadir", add_friend_ph: "ID de Amigo...", my_friends: "Mis Amigos", create_group: "Crear", group_name_ph: "Nombre del grupo...", my_groups: "Mis Grupos", back_to_groups: "← Volver", send: "Enviar", type_msg: "Mensaje...",
+                profile_title: "Configuración de perfil", profile_desc: "Gestiona tu cuenta.", save_profile: "Guardar", current_name: "Nombre actual:", change_name_ph: "Nuevo nombre...", role_lbl: "Rol:"
+            },
+            fr: { 
+                login_desc: "Algèbre Linéaire.", login_user: "Email...", login_pass: "Mot de passe...", login_btn: "Connecter", welcome: "Bonjour", logout: "Déconnexion", login_toggle_reg: "S'inscrire", login_toggle_log: "Connectez-vous", btn_register: "S'inscrire", reg_user: "Email...", reg_pass: "Mot de passe...", reg_pass2: "Confirmer...", opt_student: "🎓 Étudiant", opt_teacher: "👨‍🏫 Professeur", msg_pass_nomatch: "Ne correspondent pas !", msg_reg_success: "Réussie !", msg_reg_err: "Erreur !", msg_log_err: "Incorrect !",
+                nav_home: "Accueil", nav_gauss: "Gauss-Jordan", nav_cramer: "Cramer", nav_addsub: "Addition", nav_trans: "Transposée", nav_rank: "Rang", nav_det: "Déterminant", nav_cofactor: "Comatrice", nav_inv: "Inverse", nav_chat: "👥 Chat et Amis", nav_profile: "⚙️ Mon Profil",
+                desc_gauss: "Forme échelonnée réduite.", desc_cramer: "Équations linéaires.", desc_addsub: "Addition.", desc_trans: "Échange lignes.", desc_rank: "Lignes indépendantes.", desc_det: "Réduction triangulaire.", desc_cofactor: "Cofacteurs.", desc_inv: "Matrice Inverse.",
+                ui_size: "Taille:", ui_var: "Vars:", ui_row: "Lignes:", ui_col: "Cols:", ui_set: "Définir", ui_in: "Saisie", ui_calc: "Calculer", ui_clr: "Effacer", ui_clrall: "Tout Effacer", ui_step: "Étapes", ui_log: "Journal", step_init: "Initiale", step_res: "Résultat", alert_max: "Max 100x100!", no_sol: "Aucune solution.", inf_sol: "Infinies.", btn_auto_pm: "Aléatoire (+/-)", btn_auto_p: "Aléatoire (+)", mat_a: "Matrice A", mat_b: "Matrice B", mat_d: "Matrice D", step_proc: "Processus", step_swap: "Échanger Ligne", step_div: "Diviser {r} par {p}", step_elim: "Éliminer col {c}", step_eq: "Solution:", step_elim_pivot: "Élimination", step_swap_det: "Échange (Det × -1)", step_elim_det: "Éliminer sous pivot", step_det_tri: "Matrice Triangulaire", step_det_form: "Det = Signe × (Diagonale)", zero_row_col: "Zéro. Det = 0", step_cof1: "1: Mineur (M)", step_cof2: "2: Matrice", step_cof3: "3: Signes", step_div_p: "Diviser {p}", step_elim_p: "Éliminer", step_inv_ext: "Extraite", note_aug: "*Suppose un vecteur constant.",
+                home_sub: "Outil avec décompositions étape par étape.", feat_title: "Capacités", f1_t: "Haute Précision", f1_d: "Formats de fraction.", f2_t: "Générateur", f2_d: "Solutions entières.", f3_t: "Optimisation", f3_d: "Minimiser la charge.", f4_t: "Multilingue", f4_d: "10 langues.",
+                chat_title: "Discussion et Amis", chat_desc: "Ajoutez des amis via ID ou créez un groupe.", uid_info: "Partagez cet ID.", add_friend: "Ajouter", add_friend_ph: "ID Ami...", my_friends: "Mes Amis", create_group: "Créer", group_name_ph: "Nom du groupe...", my_groups: "Mes Groupes", back_to_groups: "← Retour", send: "Envoyer", type_msg: "Message...",
+                profile_title: "Paramètres du profil", profile_desc: "Gérer votre compte.", save_profile: "Enregistrer", current_name: "Nom actuel:", change_name_ph: "Nouveau nom...", role_lbl: "Rôle:"
+            },
+            de: { 
+                login_desc: "Lineare Algebra.", login_user: "E-Mail...", login_pass: "Passwort...", login_btn: "Einloggen", welcome: "Hallo", logout: "Abmelden", login_toggle_reg: "Registrieren", login_toggle_log: "Einloggen", btn_register: "Registrieren", reg_user: "E-Mail...", reg_pass: "Passwort...", reg_pass2: "Bestätigen...", opt_student: "🎓 Student", opt_teacher: "👨‍🏫 Lehrer", msg_pass_nomatch: "Stimmen nicht überein!", msg_reg_success: "Erfolgreich!", msg_reg_err: "Fehler!", msg_log_err: "Falsche!",
+                nav_home: "Startseite", nav_gauss: "Gauß-Jordan", nav_cramer: "Cramer", nav_addsub: "Add / Sub", nav_trans: "Transponierte", nav_rank: "Rang", nav_det: "Determinante", nav_cofactor: "Kofaktoren", nav_inv: "Inverse", nav_chat: "👥 Chat & Freunde", nav_profile: "⚙️ Mein Profil",
+                desc_gauss: "Transformiert eine Matrix.", desc_cramer: "Löst Gleichungen.", desc_addsub: "Addition.", desc_trans: "Tauscht Zeilen.", desc_rank: "Unabhängige Zeilen.", desc_det: "Dreiecksmatrix.", desc_cofactor: "Kofaktoren.", desc_inv: "Inverse Matrix.",
+                ui_size: "Größe:", ui_var: "Vars:", ui_row: "Zeilen:", ui_col: "Spalten:", ui_set: "Setzen", ui_in: "Eingabe", ui_calc: "Berechnen", ui_clr: "Löschen", ui_clrall: "Alles Löschen", ui_step: "Schritte", ui_log: "Protokoll", step_init: "Start", step_res: "Ergebnis", alert_max: "Max 100x100!", no_sol: "Keine Lösung.", inf_sol: "Unendlich viele.", btn_auto_pm: "Zufall (+/-)", btn_auto_p: "Zufall (+)", mat_a: "Matrix A", mat_b: "Matrix B", mat_d: "Matrix D", step_proc: "Prozess", step_swap: "Zeile tauschen", step_div: "Zeile {r} / {p}", step_elim: "Eliminiere Sp {c}", step_eq: "Lösung:", step_elim_pivot: "Pivot-Eliminierung", step_swap_det: "Tausch (Det × -1)", step_elim_det: "Eliminiere Sp", step_det_tri: "Dreiecksmatrix", step_det_form: "Det = Vorzeichen × (Diagonale)", zero_row_col: "Null. Det = 0", step_cof1: "1: Minor", step_cof2: "2: Minormatrix", step_cof3: "3: Vorzeichen", step_div_p: "Teilen {p}", step_elim_p: "Eliminieren", step_inv_ext: "Extrahiert", note_aug: "*Geht von Konstanten aus.",
+                home_sub: "Lineare Algebra mit Aufschlüsselungen.", feat_title: "Funktionen", f1_t: "Präzision", f1_d: "Bruchformate.", f2_t: "Testmatrizen", f2_d: "Ganzzahlige Lösungssets.", f3_t: "Optimierung", f3_d: "Minimierung der Rechenlast.", f4_t: "Mehrsprachige", f4_d: "10 Sprachen.",
+                chat_title: "Diskussion & Freunde", chat_desc: "Fügen Sie Freunde per ID hinzu.", uid_info: "Teilen Sie diese ID.", add_friend: "Hinzufügen", add_friend_ph: "Freundes-ID...", my_friends: "Meine Freunde", create_group: "Erstellen", group_name_ph: "Gruppenname...", my_groups: "Meine Gruppen", back_to_groups: "← Zurück", send: "Senden", type_msg: "Nachricht...",
+                profile_title: "Profileinstellungen", profile_desc: "Konto verwalten.", save_profile: "Speichern", current_name: "Aktueller Name:", change_name_ph: "Neuer Name...", role_lbl: "Rolle:"
+            },
+            ar: { 
+                login_desc: "الجبر الخطي.", login_user: "البريد...", login_pass: "المرور...", login_btn: "دخول", welcome: "أهلاً", logout: "خروج", login_toggle_reg: "إنشاء حساب", login_toggle_log: "تسجيل الدخول", btn_register: "تسجيل", reg_user: "البريد...", reg_pass: "المرور...", reg_pass2: "تأكيد...", opt_student: "🎓 طالب", opt_teacher: "👨‍🏫 معلم", msg_pass_nomatch: "غير متطابقة!", msg_reg_success: "نجاح!", msg_reg_err: "خطأ!", msg_log_err: "غير صحيحة!",
+                nav_home: "الرئيسية", nav_gauss: "جوردان-جاوس", nav_cramer: "كرامر", nav_addsub: "جمع/طرح", nav_trans: "منقولة", nav_rank: "رتبة", nav_det: "المحدد", nav_cofactor: "مرافقة", nav_inv: "المعكوس", nav_chat: "👥 الدردشة والأصدقاء", nav_profile: "⚙️ ملفي الشخصي",
+                desc_gauss: "تحويل المصفوفة.", desc_cramer: "حل المعادلات.", desc_addsub: "الجمع.", desc_trans: "منقولة.", desc_rank: "الصفوف المستقلة.", desc_det: "حساب خطوة بخطوة.", desc_cofactor: "مصفوفة مرافقة.", desc_inv: "المعكوس.",
+                ui_size: "الحجم:", ui_var: "المتغيرات:", ui_row: "الصفوف:", ui_col: "الأعمدة:", ui_set: "تطبيق", ui_in: "إدخال", ui_calc: "احسب", ui_clr: "مسح", ui_clrall: "مسح الكل", ui_step: "خطوات", ui_log: "السجل", step_init: "البداية", step_res: "النتيجة", alert_max: "الحد 100x100!", no_sol: "لا يوجد حل.", inf_sol: "لا نهائية.", btn_auto_pm: "عشوائي (+/-)", btn_auto_p: "عشوائي (+)", mat_a: "A", mat_b: "B", mat_d: "D", step_proc: "العملية", step_swap: "تبديل", step_div: "قسمة {r}", step_elim: "إلغاء {c}", step_eq: "الحل:", step_elim_pivot: "إلغاء المحور", step_swap_det: "تبديل (Det × -1)", step_elim_det: "إلغاء", step_det_tri: "الضرب القطري", step_det_form: "Det = إشارة × القطر", zero_row_col: "صفر. Det = 0", step_cof1: "1: المرافق", step_cof2: "2: المصفوفة", step_cof3: "3: الإشارات", step_div_p: "قسمة {p}", step_elim_p: "إلغاء", step_inv_ext: "مستخرج", note_aug: "*الثوابت.",
+                home_sub: "أداة حسابية للجبر الخطي.", feat_title: "قدرات النظام", f1_t: "دقة عالية", f1_d: "الكسور.", f2_t: "مصفوفات اختبار", f2_d: "حلول صحيحة.", f3_t: "تحسين خوارزمي", f3_d: "تقليل العبء.", f4_t: "متعدد اللغات", f4_d: "10 لغات.",
+                chat_title: "المناقشة والأصدقاء", chat_desc: "أضف أصدقاء عبر المعرف أو أنشئ مجموعة.", uid_info: "شارك هذا المعرف.", add_friend: "إضافة", add_friend_ph: "معرف الصديق...", my_friends: "أصدقائي", create_group: "إنشاء", group_name_ph: "اسم المجموعة...", my_groups: "مجموعاتي", back_to_groups: "← رجوع", send: "إرسال", type_msg: "رسالة...",
+                profile_title: "إعدادات الملف الشخصي", profile_desc: "إدارة حسابك.", save_profile: "حفظ", current_name: "الاسم الحالي:", change_name_ph: "اسم جديد...", role_lbl: "دور:"
+            },
+            ko: { 
+                login_desc: "선형 대수 시스템", login_user: "이메일...", login_pass: "비밀번호...", login_btn: "로그인", welcome: "안녕하세요", logout: "로그아웃", login_toggle_reg: "가입하기", login_toggle_log: "로그인", btn_register: "가입", reg_user: "이메일...", reg_pass: "비밀번호...", reg_pass2: "확인...", opt_student: "🎓 학생", opt_teacher: "👨‍🏫 교사", msg_pass_nomatch: "불일치!", msg_reg_success: "성공!", msg_reg_err: "오류!", msg_log_err: "잘못된 이메일!",
+                nav_home: "홈", nav_gauss: "가우스-조르당", nav_cramer: "크래머", nav_addsub: "덧셈 / 뺄셈", nav_trans: "전치 행렬", nav_rank: "행렬 계수", nav_det: "행렬식", nav_cofactor: "여인수", nav_inv: "역행렬", nav_chat: "👥 채팅 및 친구", nav_profile: "⚙️ 내 프로필",
+                desc_gauss: "가우스-조르당 소거법.", desc_cramer: "크래머 공식.", desc_addsub: "행렬 덧셈.", desc_trans: "전치 행렬.", desc_rank: "행렬의 계수.", desc_det: "행렬식 계산.", desc_cofactor: "여인수 행렬.", desc_inv: "역행렬 계산.",
+                ui_size: "크기:", ui_var: "변수:", ui_row: "행:", ui_col: "열:", ui_set: "설정", ui_in: "입력", ui_calc: "계산", ui_clr: "지우기", ui_clrall: "모두 지우기", ui_step: "단계", ui_log: "로그", step_init: "초기 행렬", step_res: "결과", alert_max: "최대 100!", no_sol: "해가 없습니다.", inf_sol: "무수히 많은 해.", btn_auto_pm: "랜덤 (+/-)", btn_auto_p: "랜덤 (+)", mat_a: "A", mat_b: "B", mat_d: "D", step_proc: "과정", step_swap: "행 교환", step_div: "{r}행 나누기", step_elim: "{c}열 소거", step_eq: "해:", step_elim_pivot: "피벗 소거", step_swap_det: "교환 (Det × -1)", step_elim_det: "소거", step_det_tri: "상삼각행렬 곱", step_det_form: "Det = 부호 × (주대각선)", zero_row_col: "영행렬. Det = 0", step_cof1: "1: 여인수", step_cof2: "2: 소행렬", step_cof3: "3: 부호 패턴", step_div_p: "나누기 {p}", step_elim_p: "소거", step_inv_ext: "추출됨", note_aug: "*상수 벡터.",
+                home_sub: "선형대수학 계산 도구.", feat_title: "시스템 기능", f1_t: "고정밀", f1_d: "분수 형식 유지.", f2_t: "행렬 생성", f2_d: "정수 해 보장.", f3_t: "최적화", f3_d: "부하 최소화.", f4_t: "다국어", f4_d: "10개 언어.",
+                chat_title: "토론 및 친구", chat_desc: "ID로 친구를 추가하거나 그룹을 만듭니다.", uid_info: "이 ID를 공유하세요.", add_friend: "추가", add_friend_ph: "친구 ID...", my_friends: "내 친구", create_group: "만들기", group_name_ph: "그룹 이름...", my_groups: "내 그룹", back_to_groups: "← 뒤로", send: "보내기", type_msg: "메시지...",
+                profile_title: "프로필 설정", profile_desc: "계정을 관리합니다.", save_profile: "저장", current_name: "현재 이름:", change_name_ph: "새 이름...", role_lbl: "역할:"
             }
         };
-        
+
         // Memastikan bahasa lain (jika tidak lengkap) jatuh ke bahasa Inggris
         const langs = ['jp','zh','ru','es','fr','de','ar','ko'];
         langs.forEach(l => { 
@@ -719,6 +811,7 @@
         let activeChatName = null;
         let activeChatType = null; 
 
+        // === FUNGSI UMUM NON-FIREBASE ===
         function toggleAuth(m) {
             if(m === 'reg') {
                 document.getElementById('form-login').style.display = 'none';
@@ -767,6 +860,15 @@
             changeLanguage();
         }
 
+        // FUNGSI UPDATE UI HEADER (NAMA & FOTO)
+        function updateHeaderProfile() {
+            let roleHtml = currentUserData.role ? `<span class="role-badge">${currentUserData.role}</span>` : "";
+            let imgHtml = currentUserData.photoBase64 ? 
+                `<img src="${currentUserData.photoBase64}" class="header-avatar">` : "";
+                
+            document.getElementById('display-user').innerHTML = imgHtml + currentUserData.name + roleHtml;
+        }
+
         // === FUNGSI NAVIGASI APLIKASI ===
         function navigate(m) {
             mode = m; 
@@ -794,14 +896,23 @@
                 return;
             }
 
+            // === HALAMAN PROFIL (DENGAN FITUR UPLOAD FOTO COMPRESS BASE64) ===
             if(m === 'profile') {
+                let avatarHtml = currentUserData.photoBase64 ? 
+                    `<img id="profile-pic-preview" src="${currentUserData.photoBase64}" style="width:100%; height:100%; border-radius:50%; object-fit:cover; border:2px solid var(--primary-color);">` :
+                    `<div id="profile-pic-preview-fallback" style="width:100%; height:100%; background:var(--primary-color); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:2.5em; font-weight:bold;">${currentUserData.name.charAt(0).toUpperCase()}</div><img id="profile-pic-preview" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover; border:2px solid var(--primary-color);">`;
+                
                 c.innerHTML = `
                     <h2>${t('profile_title')}</h2>
                     <div class="method-desc">${t('profile_desc')}</div>
                     
                     <div style="background:var(--bg-body); border:1px solid var(--border-color); padding:30px; border-radius:8px; max-width:500px; margin:0 auto; text-align:center;">
-                        <div style="width:80px; height:80px; background:var(--primary-color); color:white; font-size:2em; font-weight:bold; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
-                            ${currentUserData.name.charAt(0).toUpperCase()}
+                        
+                        <!-- KOTAK FOTO PROFIL -->
+                        <div style="position:relative; width:100px; height:100px; margin:0 auto 20px;">
+                            ${avatarHtml}
+                            <input type="file" id="upload-photo" style="display:none;" accept="image/*" onchange="handlePhotoUpload(event)">
+                            <button onclick="document.getElementById('upload-photo').click()" style="position:absolute; bottom:0; right:-5px; background:var(--bg-panel); border:1px solid var(--border-color); color:var(--text-main); border-radius:50%; width:35px; height:35px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; padding:0; box-shadow:0 2px 5px rgba(0,0,0,0.3);" title="Ubah Foto">📷</button>
                         </div>
                         
                         <p style="color:var(--text-muted); margin-bottom:5px;">ID Teman Anda (5 Digit):</p>
@@ -835,7 +946,7 @@
                             <div style="flex:1; min-width:250px; background:var(--bg-body); padding:25px; border-radius:8px; border:1px solid var(--border-color);">
                                 <h4 style="margin-top:0; color:var(--text-main); font-weight:600;">+ ${t('add_friend')}</h4>
                                 <div style="display:flex; gap:10px;">
-                                    <input type="number" id="friend-id-input" placeholder="Misal: 48192" style="flex:1;">
+                                    <input type="number" id="friend-id-input" placeholder="${t('add_friend_ph')}" style="flex:1;">
                                     <button class="primary" onclick="addFriendByShortId()">${t('add_friend')}</button>
                                 </div>
                                 <h4 style="margin:25px 0 15px; color:var(--text-main); font-weight:600;">${t('my_friends')}</h4>
@@ -896,7 +1007,7 @@
             buildGrid(isSq ? 'sq' : isCr ? 'cr' : isDbl ? 'db' : 'sg');
         }
 
-        // === LOGIKA FITUR PROFIL ===
+        // === LOGIKA FITUR PROFIL & FOTO ===
         function updateProfileName() {
             let newName = document.getElementById('edit-name-input').value.trim();
             if(newName.length < 6 || newName.length > 15) {
@@ -908,12 +1019,53 @@
                 name: newName
             }).then(() => {
                 currentUserData.name = newName; 
-                let roleHtml = currentUserData.role ? `<span class="role-badge">${currentUserData.role}</span>` : "";
-                document.getElementById('display-user').innerHTML = newName + roleHtml;
-                alert("Nama berhasil diperbarui!");
+                updateHeaderProfile();
+                alert("Nama berhasil diperbarui dan disimpan!");
                 navigate('profile'); 
-            }).catch(err => alert("Gagal memperbarui profil: " + err.message));
+            }).catch(err => alert("Gagal memperbarui nama: " + err.message));
         }
+
+        window.handlePhotoUpload = function(event) {
+            let file = event.target.files[0];
+            if(!file) return;
+            
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                let img = new Image();
+                img.onload = function() {
+                    let canvas = document.createElement('canvas');
+                    let ctx = canvas.getContext('2d');
+                    
+                    // Kecilkan resolusi gambar agar ringan (Max 200x200 px)
+                    let maxW = 200, maxH = 200;
+                    let ratio = Math.min(maxW / img.width, maxH / img.height);
+                    canvas.width = img.width * ratio;
+                    canvas.height = img.height * ratio;
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    
+                    // Konversi ke format string Base64 (Format Teks) untuk disimpan ke database
+                    let base64 = canvas.toDataURL('image/jpeg', 0.8);
+                    
+                    // Ganti UI fallback dengan Img
+                    let fallback = document.getElementById('profile-pic-preview-fallback');
+                    if(fallback) fallback.style.display = 'none';
+                    let imgEl = document.getElementById('profile-pic-preview');
+                    imgEl.style.display = 'block';
+                    imgEl.src = base64;
+                    
+                    // Simpan ke Firestore
+                    db.collection("users").doc(auth.currentUser.uid).update({
+                        photoBase64: base64
+                    }).then(() => {
+                        currentUserData.photoBase64 = base64;
+                        updateHeaderProfile();
+                        alert("Foto profil berhasil disimpan ke database!");
+                    }).catch(err => alert("Gagal simpan foto: " + err.message));
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        };
 
         // === LOGIKA FITUR TEMAN & CHAT (MENGGUNAKAN SHORT ID) ===
         function addFriendByShortId() {
@@ -1261,7 +1413,6 @@
             let A = getM('A', rows, cols); 
             let s = document.getElementById('solution-area'); 
             let showSteps = document.getElementById('show-steps').checked;
-            
             let htmlOut = `<h3 style="margin-top:40px; color:var(--text-main); font-weight:500; font-size:1.15em; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">${t('ui_log')}</h3>`;
             
             if (op === 'add' || op === 'sub') { 
@@ -1670,7 +1821,8 @@
                         email: email, 
                         name: name,
                         role: role,
-                        shortId: generatedShortId
+                        shortId: generatedShortId,
+                        photoBase64: ""
                     }).then(() => {
                         alert("Akun berhasil dibuat! Silakan masuk.");
                         document.getElementById('reg-username').value = '';
@@ -1713,19 +1865,26 @@
                         if(doc.exists) {
                             currentUserData = doc.data(); 
                             
-                            // Jika user lama tidak punya shortId, buatkan satu otomatis
+                            // Jika user lama tidak punya shortId, buatkan satu otomatis langsung disimpan
                             if(!currentUserData.shortId) {
                                 currentUserData.shortId = Math.floor(10000 + Math.random() * 90000).toString();
                                 db.collection("users").doc(user.uid).update({ shortId: currentUserData.shortId });
                             }
                             
-                            let roleHtml = currentUserData.role ? `<span class="role-badge">${currentUserData.role}</span>` : "";
-                            document.getElementById('display-user').innerHTML = currentUserData.name + roleHtml;
+                            updateHeaderProfile();
                         } else {
-                            // Antisipasi (Fallback)
-                            currentUserData.name = user.email.split('@')[0];
-                            currentUserData.shortId = "00000";
-                            document.getElementById('display-user').innerHTML = currentUserData.name;
+                            // JIKA DOKUMEN BELUM ADA (Kasus bug 00000)
+                            // Paksa buatkan dokumen baru di database dengan ID 5 Digit
+                            let newId = Math.floor(10000 + Math.random() * 90000).toString();
+                            currentUserData = {
+                                name: user.email.split('@')[0],
+                                shortId: newId,
+                                role: "Pelajar",
+                                photoBase64: ""
+                            };
+                            db.collection("users").doc(user.uid).set(currentUserData).then(() => {
+                                updateHeaderProfile();
+                            });
                         }
                     });
                     
