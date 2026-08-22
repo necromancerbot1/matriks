@@ -31,153 +31,98 @@
             line-height: 1.6;
         }
 
-        header {
-            background: var(--bg-panel);
-            border-bottom: 1px solid var(--border-color);
-            text-align: center;
-            padding: 20px 10px; 
-            position: relative;
+        /* TAMPILAN LOGIN & REGISTER */
+        #login-wrapper {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-body);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999; animation: fadeIn 0.5s ease-out;
         }
+        .login-card {
+            background: var(--bg-panel); border: 1px solid var(--border-color);
+            padding: 40px; border-radius: 12px; width: 100%; max-width: 360px;
+            text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.3); box-sizing: border-box;
+        }
+        .login-card h2 { border: none; padding: 0; margin: 0 0 10px 0; font-size: 1.8em; color: var(--text-main); font-weight: 400; }
+        .login-card h2 b { color: var(--primary-color); font-weight: 700; }
+        .login-card p { margin-bottom: 30px; font-size: 0.95em; color: var(--text-muted); }
+        .login-input {
+            width: 100%; padding: 12px 15px; margin-bottom: 15px;
+            background: var(--bg-body); border: 1px solid var(--border-color);
+            color: var(--text-main); border-radius: 6px; box-sizing: border-box;
+            font-size: 0.95em; font-family: inherit; transition: all 0.3s;
+        }
+        .login-input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 2px rgba(96,165,250,0.2); }
+        .login-btn {
+            width: 100%; padding: 12px; font-size: 1.05em; font-weight: 600; margin-top: 10px;
+            border-radius: 6px; border: none; background: var(--primary-color);
+            color: white; cursor: pointer; transition: all 0.3s;
+        }
+        .login-btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
+        .toggle-auth { color: var(--primary-color); text-decoration: none; font-size: 0.9em; transition: 0.2s; }
+        .toggle-auth:hover { color: var(--text-main); }
 
-        header h1 {
-            margin: 0;
-            color: var(--text-main);
-            font-weight: 400;
-            letter-spacing: 1px;
-            font-size: 1.8em; 
-        }
-        
-        header h1 b {
-            color: var(--primary-color);
-            font-weight: 700;
-        }
+        /* TAMPILAN APP UTAMA */
+        #app-wrapper { display: none; }
 
-        /* Dropdown Bahasa (Elegan & Rapi) */
-        .lang-selector { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); }
-        .lang-selector select {
-            background: var(--bg-body); 
-            color: var(--text-main); 
-            border: 1px solid var(--border-color);
-            padding: 8px 14px; 
-            border-radius: 6px; 
-            font-weight: 500; 
-            outline: none; 
-            cursor: pointer;
-            transition: border 0.3s;
-        }
-        .lang-selector select:hover {
-            border-color: var(--primary-color);
-        }
+        header { background: var(--bg-panel); border-bottom: 1px solid var(--border-color); padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); flex-wrap: wrap; gap: 15px; }
+        header h1 { margin: 0; color: var(--text-main); font-weight: 400; letter-spacing: 1px; font-size: 1.8em; }
+        header h1 b { color: var(--primary-color); font-weight: 700; }
 
-        .container {
-            display: flex; max-width: 1200px; margin: 30px auto; padding: 0 15px; 
-            gap: 25px; flex-direction: row; align-items: flex-start;
-        }
+        .header-controls { display: flex; align-items: center; gap: 15px; }
 
-        .main-content {
-            flex: 3; 
-            background: var(--bg-panel); 
-            border: 1px solid var(--border-color); 
-            border-radius: 10px; 
-            padding: 40px; 
-            min-height: 600px; 
-            width: 100%; box-sizing: border-box; overflow: hidden; 
-        }
+        .lang-selector select { background: var(--bg-body); color: var(--text-main); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px; font-weight: 500; outline: none; cursor: pointer; transition: border 0.3s; }
+        .lang-selector select:hover { border-color: var(--primary-color); }
 
-        .sidebar {
-            flex: 1; 
-            background: var(--bg-panel); 
-            border: 1px solid var(--border-color); 
-            border-radius: 10px; 
-            padding: 25px 20px;
-            height: fit-content; 
-            min-width: 250px; 
-            width: 100%; box-sizing: border-box;
-        }
+        .user-profile { display: flex; align-items: center; gap: 15px; padding-left: 15px; border-left: 1px solid var(--border-color); }
+        .user-profile span { font-size: 0.95em; color: var(--text-muted); }
+        .user-profile b { color: var(--text-main); }
+        .logout-btn { background: transparent; border: 1px solid var(--danger-color); color: var(--danger-color); padding: 6px 12px; border-radius: 6px; font-size: 0.85em; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+        .logout-btn:hover { background: var(--danger-color); color: white; }
 
-        /* Responsif HP */
+        .container { display: flex; max-width: 1200px; margin: 30px auto; padding: 0 15px; gap: 25px; flex-direction: row; align-items: flex-start; }
+        .main-content { flex: 3; background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 10px; padding: 40px; min-height: 600px; width: 100%; box-sizing: border-box; overflow: hidden; }
+        .sidebar { flex: 1; background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 10px; padding: 25px 20px; height: fit-content; min-width: 250px; width: 100%; box-sizing: border-box; }
+
         @media screen and (max-width: 768px) {
             .container { flex-direction: column-reverse; margin: 15px auto; }
             .sidebar { min-width: 100%; margin-bottom: 30px; padding: 20px;}
             .main-content { min-height: auto; padding: 25px; }
-            header h1 { font-size: 1.5em; text-align: left; padding-left: 10px;}
-            .lang-selector { right: 10px; }
-            .flex-center { flex-direction: column; gap: 10px; }
-            .flex-center button { width: 100%; }
+            header { flex-direction: column; text-align: center; }
+            .header-controls { flex-direction: column; border-top: 1px solid var(--border-color); padding-top: 15px; width: 100%; justify-content: center; }
+            .user-profile { border-left: none; padding-left: 0; }
         }
 
-        /* TAMPILAN BERANDA (HOME) YANG MINIMALIS & AKADEMIS */
         .hero-section { text-align: center; padding: 20px 0; animation: fadeIn 0.8s ease-out; }
-        .hero-section h2 { 
-            font-size: 2.2em; 
-            color: var(--text-main); 
-            font-weight: 300; 
-            letter-spacing: 1px; 
-            border: none; 
-            padding-bottom: 0;
-            margin-bottom: 15px;
-        }
+        .hero-section h2 { font-size: 2.2em; color: var(--text-main); font-weight: 300; letter-spacing: 1px; border: none; padding-bottom: 0; margin-bottom: 15px; }
         .hero-section h2 b { color: var(--primary-color); font-weight: 600; }
-        .hero-section p { 
-            font-size: 1.05em; 
-            color: var(--text-muted); 
-            max-width: 650px; 
-            margin: 0 auto 50px; 
-            line-height: 1.7; 
-            font-weight: 400;
-        }
+        .hero-section p { font-size: 1.05em; color: var(--text-muted); max-width: 650px; margin: 0 auto 50px; line-height: 1.7; font-weight: 400; }
 
-        .feature-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
-            gap: 20px; 
-            text-align: left; 
-        }
-        .feature-card { 
-            background: var(--bg-body); 
-            border: 1px solid var(--border-color); 
-            padding: 30px 25px; 
-            border-radius: 8px; 
-            transition: border-color 0.3s ease; 
-        }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; text-align: left; }
+        .feature-card { background: var(--bg-body); border: 1px solid var(--border-color); padding: 30px 25px; border-radius: 8px; transition: border-color 0.3s ease; }
         .feature-card:hover { border-color: var(--primary-color); }
-        .card-accent {
-            width: 35px;
-            height: 3px;
-            background: var(--primary-color);
-            margin-bottom: 20px;
-            border-radius: 2px;
-        }
+        .card-accent { width: 35px; height: 3px; background: var(--primary-color); margin-bottom: 20px; border-radius: 2px; }
         .feature-card h4 { margin: 0 0 12px 0; font-size: 1.1em; color: var(--text-main); font-weight: 600; }
         .feature-card p { margin: 0; font-size: 0.9em; color: var(--text-muted); line-height: 1.6; }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Komponen Matematika & UI */
         h2 { color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-top: 0; font-weight: 600; }
         p { color: var(--text-muted); }
         
         .sidebar ul { list-style: none; padding: 0; margin: 0; }
         .sidebar li { margin-bottom: 5px; }
-        .sidebar a {
-            display: block; color: var(--text-muted); text-decoration: none; padding: 12px 15px; 
-            border-radius: 6px; transition: all 0.2s ease; font-weight: 500; font-size: 0.95em;
-        }
+        .sidebar a { display: block; color: var(--text-muted); text-decoration: none; padding: 12px 15px; border-radius: 6px; transition: all 0.2s ease; font-weight: 500; font-size: 0.95em; }
         .sidebar a:hover, .sidebar a.active { background-color: var(--bg-body); color: var(--primary-color); }
 
         .setup-box, .matrix-input-box { background: var(--bg-body); border: 1px solid var(--border-color); padding: 25px; border-radius: 8px; margin-top: 20px; overflow-x: auto; }
         .scroll-wrapper { overflow: auto; max-height: 60vh; max-width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 20px; background: var(--bg-panel); }
 
-        input[type="number"] {
-            background-color: var(--bg-body); border: 1px solid var(--border-color); color: var(--text-main); 
-            padding: 8px 6px; border-radius: 4px; width: 55px; text-align: center; font-weight: 500; transition: all 0.2s;
-        }
+        input[type="number"] { background-color: var(--bg-body); border: 1px solid var(--border-color); color: var(--text-main); padding: 8px 6px; border-radius: 4px; width: 55px; text-align: center; font-weight: 500; transition: all 0.2s; }
         input[type="number"]:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2); }
         
-        button {
-            background-color: #334155; color: var(--text-main); border: 1px solid var(--border-color);
-            padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.2s; margin: 0 5px; box-sizing: border-box; 
-        }
+        button { background-color: #334155; color: var(--text-main); border: 1px solid var(--border-color); padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.2s; margin: 0 5px; box-sizing: border-box; }
         button:hover { background-color: #475569; }
         button.primary { background-color: #2563eb; color: white; border-color: #2563eb; }
         button.primary:hover { background-color: #1d4ed8; border-color: #1d4ed8; }
@@ -209,55 +154,148 @@
 </head>
 <body>
 
-    <header>
-        <h1>Zero <b>Matriks</b></h1>
-        <div class="lang-selector">
-            <select id="languageSelect" onchange="changeLanguage()">
-                <option value="id" selected>ID - Indonesia</option>
-                <option value="en">EN - English</option>
-                <option value="jp">JP - 日本語</option>
-                <option value="zh">ZH - 中文</option>
-                <option value="ru">RU - Русский</option>
-                <option value="es">ES - Español</option>
-                <option value="fr">FR - Français</option>
-                <option value="de">DE - Deutsch</option>
-                <option value="ar">AR - العربية</option>
-                <option value="ko">KO - 한국어</option>
-            </select>
+    <!-- LAYER LOGIN & REGISTER -->
+    <div id="login-wrapper">
+        <div class="login-card">
+            <h2>Zero <b>Matriks</b></h2>
+            <p id="lbl_login_desc">Sistem komputasi Aljabar Linear.</p>
+
+            <!-- Mode Login -->
+            <div id="form-login">
+                <input type="text" id="login-username" class="login-input" placeholder="Masukkan Username..." autocomplete="off">
+                <input type="password" id="login-password" class="login-input" placeholder="Kata Sandi...">
+                <button class="login-btn" onclick="doLogin()" id="btn_login">Masuk Sistem</button>
+                <div style="margin-top: 15px;">
+                    <a href="#" onclick="toggleAuth('reg')" class="toggle-auth" id="lbl_toggle_reg">Belum punya akun? Daftar</a>
+                </div>
+            </div>
+
+            <!-- Mode Register -->
+            <div id="form-register" style="display:none;">
+                <input type="text" id="reg-username" class="login-input" placeholder="Buat Username..." autocomplete="off">
+                <input type="password" id="reg-password" class="login-input" placeholder="Buat Kata Sandi...">
+                <input type="password" id="reg-password-confirm" class="login-input" placeholder="Konfirmasi Sandi...">
+                <button class="login-btn" onclick="doRegister()" id="btn_register" style="background-color: var(--success-color);">Daftar Akun</button>
+                <div style="margin-top: 15px;">
+                    <a href="#" onclick="toggleAuth('login')" class="toggle-auth" id="lbl_toggle_log">Sudah punya akun? Masuk</a>
+                </div>
+            </div>
+            
+            <div style="margin-top: 25px; display:inline-block; border-top:1px solid var(--border-color); padding-top:15px; width:100%;">
+                <select id="login-lang" onchange="changeLangFromLogin()" style="background:var(--bg-body); color:var(--text-muted); border:1px solid var(--border-color); padding:5px 10px; border-radius:4px; outline:none; cursor:pointer;">
+                    <option value="id" selected>🇮🇩 ID</option>
+                    <option value="en">🇬🇧 EN</option>
+                    <option value="jp">🇯🇵 JP</option>
+                    <option value="zh">🇨🇳 ZH</option>
+                    <option value="ru">🇷🇺 RU</option>
+                    <option value="es">🇪🇸 ES</option>
+                    <option value="fr">🇫🇷 FR</option>
+                    <option value="de">🇩🇪 DE</option>
+                    <option value="ar">🇸🇦 AR</option>
+                    <option value="ko">🇰🇷 KO</option>
+                </select>
+            </div>
         </div>
-    </header>
+    </div>
 
-    <div class="container">
-        <main class="main-content" id="app-content"></main>
+    <!-- LAYER APLIKASI UTAMA -->
+    <div id="app-wrapper">
+        <header>
+            <h1>Zero <b>Matriks</b></h1>
+            <div class="header-controls">
+                <div class="lang-selector">
+                    <select id="languageSelect" onchange="changeLanguage()">
+                        <option value="id">ID - Indonesia</option>
+                        <option value="en">EN - English</option>
+                        <option value="jp">JP - 日本語</option>
+                        <option value="zh">ZH - 中文</option>
+                        <option value="ru">RU - Русский</option>
+                        <option value="es">ES - Español</option>
+                        <option value="fr">FR - Français</option>
+                        <option value="de">DE - Deutsch</option>
+                        <option value="ar">AR - العربية</option>
+                        <option value="ko">KO - 한국어</option>
+                    </select>
+                </div>
+                <div class="user-profile">
+                    <span><span id="lbl_welcome">Halo</span>, <b id="display-user">Guest</b></span>
+                    <button class="logout-btn" onclick="doLogout()" id="btn_logout">Logout</button>
+                </div>
+            </div>
+        </header>
 
-        <aside class="sidebar">
-            <ul>
-                <li><a href="#" id="nav-home" onclick="navigate('home')" class="active" data-lang="nav_home">Home</a></li>
-                <li><a href="#" id="nav-gauss" onclick="navigate('gauss')" data-lang="nav_gauss">Gauss-Jordan Elimination</a></li>
-                <li><a href="#" id="nav-cramer" onclick="navigate('cramer')" data-lang="nav_cramer">Cramer's Rule</a></li>
-                <li><a href="#" id="nav-addsub" onclick="navigate('addsub')" data-lang="nav_addsub">Addition / Subtraction</a></li>
-                <li><a href="#" id="nav-trans" onclick="navigate('trans')" data-lang="nav_trans">Matrix Transpose</a></li>
-                <li><a href="#" id="nav-rank" onclick="navigate('rank')" data-lang="nav_rank">Matrix Rank</a></li>
-                <li><a href="#" id="nav-det" onclick="navigate('det')" data-lang="nav_det">Determinant</a></li>
-                <li><a href="#" id="nav-cofactor" onclick="navigate('cofactor')" data-lang="nav_cofactor">Cofactor Matrix</a></li>
-                <li><a href="#" id="nav-inv" onclick="navigate('inv')" data-lang="nav_inv">Inverse Matrix</a></li>
-            </ul>
-        </aside>
+        <div class="container">
+            <main class="main-content" id="app-content"></main>
+
+            <aside class="sidebar">
+                <ul>
+                    <li><a href="#" id="nav-home" onclick="navigate('home')" class="active" data-lang="nav_home">Home</a></li>
+                    <li><a href="#" id="nav-gauss" onclick="navigate('gauss')" data-lang="nav_gauss">Gauss-Jordan Elimination</a></li>
+                    <li><a href="#" id="nav-cramer" onclick="navigate('cramer')" data-lang="nav_cramer">Cramer's Rule</a></li>
+                    <li><a href="#" id="nav-addsub" onclick="navigate('addsub')" data-lang="nav_addsub">Addition / Subtraction</a></li>
+                    <li><a href="#" id="nav-trans" onclick="navigate('trans')" data-lang="nav_trans">Matrix Transpose</a></li>
+                    <li><a href="#" id="nav-rank" onclick="navigate('rank')" data-lang="nav_rank">Matrix Rank</a></li>
+                    <li><a href="#" id="nav-det" onclick="navigate('det')" data-lang="nav_det">Determinant</a></li>
+                    <li><a href="#" id="nav-cofactor" onclick="navigate('cofactor')" data-lang="nav_cofactor">Cofactor Matrix</a></li>
+                    <li><a href="#" id="nav-inv" onclick="navigate('inv')" data-lang="nav_inv">Inverse Matrix</a></li>
+                </ul>
+            </aside>
+        </div>
     </div>
 
     <script>
-        // === KAMUS MULTI-BAHASA 10 NEGARA (COMPRESSED UNTUK PERFORMA) ===
+        // === KAMUS MULTI-BAHASA 10 NEGARA (COMPRESSED) ===
         const tr = {
-            id: { nav_home: "Beranda", nav_gauss: "Eliminasi Gauss-Jordan", nav_cramer: "Aturan Cramer", nav_addsub: "Penjumlahan / Pengurangan", nav_trans: "Transpos Matriks", nav_rank: "Rank Matriks", nav_det: "Determinan", nav_cofactor: "Matriks Kofaktor", nav_inv: "Invers Matriks", desc_gauss: "Metode Eliminasi Gauss-Jordan mengubah matriks menjadi bentuk eselon baris tereduksi (RREF).", desc_cramer: "Aturan Cramer menyelesaikan sistem persamaan linear menggunakan rasio determinan matriks utama dan modifikasi.", desc_addsub: "Operasi dasar penjumlahan dan pengurangan elemen bersesuaian (ordo harus sama).", desc_trans: "Transpos (A^T) menukar elemen baris menjadi kolom, dan sebaliknya.", desc_rank: "Rank matriks menunjukkan jumlah maksimum vektor baris yang independen linear.", desc_det: "Determinan dihitung bertahap menggunakan metode reduksi baris ke Matriks Segitiga Atas.", desc_cofactor: "Matriks Kofaktor dibentuk dari nilai determinan sub-matriks (Minor) dikalikan rotasi tanda aljabar (-1)^(i+j).", desc_inv: "Invers Matriks (A^-1) dikerjakan menggunakan metode reduksi Gauss-Jordan pada matriks augmentasi [A | I].", ui_size: "Ukuran:", ui_var: "Variabel:", ui_row: "Baris:", ui_col: "Kolom:", ui_set: "Atur Matriks", ui_in: "Input Matriks", ui_calc: "Kalkulasi", ui_clr: "Bersihkan", ui_clrall: "Bersih Semua", ui_step: "Tampilkan Jalan Pengerjaan", ui_log: "Log Solusi", step_init: "Matriks Awal", step_res: "Hasil Akhir", alert_max: "Maksimal ordo matriks adalah 100x100!", no_sol: "Sistem tidak konsisten (Tidak ada solusi).", inf_sol: "Sistem memiliki tak terhingga solusi.", btn_auto_pm: "Acak (+/-)", btn_auto_p: "Acak (+)", mat_a: "Matriks A", mat_b: "Matriks B", mat_d: "Matriks D", step_proc: "Proses", step_swap: "Tukar Baris", step_div: "Bagi Baris {r} dengan {p}", step_elim: "Eliminasi elemen kolom {c}", step_eq: "Himpunan Penyelesaian:", step_elim_pivot: "Eliminasi Pivot", step_swap_det: "Tukar Baris: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Eliminasi di bawah pivot Kolom {c}", step_det_tri: "Perkalian Matriks Segitiga Atas", step_det_form: "Det = Tanda × (Hasil Kali Diagonal Utama)", zero_row_col: "Baris/Kolom nol terdeteksi. Det = 0", step_cof1: "Langkah 1: Minor (M) & Kofaktor (C)", step_cof2: "Langkah 2: Matriks Minor", step_cof3: "Langkah 3: Tanda Kofaktor", step_div_p: "Bagi dengan {p}", step_elim_p: "Eliminasi", step_inv_ext: "Invers Diekstrak", note_aug: "*Evaluasi solusi ini berasumsi kolom terakhir adalah konstanta (Augmented Matrix).", home_sub: "Alat komputasi aljabar linear dengan penjabaran langkah sistematis secara real-time.", feat_title: "Kapabilitas Sistem", f1_t: "Resolusi Presisi Tinggi", f1_d: "Kalkulasi otomatis mempertahankan format pecahan untuk mencegah kehilangan presisi pada operasi desimal berulang.", f2_t: "Generasi Matriks Uji", f2_d: "Generator terkalibrasi yang secara matematis dijamin menghasilkan himpunan penyelesaian bilangan bulat.", f3_t: "Optimasi Algoritma", f3_d: "Implementasi reduksi matriks segitiga atas untuk meminimalisir beban komputasi pada determinan berordo besar.", f4_t: "Antarmuka Multilingual", f4_d: "Dukungan penuh antarmuka dan log penjabaran matematis ke dalam 10 bahasa fungsional." },
-            en: { nav_home: "Home", nav_gauss: "Gauss-Jordan", nav_cramer: "Cramer's Rule", nav_addsub: "Add / Subtract", nav_trans: "Transpose", nav_rank: "Matrix Rank", nav_det: "Determinant", nav_cofactor: "Cofactor Matrix", nav_inv: "Inverse", desc_gauss: "Transforms a matrix into Reduced Row Echelon Form (RREF).", desc_cramer: "Solves linear equations using ratios of determinants.", desc_addsub: "Basic element-wise addition and subtraction.", desc_trans: "Swaps rows with columns.", desc_rank: "Indicates the maximum number of linearly independent rows.", desc_det: "Calculated step-by-step using row reduction to an Upper Triangular Matrix.", desc_cofactor: "Formed by calculating the determinant of Minor sub-matrices multiplied by (-1)^(i+j).", desc_inv: "Solved using Gauss-Jordan reduction on [A | I].", ui_size: "Size:", ui_var: "Variables:", ui_row: "Rows:", ui_col: "Cols:", ui_set: "Set Matrix", ui_in: "Input Matrix", ui_calc: "Calculate", ui_clr: "Clear", ui_clrall: "Clear All", ui_step: "Show Step-by-Step", ui_log: "Solution Log", step_init: "Initial Matrix", step_res: "Final Result", alert_max: "Max size is 100x100!", no_sol: "System is inconsistent (No solution).", inf_sol: "Infinitely many solutions.", btn_auto_pm: "Rand (+/-)", btn_auto_p: "Rand (+)", mat_a: "Matrix A", mat_b: "Matrix B", mat_d: "Matrix D", step_proc: "Working Process", step_swap: "Swap Row", step_div: "Divide Row {r} by {p}", step_elim: "Eliminate col {c}", step_eq: "Solution Set:", step_elim_pivot: "Eliminate by Pivot", step_swap_det: "Swap Row: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Eliminate below pivot Col {c}", step_det_tri: "Upper Triangular Product", step_det_form: "Det = Sign × (Main Diagonal Product)", zero_row_col: "Zero row/col detected. Det = 0", step_cof1: "Step 1: Minor (M) & Cofactor (C)", step_cof2: "Step 2: Minor Matrix", step_cof3: "Step 3: Sign Pattern", step_div_p: "Divide by {p}", step_elim_p: "Eliminate", step_inv_ext: "Inverse Extracted", note_aug: "*This evaluation assumes the last column is the constants vector (Augmented Matrix).", home_sub: "Linear algebra computational tool with real-time systematic step-by-step breakdowns.", feat_title: "System Capabilities", f1_t: "High-Precision Resolution", f1_d: "Calculations automatically maintain fraction formats to prevent precision loss in repeating decimal operations.", f2_t: "Test Matrix Generation", f2_d: "Calibrated matrix generator mathematically guaranteed to produce integer solution sets.", f3_t: "Algorithmic Optimization", f3_d: "Implementation of upper triangular matrix reduction to minimize computational load on large-order determinants.", f4_t: "Multilingual Interface", f4_d: "Full support for interface and mathematical breakdown logs in 10 functional languages." },
-            jp: { nav_home: "ホーム", nav_gauss: "ガウス・ジョルダン法", nav_cramer: "クラメルの公式", nav_addsub: "加算 / 減算", nav_trans: "転置行列", nav_rank: "階数 (ランク)", nav_det: "行列式", nav_cofactor: "余因子行列", nav_inv: "逆行列", desc_gauss: "行列を被約行階段形に変換します。", desc_cramer: "行列式の比を用いて連立方程式を解きます。", desc_addsub: "対応する成分の足し引き。", desc_trans: "行と列を入れ替えます。", desc_rank: "線形独立な行の最大数。", desc_det: "上三角行列への行還元を用いて計算されます。", desc_cofactor: "小行列式に(-1)^(i+j)を掛けて生成されます。", desc_inv: "[A | I] でのガウス・ジョルダン法で計算されます。", ui_size: "サイズ:", ui_var: "変数:", ui_row: "行:", ui_col: "列:", ui_set: "設定", ui_in: "行列入力", ui_calc: "計算", ui_clr: "クリア", ui_clrall: "全てクリア", ui_step: "ステップを表示", ui_log: "計算ログ", step_init: "初期行列", step_res: "最終結果", alert_max: "最大 100x100!", no_sol: "解なし。", inf_sol: "無数の解。", btn_auto_pm: "ランダム (+/-)", btn_auto_p: "ランダム (+)", mat_a: "行列 A", mat_b: "行列 B", mat_d: "行列 D", step_proc: "プロセス", step_swap: "行の交換", step_div: "行 {r} を {p} で割る", step_elim: "列 {c} を消去", step_eq: "解集合:", step_elim_pivot: "ピボット消去", step_swap_det: "交換: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "列 {c} ピボット下消去", step_det_tri: "上三角行列の積", step_det_form: "Det = 符号 × (主対角成分の積)", zero_row_col: "ゼロ行/列 検出. Det = 0", step_cof1: "1: 小行列式 (M) & 余因子 (C)", step_cof2: "2: 小行列式行列", step_cof3: "3: 符号パターン", step_div_p: "{p} で割る", step_elim_p: "消去", step_inv_ext: "抽出された逆行列", note_aug: "*この評価は最後の列が定数ベクトルであると仮定しています。", home_sub: "リアルタイムで体系的な段階的解説を提供する線形代数計算ツール。", feat_title: "システム機能", f1_t: "高精度ソリューション", f1_d: "計算は自動的に分数形式を維持し、繰り返しの小数演算における精度の低下を防ぎます。", f2_t: "テスト行列の生成", f2_d: "整数解のセットを生成することが数学的に保証された行列ジェネレーター。", f3_t: "アルゴリズムの最適化", f3_d: "大次元の行列式における計算負荷を最小限に抑えるための上三角行列還元の実装。", f4_t: "多言語インターフェース", f4_d: "インターフェースと数学的解説ログを10の言語で完全にサポートします。" },
-            zh: { nav_home: "首页", nav_gauss: "高斯-若尔当消元", nav_cramer: "克莱姆法则", nav_addsub: "加法 / 减法", nav_trans: "矩阵转置", nav_rank: "矩阵秩", nav_det: "行列式", nav_cofactor: "余子式矩阵", nav_inv: "逆矩阵", desc_gauss: "将矩阵转换为简化行阶梯形矩阵 (RREF)。", desc_cramer: "使用行列式的比率求解线性方程组。", desc_addsub: "对应元素的加减运算。", desc_trans: "交换矩阵的行和列。", desc_rank: "矩阵的秩表示线性无关的行向量的最大数量。", desc_det: "使用上三角矩阵进行逐步化简计算行列式。", desc_cofactor: "由子矩阵的行列式乘以 (-1)^(i+j) 形成。", desc_inv: "使用高斯-若尔当法在增广矩阵上求解。", ui_size: "大小:", ui_var: "变量:", ui_row: "行:", ui_col: "列:", ui_set: "设置矩阵", ui_in: "输入矩阵", ui_calc: "计算", ui_clr: "清除", ui_clrall: "全部清除", ui_step: "显示步骤", ui_log: "计算日志", step_init: "初始矩阵", step_res: "最终结果", alert_max: "最大尺寸为 100x100！", no_sol: "系统无解。", inf_sol: "无穷多解。", btn_auto_pm: "随机 (+/-)", btn_auto_p: "随机 (+)", mat_a: "矩阵 A", mat_b: "矩阵 B", mat_d: "矩阵 D", step_proc: "计算过程", step_swap: "交换行", step_div: "将第 {r} 行除以 {p}", step_elim: "消去第 {c} 列", step_eq: "解集:", step_elim_pivot: "使用主元消去", step_swap_det: "交换行: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "消去列 {c} 主元下方的元素", step_det_tri: "上三角矩阵乘积", step_det_form: "Det = 符号 × (主对角线乘积)", zero_row_col: "检测到全零行/列。 Det = 0", step_cof1: "步骤 1: 余子式 (M) & 代数余子式 (C)", step_cof2: "步骤 2: 余子式矩阵", step_cof3: "步骤 3: 符号模式", step_div_p: "除以 {p}", step_elim_p: "消去", step_inv_ext: "提取逆矩阵", note_aug: "*此评估假定最后一列是常数向量 (增广矩阵)。", home_sub: "提供实时系统化逐步分解的线性代数计算工具。", feat_title: "系统功能", f1_t: "高精度解析", f1_d: "计算自动保持分数格式，以防止在循环小数运算中丢失精度。", f2_t: "测试矩阵生成", f2_d: "经过校准的矩阵生成器，数学上保证产生整数解集。", f3_t: "算法优化", f3_d: "实现上三角矩阵简化，以最小化大阶行列式的计算负荷。", f4_t: "多语言界面", f4_d: "全面支持10种功能语言的界面和数学分解日志。" },
-            ru: { nav_home: "Главная", nav_gauss: "Гаусс-Жордан", nav_cramer: "Метод Крамера", nav_addsub: "Сложение / Вычитание", nav_trans: "Транспонирование", nav_rank: "Ранг", nav_det: "Определитель", nav_cofactor: "Матрица кофакторов", nav_inv: "Обратная матрица", desc_gauss: "Метод преобразует матрицу в приведенный вид.", desc_cramer: "Решает системы линейных уравнений.", desc_addsub: "Сложение и вычитание матриц.", desc_trans: "Меняет местами строки и столбцы.", desc_rank: "Максимальное число независимых строк.", desc_det: "Вычисляется через приведение к треугольному виду.", desc_cofactor: "Кофакторы умножаются на (-1)^(i+j).", desc_inv: "Обратная матрица через [A | I].", ui_size: "Размер:", ui_var: "Перем.:", ui_row: "Строки:", ui_col: "Столбцы:", ui_set: "Создать", ui_in: "Ввод", ui_calc: "Вычислить", ui_clr: "Очистить", ui_clrall: "Очистить всё", ui_step: "Показать шаги", ui_log: "Журнал", step_init: "Начальная матрица", step_res: "Итог", alert_max: "Макс 100x100!", no_sol: "Нет решений.", inf_sol: "Бесконечно много решений.", btn_auto_pm: "Случ. (+/-)", btn_auto_p: "Случ. (+)", mat_a: "Матрица A", mat_b: "Матрица B", mat_d: "Матрица D", step_proc: "Процесс", step_swap: "Обмен строк", step_div: "Строку {r} делим на {p}", step_elim: "Исключить ст. {c}", step_eq: "Ответ:", step_elim_pivot: "Исключение (Пивот)", step_swap_det: "Обмен: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Исключить под пивотом ст {c}", step_det_tri: "Треугольная матрица", step_det_form: "Det = Знак × (Диагональ)", zero_row_col: "Нулевая строка. Det = 0", step_cof1: "1: Минор (M) и Кофактор (C)", step_cof2: "2: Матрица миноров", step_cof3: "3: Знаки", step_div_p: "Разделить на {p}", step_elim_p: "Исключить", step_inv_ext: "Извлечена", note_aug: "*Эта оценка предполагает, что последний столбец — вектор констант.", home_sub: "Вычислительный инструмент линейной алгебры с систематическим пошаговым разбором в реальном времени.", feat_title: "Возможности системы", f1_t: "Высокоточное разрешение", f1_d: "Вычисления автоматически сохраняют формат дробей для предотвращения потери точности при операциях с десятичными дробями.", f2_t: "Генерация тестовых матриц", f2_d: "Откалиброванный генератор матриц, математически гарантирующий получение целочисленных множеств решений.", f3_t: "Алгоритмическая оптимизация", f3_d: "Реализация приведения к верхнетреугольной матрице для минимизации вычислительной нагрузки на определители больших порядков.", f4_t: "Многоязычный интерфейс", f4_d: "Полная поддержка интерфейса и журналов математического разбора на 10 языках." },
-            es: { nav_home: "Inicio", nav_gauss: "Gauss-Jordan", nav_cramer: "Regla de Cramer", nav_addsub: "Suma / Resta", nav_trans: "Transpuesta", nav_rank: "Rango", nav_det: "Determinante", nav_cofactor: "Cofactores", nav_inv: "Matriz Inversa", desc_gauss: "Transforma a forma escalonada reducida.", desc_cramer: "Resuelve ecuaciones lineales.", desc_addsub: "Suma y resta de matrices.", desc_trans: "Intercambia filas por columnas.", desc_rank: "Número de filas linealmente independientes.", desc_det: "Calculado mediante reducción triangular.", desc_cofactor: "Calculados multiplicando menores por (-1)^(i+j).", desc_inv: "Resuelto mediante Gauss-Jordan.", ui_size: "Tamaño:", ui_var: "Vars:", ui_row: "Filas:", ui_col: "Cols:", ui_set: "Fijar Matriz", ui_in: "Entrada", ui_calc: "Calcular", ui_clr: "Limpiar", ui_clrall: "Limpiar Todo", ui_step: "Mostrar Pasos", ui_log: "Registro", step_init: "Matriz Inicial", step_res: "Resultado", alert_max: "¡Máximo 100x100!", no_sol: "Sin solución.", inf_sol: "Infinitas soluciones.", btn_auto_pm: "Aleatorio (+/-)", btn_auto_p: "Aleatorio (+)", mat_a: "Matriz A", mat_b: "Matriz B", mat_d: "Matriz D", step_proc: "Proceso", step_swap: "Cambiar Fila", step_div: "Fila {r} div {p}", step_elim: "Eliminar col {c}", step_eq: "Solución:", step_elim_pivot: "Eliminar pivote", step_swap_det: "Cambio: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Eliminar bajo pivote col {c}", step_det_tri: "Producto Triangular Superior", step_det_form: "Det = Signo × (Diagonal)", zero_row_col: "Fila/Col cero. Det = 0", step_cof1: "1: Menor (M) & Cofactor (C)", step_cof2: "2: Matriz Menor", step_cof3: "3: Signos", step_div_p: "Dividir {p}", step_elim_p: "Eliminar", step_inv_ext: "Extraída", note_aug: "*Esta evaluación asume que la última columna es el vector constante.", home_sub: "Herramienta computacional de álgebra lineal con desgloses paso a paso sistemáticos en tiempo real.", feat_title: "Capacidades del Sistema", f1_t: "Resolución de Alta Precisión", f1_d: "Los cálculos mantienen automáticamente los formatos de fracción para evitar la pérdida de precisión en operaciones decimales.", f2_t: "Generación de Matrices de Prueba", f2_d: "Generador de matrices calibrado garantizado para producir conjuntos de soluciones enteras.", f3_t: "Optimización Algorítmica", f3_d: "Implementación de reducción a matriz triangular superior para minimizar la carga computacional en determinantes grandes.", f4_t: "Interfaz Multilingüe", f4_d: "Soporte completo para interfaz y registros de desglose matemático en 10 idiomas." },
-            fr: { nav_home: "Accueil", nav_gauss: "Gauss-Jordan", nav_cramer: "Règle de Cramer", nav_addsub: "Addition / Soustraction", nav_trans: "Transposée", nav_rank: "Rang", nav_det: "Déterminant", nav_cofactor: "Comatrice", nav_inv: "Matrice Inverse", desc_gauss: "Transforme la matrice en forme échelonnée réduite.", desc_cramer: "Résout les équations linéaires.", desc_addsub: "Addition et soustraction.", desc_trans: "Échange lignes et colonnes.", desc_rank: "Lignes linéairement indépendantes.", desc_det: "Calcul par réduction triangulaire.", desc_cofactor: "Cofacteurs calculés avec (-1)^(i+j).", desc_inv: "Résolu via Gauss-Jordan.", ui_size: "Taille:", ui_var: "Vars:", ui_row: "Lignes:", ui_col: "Cols:", ui_set: "Définir", ui_in: "Saisie", ui_calc: "Calculer", ui_clr: "Effacer", ui_clrall: "Tout Effacer", ui_step: "Afficher Étapes", ui_log: "Journal", step_init: "Matrice Initiale", step_res: "Résultat", alert_max: "Max 100x100!", no_sol: "Aucune solution.", inf_sol: "Solutions infinies.", btn_auto_pm: "Aléatoire (+/-)", btn_auto_p: "Aléatoire (+)", mat_a: "Matrice A", mat_b: "Matrice B", mat_d: "Matrice D", step_proc: "Processus", step_swap: "Échanger Ligne", step_div: "Diviser {r} par {p}", step_elim: "Éliminer col {c}", step_eq: "Solution:", step_elim_pivot: "Élimination", step_swap_det: "Échange: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Éliminer sous pivot {c}", step_det_tri: "Matrice Triangulaire", step_det_form: "Det = Signe × (Diagonale)", zero_row_col: "Ligne/Col zéro. Det = 0", step_cof1: "1: Mineur (M) & Cofacteur (C)", step_cof2: "2: Matrice", step_cof3: "3: Signes", step_div_p: "Diviser par {p}", step_elim_p: "Éliminer", step_inv_ext: "Extraite", note_aug: "*Cette évaluation suppose que la dernière colonne est un vecteur constant.", home_sub: "Outil de calcul d'algèbre linéaire avec des décompositions systématiques étape par étape en temps réel.", feat_title: "Capacités du Système", f1_t: "Résolution Haute Précision", f1_d: "Les calculs conservent automatiquement les formats de fraction pour éviter la perte de précision dans les opérations décimales.", f2_t: "Génération de Matrices de Test", f2_d: "Générateur de matrices calibré mathématiquement garanti pour produire des ensembles de solutions entières.", f3_t: "Optimisation Algorithmique", f3_d: "Implémentation de la réduction en matrice triangulaire supérieure pour minimiser la charge sur les déterminants de grand ordre.", f4_t: "Interface Multilingue", f4_d: "Prise en charge complète de l'interface et des journaux de décomposition mathématique en 10 langues." },
-            de: { nav_home: "Startseite", nav_gauss: "Gauß-Jordan", nav_cramer: "Cramersche Regel", nav_addsub: "Add / Sub", nav_trans: "Transponierte", nav_rank: "Rang", nav_det: "Determinante", nav_cofactor: "Kofaktormatrix", nav_inv: "Inverse Matrix", desc_gauss: "Transformiert eine Matrix.", desc_cramer: "Löst lineare Gleichungen.", desc_addsub: "Addition und Subtraktion.", desc_trans: "Tauscht Zeilen und Spalten.", desc_rank: "Unabhängige Zeilen.", desc_det: "Berechnung mit Dreiecksmatrix.", desc_cofactor: "Kofaktoren.", desc_inv: "Inverse Matrix.", ui_size: "Größe:", ui_var: "Vars:", ui_row: "Zeilen:", ui_col: "Spalten:", ui_set: "Setzen", ui_in: "Eingabe", ui_calc: "Berechnen", ui_clr: "Löschen", ui_clrall: "Alles Löschen", ui_step: "Schritte anzeigen", ui_log: "Protokoll", step_init: "Start", step_res: "Ergebnis", alert_max: "Max 100x100!", no_sol: "Keine Lösung.", inf_sol: "Unendlich viele.", btn_auto_pm: "Zufall (+/-)", btn_auto_p: "Zufall (+)", mat_a: "Matrix A", mat_b: "Matrix B", mat_d: "Matrix D", step_proc: "Prozess", step_swap: "Zeile tauschen", step_div: "Zeile {r} / {p}", step_elim: "Eliminiere Sp {c}", step_eq: "Lösung:", step_elim_pivot: "Pivot-Eliminierung", step_swap_det: "Tausch: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Eliminiere Sp {c}", step_det_tri: "Dreiecksmatrix", step_det_form: "Det = Vorzeichen × (Diagonale)", zero_row_col: "Nullzeile. Det = 0", step_cof1: "1: Minor (M) & Kofaktor (C)", step_cof2: "2: Minormatrix", step_cof3: "3: Vorzeichen", step_div_p: "Teilen {p}", step_elim_p: "Eliminieren", step_inv_ext: "Extrahiert", note_aug: "*Diese Auswertung geht davon aus, dass die letzte Spalte der Vektor der Konstanten ist.", home_sub: "Lineare Algebra-Rechenwerkzeug mit systematischen Schritt-für-Schritt-Aufschlüsselungen in Echtzeit.", feat_title: "Systemfunktionen", f1_t: "Hochpräzise Auflösung", f1_d: "Berechnungen behalten automatisch Bruchformate bei, um Präzisionsverluste bei Dezimaloperationen zu vermeiden.", f2_t: "Generierung von Testmatrizen", f2_d: "Kalibrierter Matrixgenerator, der mathematisch garantiert ganzzahlige Lösungssets erzeugt.", f3_t: "Algorithmische Optimierung", f3_d: "Implementierung der Reduktion auf eine obere Dreiecksmatrix zur Minimierung der Rechenlast bei großen Determinanten.", f4_t: "Mehrsprachige Benutzeroberfläche", f4_d: "Volle Unterstützung für Benutzeroberfläche und mathematische Aufschlüsselungsprotokolle in 10 Sprachen." },
-            ar: { nav_home: "الرئيسية", nav_gauss: "جوردان-جاوس", nav_cramer: "قاعدة كرامر", nav_addsub: "جمع / طرح", nav_trans: "منقولة", nav_rank: "رتبة", nav_det: "المحدد", nav_cofactor: "مصفوفة مرافقة", nav_inv: "المعكوس", desc_gauss: "تحويل المصفوفة.", desc_cramer: "حل المعادلات الخطية.", desc_addsub: "الجمع والطرح.", desc_trans: "منقولة المصفوفة.", desc_rank: "الصفوف المستقلة.", desc_det: "حساب خطوة بخطوة.", desc_cofactor: "مصفوفة العوامل المرافقة.", desc_inv: "المعكوس.", ui_size: "الحجم:", ui_var: "المتغيرات:", ui_row: "الصفوف:", ui_col: "الأعمدة:", ui_set: "تطبيق", ui_in: "إدخال", ui_calc: "احسب", ui_clr: "مسح", ui_clrall: "مسح الكل", ui_step: "عرض الخطوات", ui_log: "السجل", step_init: "البداية", step_res: "النتيجة", alert_max: "الحد 100x100!", no_sol: "لا يوجد حل.", inf_sol: "حلول لا نهائية.", btn_auto_pm: "عشوائي (+/-)", btn_auto_p: "عشوائي (+)", mat_a: "المصفوفة A", mat_b: "المصفوفة B", mat_d: "المصفوفة D", step_proc: "العملية", step_swap: "تبديل صف", step_div: "قسمة {r} على {p}", step_elim: "إلغاء عمود {c}", step_eq: "الحل:", step_elim_pivot: "إلغاء المحور", step_swap_det: "تبديل: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "إلغاء عمود {c}", step_det_tri: "الضرب القطري", step_det_form: "Det = إشارة × القطر", zero_row_col: "صف صفري. Det = 0", step_cof1: "1: المرافق", step_cof2: "2: المصفوفة", step_cof3: "3: الإشارات", step_div_p: "قسمة {p}", step_elim_p: "إلغاء", step_inv_ext: "مستخرج", note_aug: "*يفترض أن العمود الأخير هو الثوابت.", home_sub: "أداة حسابية للجبر الخطي مع تفصيل منهجي للخطوات في الوقت الفعلي.", feat_title: "قدرات النظام", f1_t: "دقة عالية", f1_d: "تحافظ الحسابات تلقائيًا على تنسيقات الكسور لمنع فقدان الدقة في العمليات العشرية المتكررة.", f2_t: "توليد مصفوفات اختبار", f2_d: "مولد مصفوفات مُعاير يضمن رياضيًا إنتاج مجموعات حلول صحيحة.", f3_t: "تحسين خوارزمي", f3_d: "تنفيذ تقليل المصفوفة المثلثية العليا لتقليل العبء الحسابي على المحددات ذات الرتب الكبيرة.", f4_t: "واجهة متعددة اللغات", f4_d: "دعم كامل للواجهة وسجلات التفصيل الرياضي بـ 10 لغات وظيفية." },
-            ko: { nav_home: "홈", nav_gauss: "가우스-조르당", nav_cramer: "크래머 공식", nav_addsub: "덧셈 / 뺄셈", nav_trans: "전치 행렬", nav_rank: "행렬 계수", nav_det: "행렬식", nav_cofactor: "여인수 행렬", nav_inv: "역행렬", desc_gauss: "가우스-조르당 소거법.", desc_cramer: "크래머 공식.", desc_addsub: "행렬 덧셈 및 뺄셈.", desc_trans: "전치 행렬.", desc_rank: "행렬의 계수(Rank).", desc_det: "상삼각행렬로 변환하여 행렬식 계산.", desc_cofactor: "소행렬식을 이용한 여인수 행렬.", desc_inv: "가우스 조르당을 이용한 역행렬 계산.", ui_size: "크기:", ui_var: "변수:", ui_row: "행:", ui_col: "열:", ui_set: "설정", ui_in: "행렬 입력", ui_calc: "계산", ui_clr: "지우기", ui_clrall: "모두 지우기", ui_step: "단계별 풀이", ui_log: "로그", step_init: "초기 행렬", step_res: "최종 결과", alert_max: "최대 100x100!", no_sol: "해가 없습니다.", inf_sol: "무수히 많은 해.", btn_auto_pm: "랜덤 (+/-)", btn_auto_p: "랜덤 (+)", mat_a: "행렬 A", mat_b: "행렬 B", mat_d: "행렬 D", step_proc: "과정", step_swap: "행 교환", step_div: "{r}행을 {p}로 나누기", step_elim: "{c}열 소거", step_eq: "해:", step_elim_pivot: "피벗 소거", step_swap_det: "행 교환: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "{c}열 피벗 소거", step_det_tri: "상삼각행렬 곱", step_det_form: "Det = 부호 × (주대각선 곱)", zero_row_col: "영행렬 감지. Det = 0", step_cof1: "1: 소행렬식(M) & 여인수(C)", step_cof2: "2: 소행렬", step_cof3: "3: 부호 패턴", step_div_p: "{p}로 나누기", step_elim_p: "소거", step_inv_ext: "추출됨", note_aug: "*마지막 열을 상수 벡터로 간주합니다.", home_sub: "실시간 체계적인 단계별 풀이를 제공하는 선형대수학 계산 도구.", feat_title: "시스템 기능", f1_t: "고정밀 해상도", f1_d: "계산은 소수 연산에서의 정밀도 손실을 방지하기 위해 분수 형식을 자동으로 유지합니다.", f2_t: "테스트 행렬 생성", f2_d: "정수 해 집합을 생성하도록 수학적으로 보장된 보정된 행렬 생성기.", f3_t: "알고리즘 최적화", f3_d: "대형 행렬식의 계산 부하를 최소화하기 위한 상삼각행렬 축소 구현.", f4_t: "다국어 인터페이스", f4_d: "10개 언어로 된 인터페이스 및 수학적 풀이 로그 완벽 지원." }
+            id: { 
+                login_desc: "Sistem komputasi Aljabar Linear.", login_user: "Masukkan Username...", login_pass: "Kata Sandi...", login_btn: "Masuk Sistem", welcome: "Halo", logout: "Keluar",
+                login_toggle_reg: "Belum punya akun? Daftar", login_toggle_log: "Sudah punya akun? Masuk", btn_register: "Daftar Akun", reg_user: "Buat Username...", reg_pass: "Buat Kata Sandi...", reg_pass2: "Konfirmasi Sandi...", msg_pass_nomatch: "Sandi tidak cocok!", msg_user_exists: "Username sudah terdaftar!", msg_reg_success: "Pendaftaran berhasil! Silakan login.", msg_reg_err: "Data tidak boleh kosong!", msg_log_err: "Username atau sandi salah!",
+                nav_home: "Beranda", nav_gauss: "Eliminasi Gauss-Jordan", nav_cramer: "Aturan Cramer", nav_addsub: "Penjumlahan / Pengurangan", nav_trans: "Transpos Matriks", nav_rank: "Rank Matriks", nav_det: "Determinan", nav_cofactor: "Matriks Kofaktor", nav_inv: "Invers Matriks", desc_gauss: "Metode Eliminasi Gauss-Jordan mengubah matriks menjadi bentuk eselon baris tereduksi (RREF).", desc_cramer: "Aturan Cramer menyelesaikan sistem persamaan linear menggunakan rasio determinan matriks utama dan modifikasi.", desc_addsub: "Operasi dasar penjumlahan dan pengurangan elemen bersesuaian (ordo harus sama).", desc_trans: "Transpos (A^T) menukar elemen baris menjadi kolom, dan sebaliknya.", desc_rank: "Rank matriks menunjukkan jumlah maksimum vektor baris yang independen linear.", desc_det: "Determinan dihitung bertahap menggunakan metode reduksi baris ke Matriks Segitiga Atas.", desc_cofactor: "Matriks Kofaktor dibentuk dari nilai determinan sub-matriks (Minor) dikalikan rotasi tanda aljabar (-1)^(i+j).", desc_inv: "Invers Matriks (A^-1) dikerjakan menggunakan metode reduksi Gauss-Jordan pada matriks augmentasi [A | I].", ui_size: "Ukuran:", ui_var: "Variabel:", ui_row: "Baris:", ui_col: "Kolom:", ui_set: "Atur Matriks", ui_in: "Input Matriks", ui_calc: "Kalkulasi", ui_clr: "Bersihkan", ui_clrall: "Bersih Semua", ui_step: "Tampilkan Jalan Pengerjaan", ui_log: "Log Solusi", step_init: "Matriks Awal", step_res: "Hasil Akhir", alert_max: "Maksimal ordo matriks adalah 100x100!", no_sol: "Sistem tidak konsisten (Tidak ada solusi).", inf_sol: "Sistem memiliki tak terhingga solusi.", btn_auto_pm: "Acak (+/-)", btn_auto_p: "Acak (+)", mat_a: "Matriks A", mat_b: "Matriks B", mat_d: "Matriks D", step_proc: "Proses", step_swap: "Tukar Baris", step_div: "Bagi Baris {r} dengan {p}", step_elim: "Eliminasi elemen kolom {c}", step_eq: "Himpunan Penyelesaian:", step_elim_pivot: "Eliminasi Pivot", step_swap_det: "Tukar Baris: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Eliminasi di bawah pivot Kolom {c}", step_det_tri: "Perkalian Matriks Segitiga Atas", step_det_form: "Det = Tanda × (Hasil Kali Diagonal Utama)", zero_row_col: "Baris/Kolom nol terdeteksi. Det = 0", step_cof1: "Langkah 1: Minor (M) & Kofaktor (C)", step_cof2: "Langkah 2: Matriks Minor", step_cof3: "Langkah 3: Tanda Kofaktor", step_div_p: "Bagi dengan {p}", step_elim_p: "Eliminasi", step_inv_ext: "Invers Diekstrak", note_aug: "*Evaluasi solusi ini berasumsi kolom terakhir adalah konstanta (Augmented Matrix).", home_sub: "Alat komputasi aljabar linear dengan penjabaran langkah sistematis secara real-time.", feat_title: "Kapabilitas Sistem", f1_t: "Resolusi Presisi Tinggi", f1_d: "Kalkulasi otomatis mempertahankan format pecahan untuk mencegah kehilangan presisi pada operasi desimal berulang.", f2_t: "Generasi Matriks Uji", f2_d: "Generator terkalibrasi yang secara matematis dijamin menghasilkan himpunan penyelesaian bilangan bulat.", f3_t: "Optimasi Algoritma", f3_d: "Implementasi reduksi matriks segitiga atas untuk meminimalisir beban komputasi pada determinan berordo besar.", f4_t: "Antarmuka Multilingual", f4_d: "Dukungan penuh antarmuka dan log penjabaran matematis ke dalam 10 bahasa fungsional." 
+            },
+            en: { 
+                login_desc: "Linear Algebra computation system.", login_user: "Enter Username...", login_pass: "Password...", login_btn: "Login", welcome: "Hello", logout: "Logout",
+                login_toggle_reg: "No account? Register", login_toggle_log: "Have an account? Login", btn_register: "Register", reg_user: "Create Username...", reg_pass: "Create Password...", reg_pass2: "Confirm Password...", msg_pass_nomatch: "Passwords do not match!", msg_user_exists: "Username already exists!", msg_reg_success: "Registration successful! Please login.", msg_reg_err: "Fields cannot be empty!", msg_log_err: "Incorrect username or password!",
+                nav_home: "Home", nav_gauss: "Gauss-Jordan", nav_cramer: "Cramer's Rule", nav_addsub: "Add / Subtract", nav_trans: "Transpose", nav_rank: "Matrix Rank", nav_det: "Determinant", nav_cofactor: "Cofactor Matrix", nav_inv: "Inverse", desc_gauss: "Transforms a matrix into Reduced Row Echelon Form (RREF).", desc_cramer: "Solves linear equations using ratios of determinants.", desc_addsub: "Basic element-wise addition and subtraction.", desc_trans: "Swaps rows with columns.", desc_rank: "Indicates the maximum number of linearly independent rows.", desc_det: "Calculated step-by-step using row reduction to an Upper Triangular Matrix.", desc_cofactor: "Formed by calculating the determinant of Minor sub-matrices multiplied by (-1)^(i+j).", desc_inv: "Solved using Gauss-Jordan reduction on [A | I].", ui_size: "Size:", ui_var: "Variables:", ui_row: "Rows:", ui_col: "Cols:", ui_set: "Set Matrix", ui_in: "Input Matrix", ui_calc: "Calculate", ui_clr: "Clear", ui_clrall: "Clear All", ui_step: "Show Step-by-Step", ui_log: "Solution Log", step_init: "Initial Matrix", step_res: "Final Result", alert_max: "Max size is 100x100!", no_sol: "System is inconsistent (No solution).", inf_sol: "Infinitely many solutions.", btn_auto_pm: "Rand (+/-)", btn_auto_p: "Rand (+)", mat_a: "Matrix A", mat_b: "Matrix B", mat_d: "Matrix D", step_proc: "Working Process", step_swap: "Swap Row", step_div: "Divide Row {r} by {p}", step_elim: "Eliminate col {c}", step_eq: "Solution Set:", step_elim_pivot: "Eliminate by Pivot", step_swap_det: "Swap Row: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Eliminate below pivot Col {c}", step_det_tri: "Upper Triangular Product", step_det_form: "Det = Sign × (Main Diagonal Product)", zero_row_col: "Zero row/col detected. Det = 0", step_cof1: "Step 1: Minor (M) & Cofactor (C)", step_cof2: "Step 2: Minor Matrix", step_cof3: "Step 3: Sign Pattern", step_div_p: "Divide by {p}", step_elim_p: "Eliminate", step_inv_ext: "Inverse Extracted", note_aug: "*This evaluation assumes the last column is the constants vector (Augmented Matrix).", home_sub: "Linear algebra computational tool with real-time systematic step-by-step breakdowns.", feat_title: "System Capabilities", f1_t: "High-Precision Resolution", f1_d: "Calculations automatically maintain fraction formats to prevent precision loss in repeating decimal operations.", f2_t: "Test Matrix Generation", f2_d: "Calibrated matrix generator mathematically guaranteed to produce integer solution sets.", f3_t: "Algorithmic Optimization", f3_d: "Implementation of upper triangular matrix reduction to minimize computational load on large-order determinants.", f4_t: "Multilingual Interface", f4_d: "Full support for interface and mathematical breakdown logs in 10 functional languages." 
+            },
+            jp: { 
+                login_desc: "線形代数計算システム", login_user: "ユーザー名...", login_pass: "パスワード...", login_btn: "ログイン", welcome: "こんにちは", logout: "ログアウト",
+                login_toggle_reg: "アカウントがない？登録", login_toggle_log: "アカウントをお持ちですか？ログイン", btn_register: "登録する", reg_user: "ユーザー名を作成...", reg_pass: "パスワードを作成...", reg_pass2: "パスワードを確認...", msg_pass_nomatch: "パスワードが一致しません！", msg_user_exists: "ユーザー名はすでに存在します！", msg_reg_success: "登録成功！ログインしてください。", msg_reg_err: "空のフィールドは許可されていません！", msg_log_err: "ユーザー名またはパスワードが間違っています！",
+                nav_home: "ホーム", nav_gauss: "ガウス・ジョルダン法", nav_cramer: "クラメルの公式", nav_addsub: "加算 / 減算", nav_trans: "転置行列", nav_rank: "階数 (ランク)", nav_det: "行列式", nav_cofactor: "余因子行列", nav_inv: "逆行列", desc_gauss: "行列を被約行階段形に変換します。", desc_cramer: "行列式の比を用いて連立方程式を解きます。", desc_addsub: "対応する成分の足し引き。", desc_trans: "行と列を入れ替えます。", desc_rank: "線形独立な行の最大数。", desc_det: "上三角行列への行還元を用いて計算されます。", desc_cofactor: "小行列式に(-1)^(i+j)を掛けて生成されます。", desc_inv: "[A | I] でのガウス・ジョルダン法で計算されます。", ui_size: "サイズ:", ui_var: "変数:", ui_row: "行:", ui_col: "列:", ui_set: "設定", ui_in: "行列入力", ui_calc: "計算", ui_clr: "クリア", ui_clrall: "全てクリア", ui_step: "ステップを表示", ui_log: "計算ログ", step_init: "初期行列", step_res: "最終結果", alert_max: "最大 100x100!", no_sol: "解なし。", inf_sol: "無数の解。", btn_auto_pm: "ランダム (+/-)", btn_auto_p: "ランダム (+)", mat_a: "行列 A", mat_b: "行列 B", mat_d: "行列 D", step_proc: "プロセス", step_swap: "行の交換", step_div: "行 {r} を {p} で割る", step_elim: "列 {c} を消去", step_eq: "解集合:", step_elim_pivot: "ピボット消去", step_swap_det: "交換: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "列 {c} ピボット下消去", step_det_tri: "上三角行列の積", step_det_form: "Det = 符号 × (主対角成分の積)", zero_row_col: "ゼロ行/列 検出. Det = 0", step_cof1: "1: 小行列式 (M) & 余因子 (C)", step_cof2: "2: 小行列式行列", step_cof3: "3: 符号パターン", step_div_p: "{p} で割る", step_elim_p: "消去", step_inv_ext: "抽出された逆行列", note_aug: "*この評価は最後の列が定数ベクトルであると仮定しています。", home_sub: "リアルタイムで体系的な段階的解説を提供する線形代数計算ツール。", feat_title: "システム機能", f1_t: "高精度ソリューション", f1_d: "計算は自動的に分数形式を維持し、繰り返しの小数演算における精度の低下を防ぎます。", f2_t: "テスト行列の生成", f2_d: "整数解のセットを生成することが数学的に保証された行列ジェネレーター。", f3_t: "アルゴリズムの最適化", f3_d: "大次元の行列式における計算負荷を最小限に抑えるための上三角行列還元の実装。", f4_t: "多言語インターフェース", f4_d: "インターフェースと数学的解説ログを10の言語で完全にサポートします。" 
+            },
+            zh: { 
+                login_desc: "线性代数计算系统。", login_user: "输入用户名...", login_pass: "密码...", login_btn: "登录系统", welcome: "你好", logout: "登出",
+                login_toggle_reg: "没有账号？注册", login_toggle_log: "已有账号？登录", btn_register: "注册账号", reg_user: "创建用户名...", reg_pass: "创建密码...", reg_pass2: "确认密码...", msg_pass_nomatch: "密码不匹配！", msg_user_exists: "用户名已存在！", msg_reg_success: "注册成功！请登录。", msg_reg_err: "数据不能为空！", msg_log_err: "用户名或密码错误！",
+                nav_home: "首页", nav_gauss: "高斯-若尔当消元", nav_cramer: "克莱姆法则", nav_addsub: "加法 / 减法", nav_trans: "矩阵转置", nav_rank: "矩阵秩", nav_det: "行列式", nav_cofactor: "余子式矩阵", nav_inv: "逆矩阵", desc_gauss: "将矩阵转换为简化行阶梯形矩阵 (RREF)。", desc_cramer: "使用行列式的比率求解线性方程组。", desc_addsub: "对应元素的加减运算。", desc_trans: "交换矩阵的行和列。", desc_rank: "矩阵的秩表示线性无关的行向量的最大数量。", desc_det: "使用上三角矩阵进行逐步化简计算行列式。", desc_cofactor: "由子矩阵的行列式乘以 (-1)^(i+j) 形成。", desc_inv: "使用高斯-若尔当法在增广矩阵上求解。", ui_size: "大小:", ui_var: "变量:", ui_row: "行:", ui_col: "列:", ui_set: "设置矩阵", ui_in: "输入矩阵", ui_calc: "计算", ui_clr: "清除", ui_clrall: "全部清除", ui_step: "显示步骤", ui_log: "计算日志", step_init: "初始矩阵", step_res: "最终结果", alert_max: "最大尺寸为 100x100！", no_sol: "系统无解。", inf_sol: "无穷多解。", btn_auto_pm: "随机 (+/-)", btn_auto_p: "随机 (+)", mat_a: "矩阵 A", mat_b: "矩阵 B", mat_d: "矩阵 D", step_proc: "计算过程", step_swap: "交换行", step_div: "将第 {r} 行除以 {p}", step_elim: "消去第 {c} 列", step_eq: "解集:", step_elim_pivot: "使用主元消去", step_swap_det: "交换行: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "消去列 {c} 主元下方的元素", step_det_tri: "上三角矩阵乘积", step_det_form: "Det = 符号 × (主对角线乘积)", zero_row_col: "检测到全零行/列。 Det = 0", step_cof1: "步骤 1: 余子式 (M) & 代数余子式 (C)", step_cof2: "步骤 2: 余子式矩阵", step_cof3: "步骤 3: 符号模式", step_div_p: "除以 {p}", step_elim_p: "消去", step_inv_ext: "提取逆矩阵", note_aug: "*此评估假定最后一列是常数向量 (增广矩阵)。", home_sub: "提供实时系统化逐步分解的线性代数计算工具。", feat_title: "系统功能", f1_t: "高精度解析", f1_d: "计算自动保持分数格式，以防止在循环小数运算中丢失精度。", f2_t: "测试矩阵生成", f2_d: "经过校准的矩阵生成器，数学上保证产生整数解集。", f3_t: "算法优化", f3_d: "实现上三角矩阵简化，以最小化大阶行列式的计算负荷。", f4_t: "多语言界面", f4_d: "全面支持10种功能语言的界面和数学分解日志。" 
+            },
+            ru: { 
+                login_desc: "Система линейной алгебры.", login_user: "Введите имя...", login_pass: "Пароль...", login_btn: "Войти", welcome: "Привет", logout: "Выйти",
+                login_toggle_reg: "Нет аккаунта? Регистрация", login_toggle_log: "Есть аккаунт? Войти", btn_register: "Регистрация", reg_user: "Создать имя...", reg_pass: "Создать пароль...", reg_pass2: "Подтвердить пароль...", msg_pass_nomatch: "Пароли не совпадают!", msg_user_exists: "Имя уже существует!", msg_reg_success: "Успешная регистрация! Войдите.", msg_reg_err: "Поля не могут быть пустыми!", msg_log_err: "Неверное имя или пароль!",
+                nav_home: "Главная", nav_gauss: "Гаусс-Жордан", nav_cramer: "Метод Крамера", nav_addsub: "Сложение / Вычитание", nav_trans: "Транспонирование", nav_rank: "Ранг", nav_det: "Определитель", nav_cofactor: "Матрица кофакторов", nav_inv: "Обратная матрица", desc_gauss: "Метод преобразует матрицу в приведенный вид.", desc_cramer: "Решает системы линейных уравнений.", desc_addsub: "Сложение и вычитание матриц.", desc_trans: "Меняет местами строки и столбцы.", desc_rank: "Максимальное число независимых строк.", desc_det: "Вычисляется через приведение к треугольному виду.", desc_cofactor: "Кофакторы умножаются на (-1)^(i+j).", desc_inv: "Обратная матрица через [A | I].", ui_size: "Размер:", ui_var: "Перем.:", ui_row: "Строки:", ui_col: "Столбцы:", ui_set: "Создать", ui_in: "Ввод", ui_calc: "Вычислить", ui_clr: "Очистить", ui_clrall: "Очистить всё", ui_step: "Показать шаги", ui_log: "Журнал", step_init: "Начальная матрица", step_res: "Итог", alert_max: "Макс 100x100!", no_sol: "Нет решений.", inf_sol: "Бесконечно много решений.", btn_auto_pm: "Случ. (+/-)", btn_auto_p: "Случ. (+)", mat_a: "Матрица A", mat_b: "Матрица B", mat_d: "Матрица D", step_proc: "Процесс", step_swap: "Обмен строк", step_div: "Строку {r} делим на {p}", step_elim: "Исключить ст. {c}", step_eq: "Ответ:", step_elim_pivot: "Исключение (Пивот)", step_swap_det: "Обмен: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Исключить под пивотом ст {c}", step_det_tri: "Треугольная матрица", step_det_form: "Det = Знак × (Диагональ)", zero_row_col: "Нулевая строка. Det = 0", step_cof1: "1: Минор (M) и Кофактор (C)", step_cof2: "2: Матрица миноров", step_cof3: "3: Знаки", step_div_p: "Разделить на {p}", step_elim_p: "Исключить", step_inv_ext: "Извлечена", note_aug: "*Эта оценка предполагает, что последний столбец — вектор констант.", home_sub: "Вычислительный инструмент линейной алгебры с пошаговым разбором.", feat_title: "Возможности системы", f1_t: "Высокоточное разрешение", f1_d: "Вычисления автоматически сохраняют формат дробей.", f2_t: "Генерация тестовых матриц", f2_d: "Откалиброванный генератор матриц, математически гарантирующий получение целочисленных множеств решений.", f3_t: "Алгоритмическая оптимизация", f3_d: "Реализация приведения к верхнетреугольной матрице для минимизации вычислительной нагрузки.", f4_t: "Многоязычный интерфейс", f4_d: "Полная поддержка интерфейса на 10 языках." 
+            },
+            es: { 
+                login_desc: "Sistema de Álgebra Lineal.", login_user: "Usuario...", login_pass: "Contraseña...", login_btn: "Entrar al Sistema", welcome: "Hola", logout: "Salir",
+                login_toggle_reg: "¿No tienes cuenta? Regístrate", login_toggle_log: "¿Ya tienes cuenta? Iniciar Sesión", btn_register: "Registrarse", reg_user: "Crear Usuario...", reg_pass: "Crear Contraseña...", reg_pass2: "Confirmar Contraseña...", msg_pass_nomatch: "¡Las contraseñas no coinciden!", msg_user_exists: "¡El usuario ya existe!", msg_reg_success: "¡Registro exitoso! Por favor inicia sesión.", msg_reg_err: "¡Los campos no pueden estar vacíos!", msg_log_err: "¡Usuario o contraseña incorrectos!",
+                nav_home: "Inicio", nav_gauss: "Gauss-Jordan", nav_cramer: "Regla de Cramer", nav_addsub: "Suma / Resta", nav_trans: "Transpuesta", nav_rank: "Rango", nav_det: "Determinante", nav_cofactor: "Cofactores", nav_inv: "Matriz Inversa", desc_gauss: "Transforma a forma escalonada reducida.", desc_cramer: "Resuelve ecuaciones lineales.", desc_addsub: "Suma y resta de matrices.", desc_trans: "Intercambia filas por columnas.", desc_rank: "Número de filas linealmente independientes.", desc_det: "Calculado mediante reducción triangular.", desc_cofactor: "Calculados multiplicando menores por (-1)^(i+j).", desc_inv: "Resuelto mediante Gauss-Jordan.", ui_size: "Tamaño:", ui_var: "Vars:", ui_row: "Filas:", ui_col: "Cols:", ui_set: "Fijar Matriz", ui_in: "Entrada", ui_calc: "Calcular", ui_clr: "Limpiar", ui_clrall: "Limpiar Todo", ui_step: "Mostrar Pasos", ui_log: "Registro", step_init: "Matriz Inicial", step_res: "Resultado", alert_max: "¡Máximo 100x100!", no_sol: "Sin solución.", inf_sol: "Infinitas soluciones.", btn_auto_pm: "Aleatorio (+/-)", btn_auto_p: "Aleatorio (+)", mat_a: "Matriz A", mat_b: "Matriz B", mat_d: "Matriz D", step_proc: "Proceso", step_swap: "Cambiar Fila", step_div: "Fila {r} div {p}", step_elim: "Eliminar col {c}", step_eq: "Solución:", step_elim_pivot: "Eliminar pivote", step_swap_det: "Cambio: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Eliminar bajo pivote col {c}", step_det_tri: "Producto Triangular Superior", step_det_form: "Det = Signo × (Diagonal)", zero_row_col: "Fila/Col cero. Det = 0", step_cof1: "1: Menor (M) & Cofactor (C)", step_cof2: "2: Matriz Menor", step_cof3: "3: Signos", step_div_p: "Dividir {p}", step_elim_p: "Eliminar", step_inv_ext: "Extraída", note_aug: "*Esta evaluación asume que la última columna es el vector constante.", home_sub: "Herramienta computacional de álgebra lineal con desgloses paso a paso sistemáticos.", feat_title: "Capacidades del Sistema", f1_t: "Resolución de Alta Precisión", f1_d: "Los cálculos mantienen automáticamente los formatos de fracción.", f2_t: "Generación de Matrices", f2_d: "Generador de matrices garantizado para producir conjuntos de soluciones enteras.", f3_t: "Optimización Algorítmica", f3_d: "Reducción a matriz triangular para minimizar la carga computacional en determinantes.", f4_t: "Interfaz Multilingüe", f4_d: "Soporte completo para registros de desglose matemático en 10 idiomas." 
+            },
+            fr: { 
+                login_desc: "Algèbre Linéaire.", login_user: "Nom d'utilisateur...", login_pass: "Mot de passe...", login_btn: "Se Connecter", welcome: "Bonjour", logout: "Déconnexion",
+                login_toggle_reg: "Pas de compte ? S'inscrire", login_toggle_log: "Déjà inscrit ? Connectez-vous", btn_register: "S'inscrire", reg_user: "Créer un nom...", reg_pass: "Créer un mot de passe...", reg_pass2: "Confirmer le mot de passe...", msg_pass_nomatch: "Les mots de passe ne correspondent pas !", msg_user_exists: "Ce nom d'utilisateur existe déjà !", msg_reg_success: "Inscription réussie ! Veuillez vous connecter.", msg_reg_err: "Les champs ne peuvent pas être vides !", msg_log_err: "Nom d'utilisateur ou mot de passe incorrect !",
+                nav_home: "Accueil", nav_gauss: "Gauss-Jordan", nav_cramer: "Règle de Cramer", nav_addsub: "Addition / Soustraction", nav_trans: "Transposée", nav_rank: "Rang", nav_det: "Déterminant", nav_cofactor: "Comatrice", nav_inv: "Matrice Inverse", desc_gauss: "Transforme la matrice en forme échelonnée réduite.", desc_cramer: "Résout les équations linéaires.", desc_addsub: "Addition et soustraction.", desc_trans: "Échange lignes et colonnes.", desc_rank: "Lignes linéairement indépendantes.", desc_det: "Calcul par réduction triangulaire.", desc_cofactor: "Cofacteurs calculés avec (-1)^(i+j).", desc_inv: "Résolu via Gauss-Jordan.", ui_size: "Taille:", ui_var: "Vars:", ui_row: "Lignes:", ui_col: "Cols:", ui_set: "Définir", ui_in: "Saisie", ui_calc: "Calculer", ui_clr: "Effacer", ui_clrall: "Tout Effacer", ui_step: "Afficher Étapes", ui_log: "Journal", step_init: "Matrice Initiale", step_res: "Résultat", alert_max: "Max 100x100!", no_sol: "Aucune solution.", inf_sol: "Solutions infinies.", btn_auto_pm: "Aléatoire (+/-)", btn_auto_p: "Aléatoire (+)", mat_a: "Matrice A", mat_b: "Matrice B", mat_d: "Matrice D", step_proc: "Processus", step_swap: "Échanger Ligne", step_div: "Diviser {r} par {p}", step_elim: "Éliminer col {c}", step_eq: "Solution:", step_elim_pivot: "Élimination", step_swap_det: "Échange: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Éliminer sous pivot {c}", step_det_tri: "Matrice Triangulaire", step_det_form: "Det = Signe × (Diagonale)", zero_row_col: "Ligne/Col zéro. Det = 0", step_cof1: "1: Mineur (M) & Cofacteur (C)", step_cof2: "2: Matrice", step_cof3: "3: Signes", step_div_p: "Diviser par {p}", step_elim_p: "Éliminer", step_inv_ext: "Extraite", note_aug: "*Cette évaluation suppose que la dernière colonne est un vecteur constant.", home_sub: "Outil de calcul d'algèbre linéaire avec des décompositions étape par étape.", feat_title: "Capacités du Système", f1_t: "Résolution Haute Précision", f1_d: "Les calculs conservent les formats de fraction pour éviter la perte de précision.", f2_t: "Génération de Matrices", f2_d: "Générateur mathématiquement garanti pour produire des solutions entières.", f3_t: "Optimisation", f3_d: "Réduction en matrice triangulaire pour minimiser la charge sur les déterminants.", f4_t: "Multilingue", f4_d: "Prise en charge dans 10 langues." 
+            },
+            de: { 
+                login_desc: "Lineare Algebra-System.", login_user: "Benutzername...", login_pass: "Passwort...", login_btn: "Einloggen", welcome: "Hallo", logout: "Abmelden",
+                login_toggle_reg: "Kein Konto? Registrieren", login_toggle_log: "Haben Sie ein Konto? Einloggen", btn_register: "Registrieren", reg_user: "Benutzername erstellen...", reg_pass: "Passwort erstellen...", reg_pass2: "Passwort bestätigen...", msg_pass_nomatch: "Passwörter stimmen nicht überein!", msg_user_exists: "Benutzername existiert bereits!", msg_reg_success: "Registrierung erfolgreich! Bitte einloggen.", msg_reg_err: "Felder dürfen nicht leer sein!", msg_log_err: "Falscher Benutzername oder Passwort!",
+                nav_home: "Startseite", nav_gauss: "Gauß-Jordan", nav_cramer: "Cramersche Regel", nav_addsub: "Add / Sub", nav_trans: "Transponierte", nav_rank: "Rang", nav_det: "Determinante", nav_cofactor: "Kofaktormatrix", nav_inv: "Inverse Matrix", desc_gauss: "Transformiert eine Matrix.", desc_cramer: "Löst lineare Gleichungen.", desc_addsub: "Addition und Subtraktion.", desc_trans: "Tauscht Zeilen und Spalten.", desc_rank: "Unabhängige Zeilen.", desc_det: "Berechnung mit Dreiecksmatrix.", desc_cofactor: "Kofaktoren.", desc_inv: "Inverse Matrix.", ui_size: "Größe:", ui_var: "Vars:", ui_row: "Zeilen:", ui_col: "Spalten:", ui_set: "Setzen", ui_in: "Eingabe", ui_calc: "Berechnen", ui_clr: "Löschen", ui_clrall: "Alles Löschen", ui_step: "Schritte anzeigen", ui_log: "Protokoll", step_init: "Start", step_res: "Ergebnis", alert_max: "Max 100x100!", no_sol: "Keine Lösung.", inf_sol: "Unendlich viele.", btn_auto_pm: "Zufall (+/-)", btn_auto_p: "Zufall (+)", mat_a: "Matrix A", mat_b: "Matrix B", mat_d: "Matrix D", step_proc: "Prozess", step_swap: "Zeile tauschen", step_div: "Zeile {r} / {p}", step_elim: "Eliminiere Sp {c}", step_eq: "Lösung:", step_elim_pivot: "Pivot-Eliminierung", step_swap_det: "Tausch: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Eliminiere Sp {c}", step_det_tri: "Dreiecksmatrix", step_det_form: "Det = Vorzeichen × (Diagonale)", zero_row_col: "Nullzeile. Det = 0", step_cof1: "1: Minor (M) & Kofaktor (C)", step_cof2: "2: Minormatrix", step_cof3: "3: Vorzeichen", step_div_p: "Teilen {p}", step_elim_p: "Eliminieren", step_inv_ext: "Extrahiert", note_aug: "*Diese Auswertung geht davon aus, dass die letzte Spalte der Vektor der Konstanten ist.", home_sub: "Lineare Algebra-Rechenwerkzeug mit Schritt-für-Schritt-Aufschlüsselungen.", feat_title: "Systemfunktionen", f1_t: "Hochpräzise Auflösung", f1_d: "Berechnungen behalten automatisch Bruchformate bei.", f2_t: "Testmatrizen", f2_d: "Kalibrierter Generator, der ganzzahlige Lösungssets erzeugt.", f3_t: "Optimierung", f3_d: "Reduktion auf eine obere Dreiecksmatrix zur Minimierung der Rechenlast.", f4_t: "Mehrsprachige", f4_d: "Volle Unterstützung in 10 Sprachen." 
+            },
+            ar: { 
+                login_desc: "نظام الجبر الخطي.", login_user: "اسم المستخدم...", login_pass: "كلمة المرور...", login_btn: "تسجيل الدخول", welcome: "أهلاً", logout: "خروج",
+                login_toggle_reg: "ليس لديك حساب؟ إنشاء حساب", login_toggle_log: "لديك حساب بالفعل؟ تسجيل الدخول", btn_register: "إنشاء حساب", reg_user: "إنشاء اسم مستخدم...", reg_pass: "إنشاء كلمة مرور...", reg_pass2: "تأكيد كلمة المرور...", msg_pass_nomatch: "كلمات المرور غير متطابقة!", msg_user_exists: "اسم المستخدم موجود بالفعل!", msg_reg_success: "تم التسجيل بنجاح! الرجاء تسجيل الدخول.", msg_reg_err: "لا يمكن أن تكون الحقول فارغة!", msg_log_err: "اسم المستخدم أو كلمة المرور غير صحيحة!",
+                nav_home: "الرئيسية", nav_gauss: "جوردان-جاوس", nav_cramer: "قاعدة كرامر", nav_addsub: "جمع / طرح", nav_trans: "منقولة", nav_rank: "رتبة", nav_det: "المحدد", nav_cofactor: "مصفوفة مرافقة", nav_inv: "المعكوس", desc_gauss: "تحويل المصفوفة.", desc_cramer: "حل المعادلات الخطية.", desc_addsub: "الجمع والطرح.", desc_trans: "منقولة المصفوفة.", desc_rank: "الصفوف المستقلة.", desc_det: "حساب خطوة بخطوة.", desc_cofactor: "مصفوفة العوامل المرافقة.", desc_inv: "المعكوس.", ui_size: "الحجم:", ui_var: "المتغيرات:", ui_row: "الصفوف:", ui_col: "الأعمدة:", ui_set: "تطبيق", ui_in: "إدخال", ui_calc: "احسب", ui_clr: "مسح", ui_clrall: "مسح الكل", ui_step: "عرض الخطوات", ui_log: "السجل", step_init: "البداية", step_res: "النتيجة", alert_max: "الحد 100x100!", no_sol: "لا يوجد حل.", inf_sol: "حلول لا نهائية.", btn_auto_pm: "عشوائي (+/-)", btn_auto_p: "عشوائي (+)", mat_a: "المصفوفة A", mat_b: "المصفوفة B", mat_d: "المصفوفة D", step_proc: "العملية", step_swap: "تبديل صف", step_div: "قسمة {r} على {p}", step_elim: "إلغاء عمود {c}", step_eq: "الحل:", step_elim_pivot: "إلغاء المحور", step_swap_det: "تبديل: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "إلغاء عمود {c}", step_det_tri: "الضرب القطري", step_det_form: "Det = إشارة × القطر", zero_row_col: "صف صفري. Det = 0", step_cof1: "1: المرافق", step_cof2: "2: المصفوفة", step_cof3: "3: الإشارات", step_div_p: "قسمة {p}", step_elim_p: "إلغاء", step_inv_ext: "مستخرج", note_aug: "*يفترض أن العمود الأخير هو الثوابت.", home_sub: "أداة حسابية للجبر الخطي مع تفصيل منهجي للخطوات.", feat_title: "قدرات النظام", f1_t: "دقة عالية", f1_d: "تحافظ الحسابات تلقائيًا على تنسيقات الكسور لمنع فقدان الدقة.", f2_t: "توليد مصفوفات اختبار", f2_d: "مولد مصفوفات مُعاير يضمن رياضيًا إنتاج مجموعات حلول صحيحة.", f3_t: "تحسين خوارزمي", f3_d: "تنفيذ تقليل المصفوفة المثلثية العليا لتقليل العبء الحسابي.", f4_t: "واجهة متعددة اللغات", f4_d: "دعم كامل للواجهة وسجلات التفصيل الرياضي بـ 10 لغات." 
+            },
+            ko: { 
+                login_desc: "선형 대수 시스템", login_user: "사용자 이름 입력...", login_pass: "비밀번호...", login_btn: "로그인", welcome: "안녕하세요", logout: "로그아웃",
+                login_toggle_reg: "계정이 없습니까? 가입하기", login_toggle_log: "계정이 있습니까? 로그인", btn_register: "가입하기", reg_user: "사용자 이름 만들기...", reg_pass: "비밀번호 만들기...", reg_pass2: "비밀번호 확인...", msg_pass_nomatch: "비밀번호가 일치하지 않습니다!", msg_user_exists: "사용자 이름이 이미 존재합니다!", msg_reg_success: "등록 성공! 로그인해 주세요.", msg_reg_err: "입력란을 비울 수 없습니다!", msg_log_err: "사용자 이름 또는 비밀번호가 잘못되었습니다!",
+                nav_home: "홈", nav_gauss: "가우스-조르당", nav_cramer: "크래머 공식", nav_addsub: "덧셈 / 뺄셈", nav_trans: "전치 행렬", nav_rank: "행렬 계수", nav_det: "행렬식", nav_cofactor: "여인수 행렬", nav_inv: "역행렬", desc_gauss: "가우스-조르당 소거법.", desc_cramer: "크래머 공식.", desc_addsub: "행렬 덧셈 및 뺄셈.", desc_trans: "전치 행렬.", desc_rank: "행렬의 계수(Rank).", desc_det: "상삼각행렬로 변환하여 행렬식 계산.", desc_cofactor: "소행렬식을 이용한 여인수 행렬.", desc_inv: "가우스 조르당을 이용한 역행렬 계산.", ui_size: "크기:", ui_var: "변수:", ui_row: "행:", ui_col: "열:", ui_set: "설정", ui_in: "행렬 입력", ui_calc: "계산", ui_clr: "지우기", ui_clrall: "모두 지우기", ui_step: "단계별 풀이", ui_log: "로그", step_init: "초기 행렬", step_res: "최종 결과", alert_max: "최대 100x100!", no_sol: "해가 없습니다.", inf_sol: "무수히 많은 해.", btn_auto_pm: "랜덤 (+/-)", btn_auto_p: "랜덤 (+)", mat_a: "행렬 A", mat_b: "행렬 B", mat_d: "행렬 D", step_proc: "과정", step_swap: "행 교환", step_div: "{r}행을 {p}로 나누기", step_elim: "{c}열 소거", step_eq: "해:", step_elim_pivot: "피벗 소거", step_swap_det: "행 교환: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "{c}열 피벗 소거", step_det_tri: "상삼각행렬 곱", step_det_form: "Det = 부호 × (주대각선 곱)", zero_row_col: "영행렬 감지. Det = 0", step_cof1: "1: 소행렬식(M) & 여인수(C)", step_cof2: "2: 소행렬", step_cof3: "3: 부호 패턴", step_div_p: "{p}로 나누기", step_elim_p: "소거", step_inv_ext: "추출됨", note_aug: "*마지막 열을 상수 벡터로 간주합니다.", home_sub: "실시간 체계적인 단계별 풀이를 제공하는 선형대수학 계산 도구.", feat_title: "시스템 기능", f1_t: "고정밀 해상도", f1_d: "계산은 소수 연산에서의 정밀도 손실을 방지하기 위해 분수 형식을 자동으로 유지합니다.", f2_t: "테스트 행렬 생성", f2_d: "정수 해 집합을 생성하도록 수학적으로 보장된 보정된 행렬 생성기.", f3_t: "알고리즘 최적화", f3_d: "대형 행렬식의 계산 부하를 최소화하기 위한 상삼각행렬 축소 구현.", f4_t: "다국어 인터페이스", f4_d: "10개 언어로 된 인터페이스 및 수학적 풀이 로그 완벽 지원." 
+            }
         };
 
         // === STATE VARIABLES ===
@@ -265,15 +303,131 @@
         let mode = 'home';
         let rows = 2, cols = 3;
 
+        // === FUNGSI LOGIN, REGISTER & SESSION ===
+        function checkLoginStatus() {
+            let user = localStorage.getItem("zero_matriks_session");
+            if(user) {
+                document.getElementById('login-wrapper').style.display = 'none';
+                document.getElementById('app-wrapper').style.display = 'block';
+                document.getElementById('display-user').innerText = user;
+                navigate('home');
+            } else {
+                document.getElementById('login-wrapper').style.display = 'flex';
+                document.getElementById('app-wrapper').style.display = 'none';
+            }
+        }
+
+        function toggleAuth(mode) {
+            if(mode === 'reg') {
+                document.getElementById('form-login').style.display = 'none';
+                document.getElementById('form-register').style.display = 'block';
+            } else {
+                document.getElementById('form-login').style.display = 'block';
+                document.getElementById('form-register').style.display = 'none';
+            }
+        }
+
+        function doRegister() {
+            let u = document.getElementById('reg-username').value.trim();
+            let p1 = document.getElementById('reg-password').value;
+            let p2 = document.getElementById('reg-password-confirm').value;
+            
+            if(u === "" || p1 === "") { 
+                alert(t('msg_reg_err')); 
+                return; 
+            }
+            if(p1 !== p2) { 
+                alert(t('msg_pass_nomatch')); 
+                return; 
+            }
+            
+            let users = JSON.parse(localStorage.getItem('zm_db_users')) || {};
+            if(users[u]) {
+                alert(t('msg_user_exists'));
+                return;
+            }
+            
+            // Simpan ke "Database" Lokal
+            users[u] = p1;
+            localStorage.setItem('zm_db_users', JSON.stringify(users));
+            
+            alert(t('msg_reg_success'));
+            toggleAuth('login');
+            
+            // Bersihkan form
+            document.getElementById('reg-username').value = '';
+            document.getElementById('reg-password').value = '';
+            document.getElementById('reg-password-confirm').value = '';
+        }
+
+        function doLogin() {
+            let u = document.getElementById('login-username').value.trim();
+            let p = document.getElementById('login-password').value;
+            
+            if(u === "") return;
+            
+            let users = JSON.parse(localStorage.getItem('zm_db_users')) || {};
+            
+            if(users[u] && users[u] === p) {
+                localStorage.setItem("zero_matriks_session", u);
+                checkLoginStatus();
+            } else {
+                alert(t('msg_log_err'));
+            }
+        }
+
+        function doLogout() {
+            localStorage.removeItem("zero_matriks_session");
+            document.getElementById('login-username').value = '';
+            document.getElementById('login-password').value = '';
+            checkLoginStatus();
+        }
+
+        // Tembak event "Enter" di kolom password
+        document.getElementById("login-password").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") doLogin();
+        });
+        document.getElementById("reg-password-confirm").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") doRegister();
+        });
+
+        // TRANSLATOR
         function t(k) { return tr[lang][k] || k; }
 
         function changeLanguage() { 
             lang = document.getElementById('languageSelect').value; 
+            document.getElementById('login-lang').value = lang;
+
             document.querySelectorAll('.sidebar a').forEach(e => { 
                 let k = e.getAttribute('data-lang'); 
                 if(tr[lang][k]) e.innerText = tr[lang][k]; 
             }); 
+
+            // Update Teks Layer Aplikasi
+            document.getElementById('lbl_welcome').innerText = t('welcome');
+            document.getElementById('btn_logout').innerText = t('logout');
+            
             navigate(mode); 
+        }
+
+        function changeLangFromLogin() {
+            document.getElementById('languageSelect').value = document.getElementById('login-lang').value;
+            lang = document.getElementById('languageSelect').value;
+            
+            // Update Teks Layer Login
+            document.getElementById('lbl_login_desc').innerText = t('login_desc');
+            document.getElementById('login-username').placeholder = t('login_user');
+            document.getElementById('login-password').placeholder = t('login_pass');
+            document.getElementById('btn_login').innerText = t('login_btn');
+            
+            document.getElementById('lbl_toggle_reg').innerText = t('login_toggle_reg');
+            document.getElementById('lbl_toggle_log').innerText = t('login_toggle_log');
+            document.getElementById('btn_register').innerText = t('btn_register');
+            document.getElementById('reg-username').placeholder = t('reg_user');
+            document.getElementById('reg-password').placeholder = t('reg_pass');
+            document.getElementById('reg-password-confirm').placeholder = t('reg_pass2');
+            
+            changeLanguage();
         }
 
         // === FUNGSI NAVIGASI ===
@@ -284,7 +438,6 @@
             
             let c = document.getElementById('app-content');
             
-            // DESAIN BERANDA (HOME) YANG SANGAT ELEGAN & MINIMALIS
             if(m === 'home') {
                 c.innerHTML = `
                     <div class="hero-section">
@@ -933,7 +1086,11 @@
             s.scrollIntoView({ behavior: 'smooth' });
         }
         
-        window.onload = () => changeLanguage();
+        // Panggil saat pertama kali halaman diload
+        window.onload = () => {
+            changeLanguage();
+            checkLoginStatus();
+        };
     </script>
 </body>
 </html>
