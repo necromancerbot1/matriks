@@ -500,13 +500,9 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Variabel global untuk menyimpan data user saat ini
-        let currentUserData = { 
-            name: "Guest", 
-            role: "", 
-            shortId: "00000", 
-            photoBase64: "" 
-        };
+        // Variabel global untuk menyimpan data user saat ini dan role pendaftaran
+        let currentUserData = { name: "Guest", role: "Pelajar", shortId: "00000", photoBase64: "" };
+        let pendingRegistrationRole = ""; // Mencegah Race Condition saat mendaftar
 
         // === KAMUS 10 BAHASA (100% UTUH TIDAK DIPOTONG) ===
         const tr = {
@@ -728,7 +724,7 @@
                 desc_gauss: "行列を被約行階段形に変換します。", desc_cramer: "行列式の比を用いて連立方程式を解きます。", desc_addsub: "対応する成分の足し引き。", desc_trans: "行と列を入れ替えます。", desc_rank: "線形独立な行の最大数。", desc_det: "上三角行列への行還元を用いて計算されます。", desc_cofactor: "小行列式に(-1)^(i+j)を掛けて生成されます。", desc_inv: "[A | I] でのガウス・ジョルダン法で計算されます。",
                 ui_size: "サイズ:", ui_var: "変数:", ui_row: "行:", ui_col: "列:", ui_set: "設定", ui_in: "行列入力", ui_calc: "計算", ui_clr: "クリア", ui_clrall: "全てクリア", ui_step: "ステップを表示", ui_log: "計算ログ", step_init: "初期行列", step_res: "最終結果", alert_max: "最大 100x100!", no_sol: "解なし。", inf_sol: "無数の解。", btn_auto_pm: "ランダム (+/-)", btn_auto_p: "ランダム (+)", mat_a: "行列 A", mat_b: "行列 B", mat_d: "行列 D", step_proc: "プロセス", step_swap: "行の交換", step_div: "行 {r} を {p} で割る", step_elim: "列 {c} を消去", step_eq: "解集合:", step_elim_pivot: "ピボット消去", step_swap_det: "交換: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "列 {c} ピボット下消去", step_det_tri: "上三角行列の積", step_det_form: "Det = 符号 × (主対角成分の積)", zero_row_col: "ゼロ行/列 検出. Det = 0", step_cof1: "1: 小行列式 (M) & 余因子 (C)", step_cof2: "2: 小行列式行列", step_cof3: "3: 符号パターン", step_div_p: "{p} で割る", step_elim_p: "消去", step_inv_ext: "抽出された逆行列", note_aug: "*この評価は最後の列が定数ベクトルであると仮定しています。",
                 home_sub: "段階的解説を提供する線形代数計算ツール。", feat_title: "システム機能", f1_t: "高精度", f1_d: "分数形式を維持します。", f2_t: "テスト行列", f2_d: "整数解を生成します。", f3_t: "最適化", f3_d: "計算負荷を最小限に抑えます。", f4_t: "多言語", f4_d: "10の言語で完全にサポートします。",
-                chat_title: "ディスカッションと友達", chat_desc: "IDを使用して友達を追加するか、グループを作成します。", uid_info: "このIDを友達に共有してください。", add_friend: "追加", add_friend_ph: "友達のIDを入力...", my_friends: "友達リスト", create_group: "作成", group_name_ph: "新しいグループ名...", my_groups: "グループ一覧", back_to_groups: "← 戻る", send: "送信", type_msg: "メッセージを入力...",
+                chat_title: "ディスカッションと友達", chat_desc: "ユーザーIDを使用して友達を追加するか、グループを作成します。", uid_info: "このIDを友達に共有してください。", add_friend: "追加", add_friend_ph: "友達のIDを入力...", my_friends: "友達リスト", create_group: "作成", group_name_ph: "新しいグループ名...", my_groups: "グループ一覧", back_to_groups: "← 戻る", send: "送信", type_msg: "メッセージを入力...",
                 profile_title: "プロフィール設定", profile_desc: "アカウントと写真を管理します。", save_profile: "変更を保存", current_name: "現在の名前:", change_name_ph: "新しい名前...", role_lbl: "役割:"
             },
             zh: { 
@@ -946,7 +942,7 @@
                             <div style="flex:1; min-width:250px; background:var(--bg-body); padding:25px; border-radius:8px; border:1px solid var(--border-color);">
                                 <h4 style="margin-top:0; color:var(--text-main); font-weight:600;">+ ${t('add_friend')}</h4>
                                 <div style="display:flex; gap:10px;">
-                                    <input type="number" id="friend-id-input" placeholder="${t('add_friend_ph')}" style="flex:1;">
+                                    <input type="number" id="friend-id-input" placeholder="Misal: 48192" style="flex:1;">
                                     <button class="primary" onclick="addFriendByShortId()">${t('add_friend')}</button>
                                 </div>
                                 <h4 style="margin:25px 0 15px; color:var(--text-main); font-weight:600;">${t('my_friends')}</h4>
@@ -1015,9 +1011,10 @@
                 return;
             }
 
-            db.collection("users").doc(auth.currentUser.uid).update({
+            // Memaksa update menggunakan mode merge:true agar tidak error jika doc belum ada
+            db.collection("users").doc(auth.currentUser.uid).set({
                 name: newName
-            }).then(() => {
+            }, { merge: true }).then(() => {
                 currentUserData.name = newName; 
                 updateHeaderProfile();
                 alert("Nama berhasil diperbarui dan disimpan!");
@@ -1054,9 +1051,9 @@
                     imgEl.src = base64;
                     
                     // Simpan ke Firestore
-                    db.collection("users").doc(auth.currentUser.uid).update({
+                    db.collection("users").doc(auth.currentUser.uid).set({
                         photoBase64: base64
-                    }).then(() => {
+                    }, { merge: true }).then(() => {
                         currentUserData.photoBase64 = base64;
                         updateHeaderProfile();
                         alert("Foto profil berhasil disimpan ke database!");
@@ -1108,6 +1105,7 @@
             db.collection("users").doc(myUid).collection("friends").get().then(snapshot => {
                 let container = document.getElementById('friend-list-container');
                 if(!container) return;
+                
                 if(snapshot.empty) { 
                     container.innerHTML = `<p style="color:var(--text-muted); font-size:0.9em;">Belum ada teman.</p>`; 
                     return; 
@@ -1795,6 +1793,7 @@
         }
 
         // === FUNGSI INIT & AUTH FIREBASE ===
+
         function doRegister() {
             let email = document.getElementById('reg-username').value.trim();
             let p1 = document.getElementById('reg-password').value;
@@ -1810,26 +1809,16 @@
                 return; 
             }
 
+            // Simpan Peran Sementara (Mencegah Race Condition di onAuthStateChanged)
+            pendingRegistrationRole = role;
+
             auth.createUserWithEmailAndPassword(email, p1)
                 .then((userCred) => {
-                    // Generate 5-Digit Random Short ID
-                    let generatedShortId = Math.floor(10000 + Math.random() * 90000).toString();
-                    let name = email.split('@')[0];
-                    
-                    // Simpan data ke Firestore (termasuk Short ID buatan kita)
-                    db.collection("users").doc(userCred.user.uid).set({
-                        email: email, 
-                        name: name,
-                        role: role,
-                        shortId: generatedShortId,
-                        photoBase64: ""
-                    }).then(() => {
-                        alert("Akun berhasil dibuat! Silakan masuk.");
-                        document.getElementById('reg-username').value = '';
-                        document.getElementById('reg-password').value = '';
-                        document.getElementById('reg-password-confirm').value = '';
-                        toggleAuth('login');
-                    });
+                    alert("Akun berhasil dibuat! Mengalihkan...");
+                    document.getElementById('reg-username').value = '';
+                    document.getElementById('reg-password').value = '';
+                    document.getElementById('reg-password-confirm').value = '';
+                    // Tidak memanggil toggleAuth, biarkan onAuthStateChanged mengambil alih
                 }).catch((error) => alert("Error: " + error.message));
         }
 
@@ -1854,43 +1843,61 @@
             if (event.key === "Enter") doRegister(); 
         });
 
+        // Event Listener Utama saat Web Dimuat (Pusat Kendali UI & Database)
         window.onload = () => {
             auth.onAuthStateChanged((user) => {
                 if (user) {
                     document.getElementById('login-wrapper').style.display = 'none';
                     document.getElementById('app-wrapper').style.display = 'block';
                     
-                    // Ambil Data Profil Terbaru dari Firestore
+                    // PROSES SINKRONISASI DATABASE (Menghindari ID 00000 & UI Error)
                     db.collection("users").doc(user.uid).get().then(doc => {
                         if(doc.exists) {
+                            // AKUN LAMA DITEMUKAN
                             currentUserData = doc.data(); 
                             
-                            // Jika user lama tidak punya shortId, buatkan satu otomatis langsung disimpan
-                            if(!currentUserData.shortId) {
+                            // Berikan ID 5 digit jika belum ada (Akun lama terdampak bug)
+                            if(!currentUserData.shortId || currentUserData.shortId === "00000") {
                                 currentUserData.shortId = Math.floor(10000 + Math.random() * 90000).toString();
-                                db.collection("users").doc(user.uid).update({ shortId: currentUserData.shortId });
+                                db.collection("users").doc(user.uid).set({ shortId: currentUserData.shortId }, {merge: true});
                             }
                             
                             updateHeaderProfile();
+                            changeLanguage();
+                            navigate(mode === 'home' ? 'home' : mode);
+                            
                         } else {
-                            // JIKA DOKUMEN BELUM ADA (Kasus bug 00000)
-                            // Paksa buatkan dokumen baru di database dengan ID 5 Digit
+                            // AKUN BARU SAJA DIDAFTARKAN (Buat Dokumen Baru)
                             let newId = Math.floor(10000 + Math.random() * 90000).toString();
                             currentUserData = {
                                 name: user.email.split('@')[0],
                                 shortId: newId,
-                                role: "Pelajar",
+                                role: pendingRegistrationRole || "Pelajar", // Ambil role yang dipilih
                                 photoBase64: ""
                             };
+                            
                             db.collection("users").doc(user.uid).set(currentUserData).then(() => {
+                                pendingRegistrationRole = ""; // Hapus simpanan role sementara
                                 updateHeaderProfile();
+                                changeLanguage();
+                                navigate('home');
                             });
                         }
+                    }).catch(err => {
+                        // JIKA ATURAN FIRESTORE BELUM TERBUKA (ERROR DARURAT)
+                        console.error("Gagal terhubung ke Database: ", err);
+                        currentUserData.name = user.email.split('@')[0];
+                        currentUserData.shortId = "00000";
+                        currentUserData.role = pendingRegistrationRole || "Pelajar";
+                        
+                        updateHeaderProfile();
+                        changeLanguage();
+                        navigate('home');
+                        alert("Peringatan: Gagal memuat data. Pastikan Aturan Firestore Anda 'allow read, write: if true;'");
                     });
                     
-                    changeLanguage();
-                    navigate('home');
                 } else {
+                    // PENGGUNA BELUM LOGIN
                     document.getElementById('login-wrapper').style.display = 'flex';
                     document.getElementById('app-wrapper').style.display = 'none';
                     changeLanguage();
