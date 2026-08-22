@@ -5,26 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zero Matriks - Beta</title>
     <style>
-        /* === TEMA DARLING IN THE FRANXX === */
+        /* === TEMA ELEGANT DARK MODE === */
         :root {
-            --bg-dark: #0f0a0d; 
-            --bg-panel: rgba(15, 10, 12, 0.88); 
-            --pink-02: #ff66a3; 
-            --red-franxx: #e60000; 
-            --red-glow: #ff1a40; 
-            --cyan-glow: #00ffff;
-            --text-main: #f0f0f0;
-            --text-muted: #b3a5ab;
-            --border-color: #4d1a2e; 
+            --bg-body: #0f172a; 
+            --bg-panel: #1e293b; 
+            --primary-color: #60a5fa; 
+            --primary-hover: #3b82f6; 
+            --accent-color: #818cf8; 
+            --text-main: #f8fafc; 
+            --text-muted: #94a3b8; 
+            --border-color: #334155; 
+            --success-color: #34d399;
+            --danger-color: #f87171;
+            --info-color: #38bdf8;
+            --table-bg: #1e293b;
+            --table-alt: #0f172a;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-dark);
-            background-image: url('https://alphacoders.com/zero-two-%28darling-in-the-franxx%29-wallpapers'); 
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-color: var(--bg-body);
             color: var(--text-main);
             margin: 0;
             padding: 0;
@@ -32,48 +32,64 @@
         }
 
         header {
-            background: linear-gradient(90deg, rgba(15,10,12,0.95) 0%, rgba(255,26,64,0.2) 50%, rgba(15,10,12,0.95) 100%);
-            border-bottom: 2px solid var(--red-glow);
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
             text-align: center;
-            padding: 15px 10px; 
-            box-shadow: 0 0 20px rgba(255, 26, 64, 0.4);
-            backdrop-filter: blur(5px);
+            padding: 20px 10px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             position: relative;
         }
 
         header h1 {
             margin: 0;
-            color: var(--pink-02);
-            font-weight: 800;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            text-shadow: 0 0 10px var(--red-glow);
+            color: var(--primary-color);
+            font-weight: 700;
+            letter-spacing: 1px;
             font-size: 1.8em; 
         }
 
         /* Dropdown Bahasa */
         .lang-selector { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); }
         .lang-selector select {
-            background: rgba(15, 10, 12, 0.9); color: var(--pink-02); border: 1px solid var(--red-glow);
-            padding: 5px 10px; border-radius: 4px; font-weight: bold; outline: none; cursor: pointer;
+            background: var(--bg-body); 
+            color: var(--text-main); 
+            border: 1px solid var(--border-color);
+            padding: 6px 12px; 
+            border-radius: 6px; 
+            font-weight: 600; 
+            outline: none; 
+            cursor: pointer;
+            transition: border 0.3s;
+        }
+        .lang-selector select:hover {
+            border-color: var(--primary-color);
         }
 
         .container {
             display: flex; max-width: 1200px; margin: 30px auto; padding: 0 15px; 
-            gap: 20px; flex-direction: row; align-items: flex-start;
+            gap: 25px; flex-direction: row; align-items: flex-start;
         }
 
         .main-content {
-            flex: 3; background: var(--bg-panel); backdrop-filter: blur(12px); 
-            border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; 
-            min-height: 600px; box-shadow: 0 0 25px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 102, 163, 0.05);
+            flex: 3; 
+            background: var(--bg-panel); 
+            border: 1px solid var(--border-color); 
+            border-radius: 12px; 
+            padding: 30px; 
+            min-height: 600px; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             width: 100%; box-sizing: border-box; overflow: hidden; 
         }
 
         .sidebar {
-            flex: 1; background: var(--bg-panel); backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color); border-radius: 12px; padding: 20px;
-            height: fit-content; min-width: 250px; box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+            flex: 1; 
+            background: var(--bg-panel); 
+            border: 1px solid var(--border-color); 
+            border-radius: 12px; 
+            padding: 20px;
+            height: fit-content; 
+            min-width: 250px; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             width: 100%; box-sizing: border-box;
         }
 
@@ -81,61 +97,167 @@
         @media screen and (max-width: 768px) {
             .container { flex-direction: column-reverse; margin: 15px auto; }
             .sidebar { min-width: 100%; margin-bottom: 30px; }
-            .main-content { min-height: auto; padding: 15px; }
-            header h1 { font-size: 1.5em; text-align: left; }
+            .main-content { min-height: auto; padding: 20px; }
+            header h1 { font-size: 1.5em; text-align: left; padding-left: 10px;}
             .lang-selector { right: 10px; }
             .flex-center { flex-direction: column; gap: 10px; }
             .flex-center button { width: 100%; }
         }
 
-        h2 { color: var(--red-glow); border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-top: 0; text-shadow: 0 0 5px rgba(255,26,64,0.3); }
+        h2 { 
+            color: var(--primary-color); 
+            border-bottom: 2px solid var(--bg-body); 
+            padding-bottom: 12px; 
+            margin-top: 0; 
+            font-weight: 600;
+        }
         p { color: var(--text-muted); }
         
         .sidebar ul { list-style: none; padding: 0; margin: 0; }
-        .sidebar li { margin-bottom: 10px; }
+        .sidebar li { margin-bottom: 8px; }
         .sidebar a {
-            display: block; color: var(--text-main); text-decoration: none; padding: 12px 15px; 
-            border-radius: 6px; transition: all 0.3s ease; border-left: 3px solid transparent;
+            display: block; color: var(--text-muted); text-decoration: none; padding: 10px 15px; 
+            border-radius: 8px; transition: all 0.2s ease; font-weight: 500;
         }
-        .sidebar a:hover, .sidebar a.active { background-color: rgba(255, 102, 163, 0.15); color: var(--pink-02); border-left: 3px solid var(--red-glow); text-shadow: 0 0 5px rgba(255, 102, 163, 0.5); }
+        .sidebar a:hover, .sidebar a.active { 
+            background-color: var(--bg-body); 
+            color: var(--primary-color); 
+        }
 
-        .setup-box { background: rgba(0, 0, 0, 0.5); border: 1px solid var(--border-color); padding: 15px; border-radius: 8px; margin-top: 20px; }
-        .matrix-input-box { background: rgba(0, 0, 0, 0.5); border: 1px solid var(--border-color); padding: 15px; border-radius: 8px; margin-top: 20px; overflow-x: auto; }
-        .scroll-wrapper { overflow: auto; max-height: 60vh; max-width: 100%; border: 1px solid var(--border-color); border-radius: 4px; padding: 10px; background: rgba(0, 0, 0, 0.7); }
+        .setup-box, .matrix-input-box { 
+            background: var(--bg-body); 
+            border: 1px solid var(--border-color); 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin-top: 20px; 
+            overflow-x: auto; 
+        }
+        
+        .scroll-wrapper { 
+            overflow: auto; max-height: 60vh; max-width: 100%; 
+            border: 1px solid var(--border-color); 
+            border-radius: 8px; padding: 15px; 
+            background: var(--bg-panel); 
+        }
 
         input[type="number"] {
-            background-color: rgba(15, 10, 12, 0.9); border: 1px solid var(--border-color);
-            color: white; padding: 8px 4px; border-radius: 4px; width: 50px; text-align: center;
+            background-color: var(--bg-body); 
+            border: 1px solid var(--border-color);
+            color: var(--text-main); 
+            padding: 8px 6px; 
+            border-radius: 6px; 
+            width: 55px; 
+            text-align: center;
+            font-weight: 500;
+            transition: all 0.2s;
         }
-        input[type="number"]:focus { outline: none; border-color: var(--red-glow); box-shadow: 0 0 8px rgba(255, 26, 64, 0.5); }
+        input[type="number"]:focus { 
+            outline: none; 
+            border-color: var(--primary-color); 
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2); 
+        }
         
         button {
-            background-color: transparent; color: var(--red-glow); border: 1px solid var(--red-glow);
-            padding: 10px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: all 0.3s; margin: 0 5px; box-sizing: border-box; 
+            background-color: #334155; 
+            color: var(--text-main); 
+            border: 1px solid var(--border-color);
+            padding: 10px 18px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            transition: all 0.2s; 
+            margin: 0 5px; 
+            box-sizing: border-box; 
         }
-        button:hover { background-color: var(--red-glow); color: var(--bg-dark); box-shadow: 0 0 10px var(--red-glow); }
-        button.primary { color: var(--pink-02); border-color: var(--pink-02); }
-        button.primary:hover { background-color: var(--pink-02); color: var(--bg-dark); box-shadow: 0 0 10px var(--pink-02); }
-        button.auto { border-color: #ff99c2; color: #ff99c2; font-size: 0.9em; padding: 10px;}
-        button.auto:hover { background-color: #ff99c2; color: var(--bg-dark); box-shadow: 0 0 10px #ff99c2; }
+        button:hover { 
+            background-color: #475569; 
+        }
+        button.primary { 
+            background-color: #2563eb; 
+            color: white; 
+            border-color: #2563eb; 
+        }
+        button.primary:hover { 
+            background-color: #1d4ed8; 
+            border-color: #1d4ed8;
+        }
+        button.auto { 
+            color: #c7d2fe; 
+            background-color: #312e81; 
+            border-color: #3730a3;
+            font-size: 0.9em; 
+            padding: 10px 15px;
+        }
+        button.auto:hover { 
+            background-color: #3730a3; 
+        }
 
-        .grid-row { display: flex; justify-content: center; gap: 5px; margin-bottom: 5px; width: max-content; }
-        .flex-center { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .grid-row { display: flex; justify-content: center; gap: 8px; margin-bottom: 8px; width: max-content; }
+        .flex-center { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 20px;}
         
-        .matrix-table { margin: 0 auto; border-collapse: collapse; background-color: rgba(0, 0, 0, 0.6); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.5); }
-        .matrix-table th, .matrix-table td { border: 1px solid var(--border-color); padding: 8px; text-align: center; min-width: 35px; }
-        .matrix-table th { background-color: rgba(255, 102, 163, 0.15); color: var(--pink-02); }
-        .matrix-table tr:nth-child(even) td { background-color: rgba(255, 255, 255, 0.03); }
-        .matrix-table td.divider { border-left: 2px dashed var(--pink-02); }
+        .matrix-table { 
+            margin: 0 auto; 
+            border-collapse: collapse; 
+            background-color: var(--table-bg); 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+        }
+        .matrix-table th, .matrix-table td { 
+            border: 1px solid var(--border-color); 
+            padding: 10px 15px; 
+            text-align: center; 
+            min-width: 40px; 
+            color: var(--text-main);
+            font-weight: 500;
+        }
+        .matrix-table th { background-color: var(--bg-body); font-weight: 600; }
+        .matrix-table tr:nth-child(even) td { background-color: var(--table-alt); }
+        .matrix-table td.divider { border-left: 2px dashed #475569; }
 
-        .step-panel { background: rgba(0, 0, 0, 0.6); border-left: 4px solid var(--red-glow); border-radius: 0 8px 8px 0; padding: 15px; margin-top: 20px; text-align: center; overflow-x: auto; }
-        .step-title { color: var(--red-glow); margin-bottom: 15px; font-size: 0.95em; font-weight: bold; }
-        .result-box { margin-top: 20px; padding: 15px; border: 1px solid var(--pink-02); border-radius: 8px; background: rgba(255,102,163,0.08); text-align: center; font-size: 1.1em; overflow: auto; max-height: 40vh;}
+        .step-panel { 
+            background: var(--bg-panel); 
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--primary-color); 
+            border-radius: 8px; 
+            padding: 20px; 
+            margin-top: 20px; 
+            text-align: center; 
+            overflow-x: auto; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .step-title { color: var(--text-main); margin-bottom: 15px; font-size: 1em; font-weight: 600; }
         
-        .toggle-container { margin-top: 15px; text-align: center; color: var(--pink-02); font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.8); font-size: 0.9em; }
-        .toggle-container input { transform: scale(1.2); margin-right: 8px; accent-color: var(--red-glow); }
-        .method-desc { background: rgba(255, 26, 64, 0.08); border-left: 4px solid var(--red-glow); padding: 15px; border-radius: 4px; margin-bottom: 20px; font-size: 0.95em; text-align: justify; }
-        .dim-input-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .result-box { 
+            margin-top: 20px; 
+            padding: 20px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 8px; 
+            background: var(--bg-body); 
+            text-align: center; 
+            font-size: 1.1em; 
+            overflow: auto; 
+            max-height: 40vh;
+            color: var(--text-main);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .toggle-container { margin-top: 15px; text-align: center; color: var(--text-muted); font-weight: 500; font-size: 0.95em; }
+        .toggle-container input { transform: scale(1.2); margin-right: 8px; accent-color: var(--primary-color); }
+        
+        .method-desc { 
+            background: var(--bg-body); 
+            border-left: 4px solid var(--accent-color); 
+            padding: 15px 20px; 
+            border-radius: 6px; 
+            margin-bottom: 25px; 
+            font-size: 0.95em; 
+            text-align: justify; 
+            color: var(--text-muted);
+        }
+        
+        .dim-input-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; font-weight: 500;}
+        .dim-input-group span { color: var(--text-muted); }
     </style>
 </head>
 <body>
@@ -170,7 +292,7 @@
     </div>
 
     <script>
-        // === KAMUS MULTI-BAHASA ===
+        // === KAMUS MULTI-BAHASA (FULL LOCALIZATION) ===
         const tr = {
             id: {
                 nav_home: "Beranda", 
@@ -187,7 +309,7 @@
                 desc_addsub: "Operasi dasar penjumlahan dan pengurangan elemen-elemen bersesuaian dengan syarat ordo matriks sama.", 
                 desc_trans: "Transpos (A^T) menukar elemen baris menjadi kolom, dan sebaliknya.", 
                 desc_rank: "Rank matriks menunjukkan jumlah maksimum vektor baris yang independen linear.", 
-                desc_det: "Determinan adalah nilai skalar unik dari matriks persegi pembukti eksistensi invers.", 
+                desc_det: "Determinan dihitung bertahap menggunakan metode reduksi baris ke Matriks Segitiga Atas.", 
                 desc_cofactor: "Matriks Kofaktor dibentuk dari nilai determinan sub-matriks (Minor) yang dikalikan dengan rotasi tanda aljabar (-1)^(i+j).", 
                 desc_inv: "Invers Matriks (A^-1) dikerjakan menggunakan metode reduksi baris Gauss-Jordan pada matriks augmentasi [A | I].",
                 ui_size: "Ukuran:", 
@@ -205,7 +327,31 @@
                 step_res: "Hasil Akhir",
                 alert_max: "Maksimal ordo matriks adalah 100x100!",
                 no_sol: "Sistem persamaan tidak konsisten (Tidak ada solusi).",
-                inf_sol: "Sistem memiliki banyak solusi (Tak terhingga)."
+                inf_sol: "Sistem memiliki banyak solusi (Tak terhingga).",
+                
+                // Terjemahan Langkah (Steps)
+                btn_auto_pm: "✦ Acak (+/-)",
+                btn_auto_p: "✦ Acak (+)",
+                mat_a: "Matriks A",
+                mat_b: "Matriks B",
+                mat_d: "Matriks D",
+                step_proc: "Proses Pengerjaan",
+                step_swap: "Tukar Baris",
+                step_div: "Bagi Baris {r} dengan {p}",
+                step_elim: "Eliminasi elemen di kolom {c}",
+                step_eq: "Bentuk Persamaan Linear (Himpunan Penyelesaian):",
+                step_elim_pivot: "Eliminasi dengan Pivot",
+                step_swap_det: "Tukar Baris: R{r1} ↔ R{r2} (Det × -1)",
+                step_elim_det: "Eliminasi elemen di bawah pivot Kolom {c}",
+                step_det_tri: "Langkah: Perkalian Matriks Segitiga Atas",
+                step_det_form: "Det = Tanda × (Hasil Kali Diagonal Utama)",
+                zero_row_col: "Baris/Kolom nol terdeteksi. Determinan = 0",
+                step_cof1: "Langkah 1: Minor (M) & Kofaktor (C)",
+                step_cof2: "Langkah 2: Matriks Minor",
+                step_cof3: "Langkah 3: Pola Tanda Kofaktor",
+                step_div_p: "Bagi dengan {p}",
+                step_elim_p: "Eliminasi",
+                step_inv_ext: "Invers Diekstrak"
             },
             en: {
                 nav_home: "Home", 
@@ -222,7 +368,7 @@
                 desc_addsub: "Basic element-wise addition and subtraction. Matrices must have equal dimensions.", 
                 desc_trans: "Transpose (A^T) swaps rows with columns.", 
                 desc_rank: "Rank indicates the maximum number of linearly independent rows.", 
-                desc_det: "A scalar value exclusively calculated from a square matrix.", 
+                desc_det: "The determinant is calculated step-by-step using row reduction to an Upper Triangular Matrix.", 
                 desc_cofactor: "Cofactors are formed by calculating the determinant of Minor sub-matrices multiplied by (-1)^(i+j).", 
                 desc_inv: "Inverse Matrix (A^-1) is universally solved using Gauss-Jordan reduction on [A | I].",
                 ui_size: "Size:", 
@@ -240,7 +386,31 @@
                 step_res: "Final Result",
                 alert_max: "Maximum size is 100x100!",
                 no_sol: "System is inconsistent (No solution).",
-                inf_sol: "System has infinitely many solutions."
+                inf_sol: "System has infinitely many solutions.",
+                
+                // Translation Steps
+                btn_auto_pm: "✦ Rand (+/-)",
+                btn_auto_p: "✦ Rand (+)",
+                mat_a: "Matrix A",
+                mat_b: "Matrix B",
+                mat_d: "Matrix D",
+                step_proc: "Working Process",
+                step_swap: "Swap Row",
+                step_div: "Divide Row {r} by {p}",
+                step_elim: "Eliminate elements in column {c}",
+                step_eq: "Linear Equation Form (Solution Set):",
+                step_elim_pivot: "Eliminate by Pivot",
+                step_swap_det: "Swap Row: R{r1} ↔ R{r2} (Det × -1)",
+                step_elim_det: "Eliminate elements below pivot in Col {c}",
+                step_det_tri: "Step: Upper Triangular Product",
+                step_det_form: "Det = Sign × (Main Diagonal Product)",
+                zero_row_col: "Zero row/col detected. Determinant = 0",
+                step_cof1: "Step 1: Minor (M) & Cofactor (C)",
+                step_cof2: "Step 2: Minor Matrix",
+                step_cof3: "Step 3: Cofactor Sign Pattern",
+                step_div_p: "Divide by {p}",
+                step_elim_p: "Eliminate",
+                step_inv_ext: "Inverse Extracted"
             },
             jp: {
                 nav_home: "ホーム", 
@@ -257,7 +427,7 @@
                 desc_addsub: "対応する成分を足し引きする基本操作。行列は同じ次元である必要があります。", 
                 desc_trans: "転置 (A^T) は行と列を入れ替えます。", 
                 desc_rank: "線形独立な行ベクトルの最大数を示します。", 
-                desc_det: "正方行列の固有のスカラー値です。", 
+                desc_det: "行列式は、上三角行列への行還元を用いて段階的に計算されます。", 
                 desc_cofactor: "小行列式の行列式を計算し、代数的符号 (-1)^(i+j) を掛けることで得られます。", 
                 desc_inv: "逆行列 (A^-1) は拡大行列 [A | I] で計算されます。",
                 ui_size: "サイズ:", 
@@ -275,7 +445,31 @@
                 step_res: "最終結果",
                 alert_max: "最大サイズは 100x100 です！",
                 no_sol: "連立方程式は矛盾しています（解なし）。",
-                inf_sol: "システムには無数の解があります。"
+                inf_sol: "システムには無数の解があります。",
+                
+                // Translation Steps
+                btn_auto_pm: "✦ ランダム (+/-)",
+                btn_auto_p: "✦ ランダム (+)",
+                mat_a: "行列 A",
+                mat_b: "行列 B",
+                mat_d: "行列 D",
+                step_proc: "プロセス",
+                step_swap: "行を入れ替える",
+                step_div: "行 {r} を {p} で割る",
+                step_elim: "列 {c} の要素を消去する",
+                step_eq: "連立方程式の形（解集合）:",
+                step_elim_pivot: "ピボットによる消去",
+                step_swap_det: "行の交換: R{r1} ↔ R{r2} (行列式 × -1)",
+                step_elim_det: "列 {c} のピボット下の要素を消去",
+                step_det_tri: "ステップ：上三角行列の積",
+                step_det_form: "行列式 = 符号 × (主対角成分の積)",
+                zero_row_col: "ゼロの行/列が検出されました。行列式 = 0",
+                step_cof1: "ステップ 1: 小行列式 (M) & 余因子 (C)",
+                step_cof2: "ステップ 2: 小行列式行列",
+                step_cof3: "ステップ 3: 余因子の符号パターン",
+                step_div_p: "{p} で割る",
+                step_elim_p: "消去",
+                step_inv_ext: "抽出された逆行列"
             }
         };
 
@@ -307,8 +501,9 @@
                 c.innerHTML = `
                     <h2>Zero Matrix System</h2>
                     <div class="setup-box">
-                        <p>✓ <b>Multi-Language:</b> ID, EN, JP.<br>
-                        ✓ <b>Unrestricted Engine:</b> Merender <i>Step-by-step</i> secara instan untuk ordo apa pun tanpa <i>lazy loading</i>.<br>
+                        <p style="color:var(--text-main);">
+                        ✓ <b>Multi-Language:</b> ID, EN, JP.<br><br>
+                        ✓ <b>Unrestricted Engine:</b> Merender <i>Step-by-step</i> secara instan untuk ordo apa pun tanpa <i>lazy loading</i>.<br><br>
                         ✓ <b>Smart RREF:</b> Deteksi cerdas untuk matriks dengan Solusi Tak Terhingga & Tidak Ada Solusi.</p>
                     </div>`; 
                 return;
@@ -367,23 +562,23 @@
             if(type === 'db') {
                 html += `
                     <div style="display:flex; justify-content:space-around; flex-wrap:wrap; gap:20px;">
-                        <div><h3 style="color:var(--red-glow); text-align:center;">Matrix A</h3>${genHTML('A', rows, cols)}</div>
-                        <div><h3 style="color:var(--red-glow); text-align:center;">Matrix B</h3>${genHTML('B', rows, cols)}</div>
+                        <div><h3 style="color:var(--primary-color); text-align:center;">${t('mat_a')}</h3>${genHTML('A', rows, cols)}</div>
+                        <div><h3 style="color:var(--primary-color); text-align:center;">${t('mat_b')}</h3>${genHTML('B', rows, cols)}</div>
                     </div>
-                    <div class="flex-center" style="margin-top:20px;">
-                        <button class="auto" onclick="aF('A',1); aF('B',1);">⚡ Auto (+/-)</button>
-                        <button class="auto" onclick="aF('A',0); aF('B',0);">⚡ Auto (+)</button>
+                    <div class="flex-center">
+                        <button class="auto" onclick="aF('A',1); aF('B',1);">${t('btn_auto_pm')}</button>
+                        <button class="auto" onclick="aF('A',0); aF('B',0);">${t('btn_auto_p')}</button>
                         <button onclick="cM('A'); cM('B');">${t('ui_clrall')}</button>
                         <button class="primary" onclick="solve('add')">A + B</button>
                         <button class="primary" onclick="solve('sub')">A - B</button>
                     </div>`;
             } else {
                 html += `
-                    <h3 style="color:var(--red-glow); text-align:center;">${t('ui_in')}</h3>
+                    <h3 style="color:var(--primary-color); text-align:center;">${t('ui_in')}</h3>
                     ${genHTML('A', rows, cols)}
-                    <div class="flex-center" style="margin-top:20px;">
-                        <button class="auto" onclick="aF('A',1)">⚡ Auto (+/-)</button>
-                        <button class="auto" onclick="aF('A',0)">⚡ Auto (+)</button>
+                    <div class="flex-center">
+                        <button class="auto" onclick="aF('A',1)">${t('btn_auto_pm')}</button>
+                        <button class="auto" onclick="aF('A',0)">${t('btn_auto_p')}</button>
                         <button onclick="cM('A')">${t('ui_clr')}</button>
                         <button class="primary" onclick="solve('${mode}')">${t('ui_calc')}</button>
                     </div>`;
@@ -436,11 +631,38 @@
             return m; 
         }
 
+        // FUNGSI KONVERSI DESIMAL KE PECAHAN
         function fN(n) { 
             if(typeof n === 'string') return n;
-            if(Math.abs(n) < 1e-10) return 0;
+            if(Math.abs(n) < 1e-10) return "0";
             if(Math.abs(n) > 1e10) return n.toExponential(3); 
-            return Number.isInteger(n) ? n : parseFloat(n.toFixed(4)); 
+            
+            let sign = n < 0 ? "-" : "";
+            let val = Math.abs(n);
+            
+            // Cek apakah angka sudah mendekati bulat (integer)
+            if(Math.abs(val - Math.round(val)) < 1e-10) return sign + Math.round(val);
+            
+            // Algoritma konversi ke Pecahan (Continued Fraction)
+            let h1 = 1, h2 = 0, k1 = 0, k2 = 1;
+            let b = val;
+            for(let i = 0; i < 30; i++) {
+                let a = Math.floor(b);
+                let auxH = h1; h1 = a * h1 + h2; h2 = auxH;
+                let auxK = k1; k1 = a * k1 + k2; k2 = auxK;
+                
+                // Jika akurasinya tinggi (selisih kecil), pakai bentuk pecahannya
+                if (Math.abs(val - (h1 / k1)) < 1e-7) {
+                    if (k1 === 1) return sign + h1;
+                    return sign + h1 + "/" + k1;
+                }
+                
+                if (Math.abs(b - a) < 1e-10) break;
+                b = 1 / (b - a);
+            }
+            
+            // Fallback (jika gagal jadi pecahan rapi, pakai format desimal biasa)
+            return sign + parseFloat(val.toFixed(4)); 
         }
 
         function rT(m, title, isA=false, dI=-1) { 
@@ -457,6 +679,7 @@
 
         function cln(m) { return JSON.parse(JSON.stringify(m)); }
 
+        // Fungsi determinan tersembunyi (dipakai oleh Cramer / Cofactor agar logikanya tidak kepanjangan)
         function cD(m) { 
             if(!m.length) return 0; 
             if(m.length === 1) return m[0][0]; 
@@ -489,7 +712,7 @@
             let s = document.getElementById('solution-area');
             let showSteps = document.getElementById('show-steps').checked;
             
-            let htmlOut = `<h3 style="margin-top:40px; color:var(--pink-02); border-bottom: 1px solid var(--border-color);">${t('ui_log')}</h3>`;
+            let htmlOut = `<h3 style="margin-top:40px; color:var(--primary-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px;">${t('ui_log')}</h3>`;
             
             // --- ADD / SUBTRACT ---
             if (op === 'add' || op === 'sub') {
@@ -507,7 +730,7 @@
                     C.push(rC); 
                     if(showSteps) SM.push(rS); 
                 }
-                if(showSteps) { htmlOut += rT(A, "Matrix A") + rT(B, "Matrix B") + rT(SM, "Process"); } 
+                if(showSteps) { htmlOut += rT(A, t('mat_a')) + rT(B, t('mat_b')) + rT(SM, t('step_proc')); } 
                 htmlOut += rT(C, `${t('step_res')} (A ${sign} B)`);
             
             // --- TRANSPOSE ---
@@ -538,13 +761,13 @@
                     
                     if(i !== rt) { 
                         let tp = m[i]; m[i] = m[rt]; m[rt] = tp; 
-                        if(showSteps) htmlOut += rT(cln(m), "Swap Row"); 
+                        if(showSteps) htmlOut += rT(cln(m), t('step_swap')); 
                     }
                     
                     let p = m[rt][lead]; 
                     if(Math.abs(p) > 1e-10) { 
                         for(let j=0; j<c; j++) { m[rt][j] /= p; }
-                        if(showSteps && Math.abs(p - 1) > 1e-10) htmlOut += rT(cln(m), `Divide Row ${rt+1} by ${fN(p)}`); 
+                        if(showSteps && Math.abs(p - 1) > 1e-10) htmlOut += rT(cln(m), t('step_div').replace('{r}', rt+1).replace('{p}', fN(p))); 
                     }
                     
                     let eli = false; 
@@ -557,7 +780,7 @@
                             } 
                         } 
                     }
-                    if(showSteps && eli) htmlOut += rT(cln(m), `Eliminate elements in column ${lead+1}`); 
+                    if(showSteps && eli) htmlOut += rT(cln(m), t('step_elim').replace('{c}', lead+1)); 
                     lead++;
                 }
 
@@ -584,17 +807,14 @@
                 
                 htmlOut += `<div class="result-box">`;
                 
-                // Tampilkan warning jika tidak konsisten/infinite, tetapi tetap lanjutkan mencetak X
                 if (!isConsistent) {
-                    htmlOut += `<h4 style="margin:0 0 10px 0; color:red;">${t('no_sol')}</h4>`;
+                    htmlOut += `<h4 style="margin:0 0 10px 0; color:var(--danger-color);">${t('no_sol')}</h4>`;
                 } else if (rankA < cols - 1) {
-                    htmlOut += `<h4 style="margin:0 0 10px 0; color:var(--cyan-glow);">${t('inf_sol')}</h4>`;
+                    htmlOut += `<h4 style="margin:0 0 10px 0; color:var(--info-color);">${t('inf_sol')}</h4>`;
                 }
                 
-                // SELALU TAMPILKAN NILAI X (Merespons permintaan agar tidak dihapus)
-                htmlOut += `<h4 style="margin:0; color:var(--red-glow);">${lang === 'id' ? 'Bentuk Persamaan Linear (Solution Set):' : 'Linear Equation Form (Solution Set):'}</h4>`; 
+                htmlOut += `<h4 style="margin:0; color:var(--primary-color); padding-bottom:10px;">${t('step_eq')}</h4>`; 
                 
-                // Loop mencetak nilai X sebanyak baris yang dimasukkan (seperti di screenshot awal)
                 for(let i=0; i<rows; i++) { 
                     let val = fN(m[i][cols-1]);
                     if (Math.abs(val) < 1e-10) val = 0;
@@ -617,14 +837,14 @@
                                 for(let i=0; i<rk; i++) { m[c][i] -= mt * m[rw][i]; }
                             } 
                         } 
-                        if(showSteps && rw < rows-1) htmlOut += rT(cln(m), "Eliminate by Pivot"); 
+                        if(showSteps && rw < rows-1) htmlOut += rT(cln(m), t('step_elim_pivot')); 
                     }
                     else { 
                         let rd = true; 
                         for(let i=rw+1; i<rows; i++) { 
                             if(Math.abs(m[i][rw]) > 1e-10) { 
                                 let tp = m[rw]; m[rw] = m[i]; m[i] = tp; 
-                                if(showSteps) htmlOut += rT(cln(m), "Swap Row"); 
+                                if(showSteps) htmlOut += rT(cln(m), t('step_swap')); 
                                 rd = false; break; 
                             } 
                         } 
@@ -632,14 +852,82 @@
                         rw--; 
                     } 
                 }
-                htmlOut += `<div class="result-box">Rank = <b>${rk}</b></div>`;
+                htmlOut += `<div class="result-box">Rank = <b style="color:var(--primary-color);">${rk}</b></div>`;
 
-            // --- DETERMINANT ---
+            // --- DETERMINANT (Dengan Langkah Segitiga Atas) ---
             } else if (op === 'det') {
-                let d = cD(A); 
-                if(Math.abs(d) < 1e-10) d = 0;
-                if(showSteps) htmlOut += rT(A, t('step_init')); 
-                htmlOut += `<div class="result-box">Determinant = <b>${fN(d)}</b></div>`;
+                let m = cln(A);
+                let n = rows;
+                if(showSteps) htmlOut += rT(m, t('step_init')); 
+                
+                let detSign = 1;
+                let isZero = false;
+                
+                for(let i=0; i<n; i++) {
+                    let pivot = m[i][i];
+                    
+                    // Jika pivot 0, cari baris di bawahnya untuk di-swap
+                    if(Math.abs(pivot) < 1e-10) {
+                        let swapped = false;
+                        for(let k=i+1; k<n; k++) {
+                            if(Math.abs(m[k][i]) > 1e-10) {
+                                let temp = m[i]; m[i] = m[k]; m[k] = temp;
+                                detSign *= -1; // Swap mengubah tanda determinan menjadi kebalikannya
+                                pivot = m[i][i];
+                                swapped = true;
+                                if(showSteps) htmlOut += rT(cln(m), t('step_swap_det').replace('{r1}', i+1).replace('{r2}', k+1));
+                                break;
+                            }
+                        }
+                        // Jika tidak ada nilai yang bisa dijadikan pivot, determinan otomatis 0
+                        if(!swapped) {
+                            isZero = true;
+                            break;
+                        }
+                    }
+                    
+                    let eliminated = false;
+                    for(let k=i+1; k<n; k++) {
+                        let factor = m[k][i] / pivot;
+                        if(Math.abs(factor) > 1e-10) {
+                            for(let j=i; j<n; j++) {
+                                m[k][j] -= factor * m[i][j];
+                            }
+                            eliminated = true;
+                        }
+                    }
+                    if(showSteps && eliminated) htmlOut += rT(cln(m), t('step_elim_det').replace('{c}', i+1));
+                }
+                
+                let finalDet = 1;
+                if(isZero) {
+                    finalDet = 0;
+                    if(showSteps) {
+                        htmlOut += `<div class="result-box" style="color:var(--danger-color);">${t('zero_row_col')}</div>`;
+                    } else {
+                        htmlOut += `<div class="result-box">Determinant = <b style="color:var(--primary-color);">0</b></div>`;
+                    }
+                } else {
+                    let diags = [];
+                    for(let i=0; i<n; i++) {
+                        finalDet *= m[i][i];
+                        diags.push(fN(m[i][i]));
+                    }
+                    finalDet *= detSign;
+                    if(Math.abs(finalDet) < 1e-10) finalDet = 0;
+                    
+                    if(showSteps) {
+                        htmlOut += `<div class="result-box" style="text-align:left; background:var(--bg-panel); border-color:var(--border-color);">
+                            <span style="color:var(--primary-color); font-weight:bold;">${t('step_det_tri')}</span><br><br>
+                            <span style="color:var(--text-main);">${t('step_det_form')}</span><br>
+                            <span style="color:var(--text-muted);">Det = ${detSign < 0 ? '(-1)' : '1'} &times; (${diags.join(' &times; ')})</span><br>
+                            <hr style="border-color:var(--border-color); margin:12px 0;">
+                            Determinant = <b style="color:var(--primary-color); font-size:1.2em;">${fN(finalDet)}</b>
+                        </div>`;
+                    } else {
+                        htmlOut += `<div class="result-box">Determinant = <b style="color:var(--primary-color);">${fN(finalDet)}</b></div>`;
+                    }
+                }
 
             // --- CRAMER'S RULE ---
             } else if (op === 'cramer') {
@@ -648,11 +936,11 @@
                 let detD = cD(D); 
                 if(Math.abs(detD) < 1e-10) detD = 0;
                 
-                if(showSteps) htmlOut += rT(D, `D Matrix`);
-                htmlOut += `<div class="result-box" style="padding:10px;">Det(D) = <b>${fN(detD)}</b></div>`;
+                if(showSteps) htmlOut += rT(D, t('mat_d'));
+                htmlOut += `<div class="result-box" style="padding:15px;">Det(D) = <b>${fN(detD)}</b></div>`;
                 
                 if(Math.abs(detD) === 0) {
-                    htmlOut += `<div class="result-box" style="color:red;">${t('no_sol')} (Det = 0)</div>`;
+                    htmlOut += `<div class="result-box" style="color:var(--danger-color);">${t('no_sol')} (Det = 0)</div>`;
                 } else { 
                     for(let v=0; v<n; v++) { 
                         let Dx = cln(D); 
@@ -660,15 +948,15 @@
                         let detDx = cD(Dx); 
                         if(Math.abs(detDx) < 1e-10) detDx = 0;
                         
-                        if(showSteps) htmlOut += rT(Dx, `D<sub>${v+1}</sub> Matrix`);
+                        if(showSteps) htmlOut += rT(Dx, t('mat_d') + `<sub>${v+1}</sub>`);
                         let x = detDx / detD;
                         if(Math.abs(x) < 1e-10) x = 0;
                         
                         htmlOut += `
-                        <div class="result-box" style="margin-top:10px; overflow-x:auto;">
+                        <div class="result-box" style="margin-top:15px; overflow-x:auto;">
                             Det(D<sub>${v+1}</sub>) = <b>${fN(detDx)}</b><br>
-                            <span style="color:var(--red-glow);">X<sub>${v+1}</sub> = Det(D<sub>${v+1}</sub>) / Det(D)</span><br>
-                            X<sub>${v+1}</sub> = ${fN(detDx)} / ${fN(detD)} = <b>${fN(x)}</b>
+                            <span style="color:var(--primary-color);">X<sub>${v+1}</sub> = Det(D<sub>${v+1}</sub>) / Det(D)</span><br>
+                            X<sub>${v+1}</sub> = ${fN(detDx)} / ${fN(detD)} = <b style="font-size:1.1em;">${fN(x)}</b>
                         </div>`; 
                     } 
                 }
@@ -682,9 +970,9 @@
                 }
                 
                 let C = []; let MinorMat = []; 
-                let st = `<div class="result-box" style="text-align:left;">
-                          <h4 style="color:var(--red-glow); margin-top:0;">Step 1: Minor (M) & Cofactor (C)</h4>
-                          <p>C<sub>ij</sub> = (-1)<sup>i+j</sup> &times; Det(M<sub>ij</sub>)</p>
+                let st = `<div class="result-box" style="text-align:left; background:var(--bg-body); border-color:var(--border-color);">
+                          <h4 style="color:var(--primary-color); margin-top:0;">${t('step_cof1')}</h4>
+                          <p style="color:var(--text-main);">C<sub>ij</sub> = (-1)<sup>i+j</sup> &times; Det(M<sub>ij</sub>)</p>
                           <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:15px;">`;
                 
                 if(showSteps) htmlOut += rT(A, t('step_init'));
@@ -723,21 +1011,21 @@
                                 ds = `${fN(mr[0][0])}`;
                             }
                             
-                            let mh = `<div style="overflow-x:auto;"><table class="matrix-table" style="font-size:0.85em; margin:8px 0; background:rgba(0,0,0,0.8);"><tbody>`; 
+                            let mh = `<div style="overflow-x:auto;"><table class="matrix-table" style="font-size:0.85em; margin:8px 0;"><tbody>`; 
                             mr.forEach(rr => { 
                                 mh += `<tr>`; 
-                                rr.forEach(v => mh += `<td style="padding:4px;">${fN(v)}</td>`); 
+                                rr.forEach(v => mh += `<td style="padding:6px; background:var(--table-bg);">${fN(v)}</td>`); 
                                 mh += `</tr>`; 
                             }); 
                             mh += `</tbody></table></div>`;
                             
-                            st += `<div style="background:rgba(0,0,0,0.6); padding:10px; border-radius:5px; border:1px solid #4d1a2e;">
-                                     <span style="color:var(--red-glow); font-weight:bold;">R${i+1}, C${j+1}</span><br>
+                            st += `<div style="background:var(--bg-panel); padding:15px; border-radius:8px; border:1px solid var(--border-color);">
+                                     <span style="color:var(--primary-color); font-weight:bold;">R${i+1}, C${j+1}</span><br>
                                      M = ${mh}
                                      <span style="font-size:0.9em; color:var(--text-muted);">Det(M) = ${ds}</span><br>
-                                     M = <b>${fN(dM)}</b><hr style="border-color:#4d1a2e; margin:8px 0;">
+                                     M = <b>${fN(dM)}</b><hr style="border-color:var(--border-color); margin:12px 0;">
                                      C = (-1)<sup>${i+1}+${j+1}</sup> &times; M<br>
-                                     C = <span style="color:${sg>0?'#ff99c2':'#ff3333'};">${sg>0?'(+1)':'(-1)'}</span> &times; ${fN(dM)} = <b style="color:var(--pink-02);">${fN(cf)}</b>
+                                     C = <span style="color:${sg>0?'var(--primary-color)':'var(--danger-color)'}; font-weight:bold;">${sg>0?'(+1)':'(-1)'}</span> &times; ${fN(dM)} = <b style="color:var(--accent-color);">${fN(cf)}</b>
                                    </div>`;
                         }
                     } 
@@ -746,14 +1034,14 @@
                 }
                 
                 if(showSteps) { 
-                    htmlOut += st + `</div></div>` + rT(MinorMat, "Step 2: Minor Matrix"); 
+                    htmlOut += st + `</div></div>` + rT(MinorMat, t('step_cof2')); 
                     let sM = []; 
                     for(let i=0; i<rows; i++) { 
                         let sr = []; 
                         for(let j=0; j<cols; j++) { sr.push(((i+j)%2 === 0) ? '+' : '-'); } 
                         sM.push(sr); 
                     } 
-                    htmlOut += rT(sM, "Step 3: Cofactor Sign Pattern"); 
+                    htmlOut += rT(sM, t('step_cof3')); 
                 }
                 htmlOut += rT(C, t('step_res'));
 
@@ -780,13 +1068,13 @@
                     
                     if(i !== r) { 
                         let tp = ag[i]; ag[i] = ag[r]; ag[r] = tp; 
-                        if(showSteps) htmlOut += rT(cln(ag), `Swap`, true, rows); 
+                        if(showSteps) htmlOut += rT(cln(ag), t('step_swap'), true, rows); 
                     } 
                     
                     let p = ag[r][l];
                     if(Math.abs(p - 1) > 1e-10) { 
                         for(let j=0; j<rows*2; j++) { ag[r][j] /= p; }
-                        if(showSteps) htmlOut += rT(cln(ag), `Divide by ${fN(p)}`, true, rows); 
+                        if(showSteps) htmlOut += rT(cln(ag), t('step_div_p').replace('{p}', fN(p)), true, rows); 
                     } 
                     
                     let el = false;
@@ -799,19 +1087,19 @@
                             } 
                         } 
                     } 
-                    if(showSteps && el) htmlOut += rT(cln(ag), `Eliminate`, true, rows); 
+                    if(showSteps && el) htmlOut += rT(cln(ag), t('step_elim_p'), true, rows); 
                     l++;
                 }
                 
                 if(!ps) { 
-                    htmlOut += `<div class="result-box" style="color:red;">${t('no_sol')} (Det = 0)</div>`; 
+                    htmlOut += `<div class="result-box" style="color:var(--danger-color);">${t('no_sol')} (Det = 0)</div>`; 
                 } else { 
                     let I = []; 
                     for(let i=0; i<rows; i++) { I.push(ag[i].slice(rows)); }
                     if(!showSteps) {
                         htmlOut += rT(I, t('step_res')); 
                     } else {
-                        htmlOut += `<div class="result-box">Inverse Extracted</div>` + rT(I, `A<sup>-1</sup>`); 
+                        htmlOut += `<div class="result-box">${t('step_inv_ext')}</div>` + rT(I, `A<sup>-1</sup>`); 
                     }
                 }
             }
