@@ -33,10 +33,8 @@
 
         /* TAMPILAN LOGIN & REGISTER */
         #login-wrapper {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--bg-body);
-            display: flex; justify-content: center; align-items: center;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-body); display: flex; justify-content: center; align-items: center;
             z-index: 9999; animation: fadeIn 0.5s ease-out;
         }
         .login-card {
@@ -162,9 +160,9 @@
 
             <!-- Mode Login -->
             <div id="form-login">
-                <input type="text" id="login-username" class="login-input" placeholder="Masukkan Username..." autocomplete="off">
+                <input type="email" id="login-username" class="login-input" placeholder="Masukkan Email..." autocomplete="off">
                 <input type="password" id="login-password" class="login-input" placeholder="Kata Sandi...">
-                <button class="login-btn" onclick="doLogin()" id="btn_login">Masuk Sistem</button>
+                <button class="login-btn" onclick="window.doLogin()" id="btn_login">Masuk Sistem</button>
                 <div style="margin-top: 15px;">
                     <a href="#" onclick="toggleAuth('reg')" class="toggle-auth" id="lbl_toggle_reg">Belum punya akun? Daftar</a>
                 </div>
@@ -172,10 +170,10 @@
 
             <!-- Mode Register -->
             <div id="form-register" style="display:none;">
-                <input type="text" id="reg-username" class="login-input" placeholder="Buat Username..." autocomplete="off">
+                <input type="email" id="reg-username" class="login-input" placeholder="Masukkan Email Anda..." autocomplete="off">
                 <input type="password" id="reg-password" class="login-input" placeholder="Buat Kata Sandi...">
                 <input type="password" id="reg-password-confirm" class="login-input" placeholder="Konfirmasi Sandi...">
-                <button class="login-btn" onclick="doRegister()" id="btn_register" style="background-color: var(--success-color);">Daftar Akun</button>
+                <button class="login-btn" onclick="window.doRegister()" id="btn_register" style="background-color: var(--success-color);">Daftar Akun</button>
                 <div style="margin-top: 15px;">
                     <a href="#" onclick="toggleAuth('login')" class="toggle-auth" id="lbl_toggle_log">Sudah punya akun? Masuk</a>
                 </div>
@@ -219,7 +217,7 @@
                 </div>
                 <div class="user-profile">
                     <span><span id="lbl_welcome">Halo</span>, <b id="display-user">Guest</b></span>
-                    <button class="logout-btn" onclick="doLogout()" id="btn_logout">Logout</button>
+                    <button class="logout-btn" onclick="window.doLogout()" id="btn_logout">Logout</button>
                 </div>
             </div>
         </header>
@@ -243,82 +241,68 @@
         </div>
     </div>
 
+    <!-- MAIN JAVASCRIPT (UI & Math Logic) -->
     <script>
-        // === KAMUS MULTI-BAHASA 10 NEGARA (COMPRESSED) ===
         const tr = {
             id: { 
-                login_desc: "Sistem komputasi Aljabar Linear.", login_user: "Masukkan Username...", login_pass: "Kata Sandi...", login_btn: "Masuk Sistem", welcome: "Halo", logout: "Keluar",
-                login_toggle_reg: "Belum punya akun? Daftar", login_toggle_log: "Sudah punya akun? Masuk", btn_register: "Daftar Akun", reg_user: "Buat Username...", reg_pass: "Buat Kata Sandi...", reg_pass2: "Konfirmasi Sandi...", msg_pass_nomatch: "Sandi tidak cocok!", msg_user_exists: "Username sudah terdaftar!", msg_reg_success: "Pendaftaran berhasil! Silakan login.", msg_reg_err: "Data tidak boleh kosong!", msg_log_err: "Username atau sandi salah!",
+                login_desc: "Sistem komputasi Aljabar Linear.", login_user: "Masukkan Email...", login_pass: "Kata Sandi...", login_btn: "Masuk Sistem", welcome: "Halo", logout: "Keluar",
+                login_toggle_reg: "Belum punya akun? Daftar", login_toggle_log: "Sudah punya akun? Masuk", btn_register: "Daftar Akun", reg_user: "Masukkan Email Anda...", reg_pass: "Buat Kata Sandi...", reg_pass2: "Konfirmasi Sandi...", msg_pass_nomatch: "Sandi tidak cocok!", msg_reg_success: "Pendaftaran berhasil! Silakan login.", msg_reg_err: "Email dan sandi tidak boleh kosong!", msg_log_err: "Email atau sandi salah/belum terdaftar!",
                 nav_home: "Beranda", nav_gauss: "Eliminasi Gauss-Jordan", nav_cramer: "Aturan Cramer", nav_addsub: "Penjumlahan / Pengurangan", nav_trans: "Transpos Matriks", nav_rank: "Rank Matriks", nav_det: "Determinan", nav_cofactor: "Matriks Kofaktor", nav_inv: "Invers Matriks", desc_gauss: "Metode Eliminasi Gauss-Jordan mengubah matriks menjadi bentuk eselon baris tereduksi (RREF).", desc_cramer: "Aturan Cramer menyelesaikan sistem persamaan linear menggunakan rasio determinan matriks utama dan modifikasi.", desc_addsub: "Operasi dasar penjumlahan dan pengurangan elemen bersesuaian (ordo harus sama).", desc_trans: "Transpos (A^T) menukar elemen baris menjadi kolom, dan sebaliknya.", desc_rank: "Rank matriks menunjukkan jumlah maksimum vektor baris yang independen linear.", desc_det: "Determinan dihitung bertahap menggunakan metode reduksi baris ke Matriks Segitiga Atas.", desc_cofactor: "Matriks Kofaktor dibentuk dari nilai determinan sub-matriks (Minor) dikalikan rotasi tanda aljabar (-1)^(i+j).", desc_inv: "Invers Matriks (A^-1) dikerjakan menggunakan metode reduksi Gauss-Jordan pada matriks augmentasi [A | I].", ui_size: "Ukuran:", ui_var: "Variabel:", ui_row: "Baris:", ui_col: "Kolom:", ui_set: "Atur Matriks", ui_in: "Input Matriks", ui_calc: "Kalkulasi", ui_clr: "Bersihkan", ui_clrall: "Bersih Semua", ui_step: "Tampilkan Jalan Pengerjaan", ui_log: "Log Solusi", step_init: "Matriks Awal", step_res: "Hasil Akhir", alert_max: "Maksimal ordo matriks adalah 100x100!", no_sol: "Sistem tidak konsisten (Tidak ada solusi).", inf_sol: "Sistem memiliki tak terhingga solusi.", btn_auto_pm: "Acak (+/-)", btn_auto_p: "Acak (+)", mat_a: "Matriks A", mat_b: "Matriks B", mat_d: "Matriks D", step_proc: "Proses", step_swap: "Tukar Baris", step_div: "Bagi Baris {r} dengan {p}", step_elim: "Eliminasi elemen kolom {c}", step_eq: "Himpunan Penyelesaian:", step_elim_pivot: "Eliminasi Pivot", step_swap_det: "Tukar Baris: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Eliminasi di bawah pivot Kolom {c}", step_det_tri: "Perkalian Matriks Segitiga Atas", step_det_form: "Det = Tanda × (Hasil Kali Diagonal Utama)", zero_row_col: "Baris/Kolom nol terdeteksi. Det = 0", step_cof1: "Langkah 1: Minor (M) & Kofaktor (C)", step_cof2: "Langkah 2: Matriks Minor", step_cof3: "Langkah 3: Tanda Kofaktor", step_div_p: "Bagi dengan {p}", step_elim_p: "Eliminasi", step_inv_ext: "Invers Diekstrak", note_aug: "*Evaluasi solusi ini berasumsi kolom terakhir adalah konstanta (Augmented Matrix).", home_sub: "Alat komputasi aljabar linear dengan penjabaran langkah sistematis secara real-time.", feat_title: "Kapabilitas Sistem", f1_t: "Resolusi Presisi Tinggi", f1_d: "Kalkulasi otomatis mempertahankan format pecahan untuk mencegah kehilangan presisi pada operasi desimal berulang.", f2_t: "Generasi Matriks Uji", f2_d: "Generator terkalibrasi yang secara matematis dijamin menghasilkan himpunan penyelesaian bilangan bulat.", f3_t: "Optimasi Algoritma", f3_d: "Implementasi reduksi matriks segitiga atas untuk meminimalisir beban komputasi pada determinan berordo besar.", f4_t: "Antarmuka Multilingual", f4_d: "Dukungan penuh antarmuka dan log penjabaran matematis ke dalam 10 bahasa fungsional." 
             },
             en: { 
-                login_desc: "Linear Algebra computation system.", login_user: "Enter Username...", login_pass: "Password...", login_btn: "Login", welcome: "Hello", logout: "Logout",
-                login_toggle_reg: "No account? Register", login_toggle_log: "Have an account? Login", btn_register: "Register", reg_user: "Create Username...", reg_pass: "Create Password...", reg_pass2: "Confirm Password...", msg_pass_nomatch: "Passwords do not match!", msg_user_exists: "Username already exists!", msg_reg_success: "Registration successful! Please login.", msg_reg_err: "Fields cannot be empty!", msg_log_err: "Incorrect username or password!",
+                login_desc: "Linear Algebra computation system.", login_user: "Enter Email...", login_pass: "Password...", login_btn: "Login", welcome: "Hello", logout: "Logout",
+                login_toggle_reg: "No account? Register", login_toggle_log: "Have an account? Login", btn_register: "Register", reg_user: "Enter Email...", reg_pass: "Create Password...", reg_pass2: "Confirm Password...", msg_pass_nomatch: "Passwords do not match!", msg_reg_success: "Registration successful! Please login.", msg_reg_err: "Fields cannot be empty!", msg_log_err: "Incorrect email or password!",
                 nav_home: "Home", nav_gauss: "Gauss-Jordan", nav_cramer: "Cramer's Rule", nav_addsub: "Add / Subtract", nav_trans: "Transpose", nav_rank: "Matrix Rank", nav_det: "Determinant", nav_cofactor: "Cofactor Matrix", nav_inv: "Inverse", desc_gauss: "Transforms a matrix into Reduced Row Echelon Form (RREF).", desc_cramer: "Solves linear equations using ratios of determinants.", desc_addsub: "Basic element-wise addition and subtraction.", desc_trans: "Swaps rows with columns.", desc_rank: "Indicates the maximum number of linearly independent rows.", desc_det: "Calculated step-by-step using row reduction to an Upper Triangular Matrix.", desc_cofactor: "Formed by calculating the determinant of Minor sub-matrices multiplied by (-1)^(i+j).", desc_inv: "Solved using Gauss-Jordan reduction on [A | I].", ui_size: "Size:", ui_var: "Variables:", ui_row: "Rows:", ui_col: "Cols:", ui_set: "Set Matrix", ui_in: "Input Matrix", ui_calc: "Calculate", ui_clr: "Clear", ui_clrall: "Clear All", ui_step: "Show Step-by-Step", ui_log: "Solution Log", step_init: "Initial Matrix", step_res: "Final Result", alert_max: "Max size is 100x100!", no_sol: "System is inconsistent (No solution).", inf_sol: "Infinitely many solutions.", btn_auto_pm: "Rand (+/-)", btn_auto_p: "Rand (+)", mat_a: "Matrix A", mat_b: "Matrix B", mat_d: "Matrix D", step_proc: "Working Process", step_swap: "Swap Row", step_div: "Divide Row {r} by {p}", step_elim: "Eliminate col {c}", step_eq: "Solution Set:", step_elim_pivot: "Eliminate by Pivot", step_swap_det: "Swap Row: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Eliminate below pivot Col {c}", step_det_tri: "Upper Triangular Product", step_det_form: "Det = Sign × (Main Diagonal Product)", zero_row_col: "Zero row/col detected. Det = 0", step_cof1: "Step 1: Minor (M) & Cofactor (C)", step_cof2: "Step 2: Minor Matrix", step_cof3: "Step 3: Sign Pattern", step_div_p: "Divide by {p}", step_elim_p: "Eliminate", step_inv_ext: "Inverse Extracted", note_aug: "*This evaluation assumes the last column is the constants vector (Augmented Matrix).", home_sub: "Linear algebra computational tool with real-time systematic step-by-step breakdowns.", feat_title: "System Capabilities", f1_t: "High-Precision Resolution", f1_d: "Calculations automatically maintain fraction formats to prevent precision loss in repeating decimal operations.", f2_t: "Test Matrix Generation", f2_d: "Calibrated matrix generator mathematically guaranteed to produce integer solution sets.", f3_t: "Algorithmic Optimization", f3_d: "Implementation of upper triangular matrix reduction to minimize computational load on large-order determinants.", f4_t: "Multilingual Interface", f4_d: "Full support for interface and mathematical breakdown logs in 10 functional languages." 
             },
             jp: { 
-                login_desc: "線形代数計算システム", login_user: "ユーザー名...", login_pass: "パスワード...", login_btn: "ログイン", welcome: "こんにちは", logout: "ログアウト",
-                login_toggle_reg: "アカウントがない？登録", login_toggle_log: "アカウントをお持ちですか？ログイン", btn_register: "登録する", reg_user: "ユーザー名を作成...", reg_pass: "パスワードを作成...", reg_pass2: "パスワードを確認...", msg_pass_nomatch: "パスワードが一致しません！", msg_user_exists: "ユーザー名はすでに存在します！", msg_reg_success: "登録成功！ログインしてください。", msg_reg_err: "空のフィールドは許可されていません！", msg_log_err: "ユーザー名またはパスワードが間違っています！",
+                login_desc: "線形代数計算システム", login_user: "メールアドレスを入力...", login_pass: "パスワード...", login_btn: "ログイン", welcome: "こんにちは", logout: "ログアウト",
+                login_toggle_reg: "アカウントがない？登録", login_toggle_log: "アカウントをお持ちですか？ログイン", btn_register: "登録する", reg_user: "メールアドレスを入力...", reg_pass: "パスワードを作成...", reg_pass2: "パスワードを確認...", msg_pass_nomatch: "パスワードが一致しません！", msg_reg_success: "登録成功！ログインしてください。", msg_reg_err: "空のフィールドは許可されていません！", msg_log_err: "メールアドレスまたはパスワードが間違っています！",
                 nav_home: "ホーム", nav_gauss: "ガウス・ジョルダン法", nav_cramer: "クラメルの公式", nav_addsub: "加算 / 減算", nav_trans: "転置行列", nav_rank: "階数 (ランク)", nav_det: "行列式", nav_cofactor: "余因子行列", nav_inv: "逆行列", desc_gauss: "行列を被約行階段形に変換します。", desc_cramer: "行列式の比を用いて連立方程式を解きます。", desc_addsub: "対応する成分の足し引き。", desc_trans: "行と列を入れ替えます。", desc_rank: "線形独立な行の最大数。", desc_det: "上三角行列への行還元を用いて計算されます。", desc_cofactor: "小行列式に(-1)^(i+j)を掛けて生成されます。", desc_inv: "[A | I] でのガウス・ジョルダン法で計算されます。", ui_size: "サイズ:", ui_var: "変数:", ui_row: "行:", ui_col: "列:", ui_set: "設定", ui_in: "行列入力", ui_calc: "計算", ui_clr: "クリア", ui_clrall: "全てクリア", ui_step: "ステップを表示", ui_log: "計算ログ", step_init: "初期行列", step_res: "最終結果", alert_max: "最大 100x100!", no_sol: "解なし。", inf_sol: "無数の解。", btn_auto_pm: "ランダム (+/-)", btn_auto_p: "ランダム (+)", mat_a: "行列 A", mat_b: "行列 B", mat_d: "行列 D", step_proc: "プロセス", step_swap: "行の交換", step_div: "行 {r} を {p} で割る", step_elim: "列 {c} を消去", step_eq: "解集合:", step_elim_pivot: "ピボット消去", step_swap_det: "交換: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "列 {c} ピボット下消去", step_det_tri: "上三角行列の積", step_det_form: "Det = 符号 × (主対角成分の積)", zero_row_col: "ゼロ行/列 検出. Det = 0", step_cof1: "1: 小行列式 (M) & 余因子 (C)", step_cof2: "2: 小行列式行列", step_cof3: "3: 符号パターン", step_div_p: "{p} で割る", step_elim_p: "消去", step_inv_ext: "抽出された逆行列", note_aug: "*この評価は最後の列が定数ベクトルであると仮定しています。", home_sub: "リアルタイムで体系的な段階的解説を提供する線形代数計算ツール。", feat_title: "システム機能", f1_t: "高精度ソリューション", f1_d: "計算は自動的に分数形式を維持し、繰り返しの小数演算における精度の低下を防ぎます。", f2_t: "テスト行列の生成", f2_d: "整数解のセットを生成することが数学的に保証された行列ジェネレーター。", f3_t: "アルゴリズムの最適化", f3_d: "大次元の行列式における計算負荷を最小限に抑えるための上三角行列還元の実装。", f4_t: "多言語インターフェース", f4_d: "インターフェースと数学的解説ログを10の言語で完全にサポートします。" 
             },
             zh: { 
-                login_desc: "线性代数计算系统。", login_user: "输入用户名...", login_pass: "密码...", login_btn: "登录系统", welcome: "你好", logout: "登出",
-                login_toggle_reg: "没有账号？注册", login_toggle_log: "已有账号？登录", btn_register: "注册账号", reg_user: "创建用户名...", reg_pass: "创建密码...", reg_pass2: "确认密码...", msg_pass_nomatch: "密码不匹配！", msg_user_exists: "用户名已存在！", msg_reg_success: "注册成功！请登录。", msg_reg_err: "数据不能为空！", msg_log_err: "用户名或密码错误！",
+                login_desc: "线性代数计算系统。", login_user: "输入邮箱...", login_pass: "密码...", login_btn: "登录系统", welcome: "你好", logout: "登出",
+                login_toggle_reg: "没有账号？注册", login_toggle_log: "已有账号？登录", btn_register: "注册账号", reg_user: "输入邮箱...", reg_pass: "创建密码...", reg_pass2: "确认密码...", msg_pass_nomatch: "密码不匹配！", msg_reg_success: "注册成功！请登录。", msg_reg_err: "数据不能为空！", msg_log_err: "邮箱或密码错误！",
                 nav_home: "首页", nav_gauss: "高斯-若尔当消元", nav_cramer: "克莱姆法则", nav_addsub: "加法 / 减法", nav_trans: "矩阵转置", nav_rank: "矩阵秩", nav_det: "行列式", nav_cofactor: "余子式矩阵", nav_inv: "逆矩阵", desc_gauss: "将矩阵转换为简化行阶梯形矩阵 (RREF)。", desc_cramer: "使用行列式的比率求解线性方程组。", desc_addsub: "对应元素的加减运算。", desc_trans: "交换矩阵的行和列。", desc_rank: "矩阵的秩表示线性无关的行向量的最大数量。", desc_det: "使用上三角矩阵进行逐步化简计算行列式。", desc_cofactor: "由子矩阵的行列式乘以 (-1)^(i+j) 形成。", desc_inv: "使用高斯-若尔当法在增广矩阵上求解。", ui_size: "大小:", ui_var: "变量:", ui_row: "行:", ui_col: "列:", ui_set: "设置矩阵", ui_in: "输入矩阵", ui_calc: "计算", ui_clr: "清除", ui_clrall: "全部清除", ui_step: "显示步骤", ui_log: "计算日志", step_init: "初始矩阵", step_res: "最终结果", alert_max: "最大尺寸为 100x100！", no_sol: "系统无解。", inf_sol: "无穷多解。", btn_auto_pm: "随机 (+/-)", btn_auto_p: "随机 (+)", mat_a: "矩阵 A", mat_b: "矩阵 B", mat_d: "矩阵 D", step_proc: "计算过程", step_swap: "交换行", step_div: "将第 {r} 行除以 {p}", step_elim: "消去第 {c} 列", step_eq: "解集:", step_elim_pivot: "使用主元消去", step_swap_det: "交换行: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "消去列 {c} 主元下方的元素", step_det_tri: "上三角矩阵乘积", step_det_form: "Det = 符号 × (主对角线乘积)", zero_row_col: "检测到全零行/列。 Det = 0", step_cof1: "步骤 1: 余子式 (M) & 代数余子式 (C)", step_cof2: "步骤 2: 余子式矩阵", step_cof3: "步骤 3: 符号模式", step_div_p: "除以 {p}", step_elim_p: "消去", step_inv_ext: "提取逆矩阵", note_aug: "*此评估假定最后一列是常数向量 (增广矩阵)。", home_sub: "提供实时系统化逐步分解的线性代数计算工具。", feat_title: "系统功能", f1_t: "高精度解析", f1_d: "计算自动保持分数格式，以防止在循环小数运算中丢失精度。", f2_t: "测试矩阵生成", f2_d: "经过校准的矩阵生成器，数学上保证产生整数解集。", f3_t: "算法优化", f3_d: "实现上三角矩阵简化，以最小化大阶行列式的计算负荷。", f4_t: "多语言界面", f4_d: "全面支持10种功能语言的界面和数学分解日志。" 
             },
             ru: { 
-                login_desc: "Система линейной алгебры.", login_user: "Введите имя...", login_pass: "Пароль...", login_btn: "Войти", welcome: "Привет", logout: "Выйти",
-                login_toggle_reg: "Нет аккаунта? Регистрация", login_toggle_log: "Есть аккаунт? Войти", btn_register: "Регистрация", reg_user: "Создать имя...", reg_pass: "Создать пароль...", reg_pass2: "Подтвердить пароль...", msg_pass_nomatch: "Пароли не совпадают!", msg_user_exists: "Имя уже существует!", msg_reg_success: "Успешная регистрация! Войдите.", msg_reg_err: "Поля не могут быть пустыми!", msg_log_err: "Неверное имя или пароль!",
+                login_desc: "Система линейной алгебры.", login_user: "Введите Email...", login_pass: "Пароль...", login_btn: "Войти", welcome: "Привет", logout: "Выйти",
+                login_toggle_reg: "Нет аккаунта? Регистрация", login_toggle_log: "Есть аккаунт? Войти", btn_register: "Регистрация", reg_user: "Введите Email...", reg_pass: "Создать пароль...", reg_pass2: "Подтвердить пароль...", msg_pass_nomatch: "Пароли не совпадают!", msg_reg_success: "Успешная регистрация! Войдите.", msg_reg_err: "Поля не могут быть пустыми!", msg_log_err: "Неверный Email или пароль!",
                 nav_home: "Главная", nav_gauss: "Гаусс-Жордан", nav_cramer: "Метод Крамера", nav_addsub: "Сложение / Вычитание", nav_trans: "Транспонирование", nav_rank: "Ранг", nav_det: "Определитель", nav_cofactor: "Матрица кофакторов", nav_inv: "Обратная матрица", desc_gauss: "Метод преобразует матрицу в приведенный вид.", desc_cramer: "Решает системы линейных уравнений.", desc_addsub: "Сложение и вычитание матриц.", desc_trans: "Меняет местами строки и столбцы.", desc_rank: "Максимальное число независимых строк.", desc_det: "Вычисляется через приведение к треугольному виду.", desc_cofactor: "Кофакторы умножаются на (-1)^(i+j).", desc_inv: "Обратная матрица через [A | I].", ui_size: "Размер:", ui_var: "Перем.:", ui_row: "Строки:", ui_col: "Столбцы:", ui_set: "Создать", ui_in: "Ввод", ui_calc: "Вычислить", ui_clr: "Очистить", ui_clrall: "Очистить всё", ui_step: "Показать шаги", ui_log: "Журнал", step_init: "Начальная матрица", step_res: "Итог", alert_max: "Макс 100x100!", no_sol: "Нет решений.", inf_sol: "Бесконечно много решений.", btn_auto_pm: "Случ. (+/-)", btn_auto_p: "Случ. (+)", mat_a: "Матрица A", mat_b: "Матрица B", mat_d: "Матрица D", step_proc: "Процесс", step_swap: "Обмен строк", step_div: "Строку {r} делим на {p}", step_elim: "Исключить ст. {c}", step_eq: "Ответ:", step_elim_pivot: "Исключение (Пивот)", step_swap_det: "Обмен: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Исключить под пивотом ст {c}", step_det_tri: "Треугольная матрица", step_det_form: "Det = Знак × (Диагональ)", zero_row_col: "Нулевая строка. Det = 0", step_cof1: "1: Минор (M) и Кофактор (C)", step_cof2: "2: Матрица миноров", step_cof3: "3: Знаки", step_div_p: "Разделить на {p}", step_elim_p: "Исключить", step_inv_ext: "Извлечена", note_aug: "*Эта оценка предполагает, что последний столбец — вектор констант.", home_sub: "Вычислительный инструмент линейной алгебры с пошаговым разбором.", feat_title: "Возможности системы", f1_t: "Высокоточное разрешение", f1_d: "Вычисления автоматически сохраняют формат дробей.", f2_t: "Генерация тестовых матриц", f2_d: "Откалиброванный генератор матриц, математически гарантирующий получение целочисленных множеств решений.", f3_t: "Алгоритмическая оптимизация", f3_d: "Реализация приведения к верхнетреугольной матрице для минимизации вычислительной нагрузки.", f4_t: "Многоязычный интерфейс", f4_d: "Полная поддержка интерфейса на 10 языках." 
             },
             es: { 
-                login_desc: "Sistema de Álgebra Lineal.", login_user: "Usuario...", login_pass: "Contraseña...", login_btn: "Entrar al Sistema", welcome: "Hola", logout: "Salir",
-                login_toggle_reg: "¿No tienes cuenta? Regístrate", login_toggle_log: "¿Ya tienes cuenta? Iniciar Sesión", btn_register: "Registrarse", reg_user: "Crear Usuario...", reg_pass: "Crear Contraseña...", reg_pass2: "Confirmar Contraseña...", msg_pass_nomatch: "¡Las contraseñas no coinciden!", msg_user_exists: "¡El usuario ya existe!", msg_reg_success: "¡Registro exitoso! Por favor inicia sesión.", msg_reg_err: "¡Los campos no pueden estar vacíos!", msg_log_err: "¡Usuario o contraseña incorrectos!",
+                login_desc: "Sistema de Álgebra Lineal.", login_user: "Introduce Email...", login_pass: "Contraseña...", login_btn: "Entrar al Sistema", welcome: "Hola", logout: "Salir",
+                login_toggle_reg: "¿No tienes cuenta? Regístrate", login_toggle_log: "¿Ya tienes cuenta? Iniciar Sesión", btn_register: "Registrarse", reg_user: "Introduce Email...", reg_pass: "Crear Contraseña...", reg_pass2: "Confirmar Contraseña...", msg_pass_nomatch: "¡Las contraseñas no coinciden!", msg_reg_success: "¡Registro exitoso! Por favor inicia sesión.", msg_reg_err: "¡Los campos no pueden estar vacíos!", msg_log_err: "¡Email o contraseña incorrectos!",
                 nav_home: "Inicio", nav_gauss: "Gauss-Jordan", nav_cramer: "Regla de Cramer", nav_addsub: "Suma / Resta", nav_trans: "Transpuesta", nav_rank: "Rango", nav_det: "Determinante", nav_cofactor: "Cofactores", nav_inv: "Matriz Inversa", desc_gauss: "Transforma a forma escalonada reducida.", desc_cramer: "Resuelve ecuaciones lineales.", desc_addsub: "Suma y resta de matrices.", desc_trans: "Intercambia filas por columnas.", desc_rank: "Número de filas linealmente independientes.", desc_det: "Calculado mediante reducción triangular.", desc_cofactor: "Calculados multiplicando menores por (-1)^(i+j).", desc_inv: "Resuelto mediante Gauss-Jordan.", ui_size: "Tamaño:", ui_var: "Vars:", ui_row: "Filas:", ui_col: "Cols:", ui_set: "Fijar Matriz", ui_in: "Entrada", ui_calc: "Calcular", ui_clr: "Limpiar", ui_clrall: "Limpiar Todo", ui_step: "Mostrar Pasos", ui_log: "Registro", step_init: "Matriz Inicial", step_res: "Resultado", alert_max: "¡Máximo 100x100!", no_sol: "Sin solución.", inf_sol: "Infinitas soluciones.", btn_auto_pm: "Aleatorio (+/-)", btn_auto_p: "Aleatorio (+)", mat_a: "Matriz A", mat_b: "Matriz B", mat_d: "Matriz D", step_proc: "Proceso", step_swap: "Cambiar Fila", step_div: "Fila {r} div {p}", step_elim: "Eliminar col {c}", step_eq: "Solución:", step_elim_pivot: "Eliminar pivote", step_swap_det: "Cambio: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Eliminar bajo pivote col {c}", step_det_tri: "Producto Triangular Superior", step_det_form: "Det = Signo × (Diagonal)", zero_row_col: "Fila/Col cero. Det = 0", step_cof1: "1: Menor (M) & Cofactor (C)", step_cof2: "2: Matriz Menor", step_cof3: "3: Signos", step_div_p: "Dividir {p}", step_elim_p: "Eliminar", step_inv_ext: "Extraída", note_aug: "*Esta evaluación asume que la última columna es el vector constante.", home_sub: "Herramienta computacional de álgebra lineal con desgloses paso a paso sistemáticos.", feat_title: "Capacidades del Sistema", f1_t: "Resolución de Alta Precisión", f1_d: "Los cálculos mantienen automáticamente los formatos de fracción.", f2_t: "Generación de Matrices", f2_d: "Generador de matrices garantizado para producir conjuntos de soluciones enteras.", f3_t: "Optimización Algorítmica", f3_d: "Reducción a matriz triangular para minimizar la carga computacional en determinantes.", f4_t: "Interfaz Multilingüe", f4_d: "Soporte completo para registros de desglose matemático en 10 idiomas." 
             },
             fr: { 
-                login_desc: "Algèbre Linéaire.", login_user: "Nom d'utilisateur...", login_pass: "Mot de passe...", login_btn: "Se Connecter", welcome: "Bonjour", logout: "Déconnexion",
-                login_toggle_reg: "Pas de compte ? S'inscrire", login_toggle_log: "Déjà inscrit ? Connectez-vous", btn_register: "S'inscrire", reg_user: "Créer un nom...", reg_pass: "Créer un mot de passe...", reg_pass2: "Confirmer le mot de passe...", msg_pass_nomatch: "Les mots de passe ne correspondent pas !", msg_user_exists: "Ce nom d'utilisateur existe déjà !", msg_reg_success: "Inscription réussie ! Veuillez vous connecter.", msg_reg_err: "Les champs ne peuvent pas être vides !", msg_log_err: "Nom d'utilisateur ou mot de passe incorrect !",
+                login_desc: "Algèbre Linéaire.", login_user: "Entrez l'email...", login_pass: "Mot de passe...", login_btn: "Se Connecter", welcome: "Bonjour", logout: "Déconnexion",
+                login_toggle_reg: "Pas de compte ? S'inscrire", login_toggle_log: "Déjà inscrit ? Connectez-vous", btn_register: "S'inscrire", reg_user: "Entrez l'email...", reg_pass: "Créer un mot de passe...", reg_pass2: "Confirmer le mot de passe...", msg_pass_nomatch: "Les mots de passe ne correspondent pas !", msg_reg_success: "Inscription réussie ! Veuillez vous connecter.", msg_reg_err: "Les champs ne peuvent pas être vides !", msg_log_err: "Email ou mot de passe incorrect !",
                 nav_home: "Accueil", nav_gauss: "Gauss-Jordan", nav_cramer: "Règle de Cramer", nav_addsub: "Addition / Soustraction", nav_trans: "Transposée", nav_rank: "Rang", nav_det: "Déterminant", nav_cofactor: "Comatrice", nav_inv: "Matrice Inverse", desc_gauss: "Transforme la matrice en forme échelonnée réduite.", desc_cramer: "Résout les équations linéaires.", desc_addsub: "Addition et soustraction.", desc_trans: "Échange lignes et colonnes.", desc_rank: "Lignes linéairement indépendantes.", desc_det: "Calcul par réduction triangulaire.", desc_cofactor: "Cofacteurs calculés avec (-1)^(i+j).", desc_inv: "Résolu via Gauss-Jordan.", ui_size: "Taille:", ui_var: "Vars:", ui_row: "Lignes:", ui_col: "Cols:", ui_set: "Définir", ui_in: "Saisie", ui_calc: "Calculer", ui_clr: "Effacer", ui_clrall: "Tout Effacer", ui_step: "Afficher Étapes", ui_log: "Journal", step_init: "Matrice Initiale", step_res: "Résultat", alert_max: "Max 100x100!", no_sol: "Aucune solution.", inf_sol: "Solutions infinies.", btn_auto_pm: "Aléatoire (+/-)", btn_auto_p: "Aléatoire (+)", mat_a: "Matrice A", mat_b: "Matrice B", mat_d: "Matrice D", step_proc: "Processus", step_swap: "Échanger Ligne", step_div: "Diviser {r} par {p}", step_elim: "Éliminer col {c}", step_eq: "Solution:", step_elim_pivot: "Élimination", step_swap_det: "Échange: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Éliminer sous pivot {c}", step_det_tri: "Matrice Triangulaire", step_det_form: "Det = Signe × (Diagonale)", zero_row_col: "Ligne/Col zéro. Det = 0", step_cof1: "1: Mineur (M) & Cofacteur (C)", step_cof2: "2: Matrice", step_cof3: "3: Signes", step_div_p: "Diviser par {p}", step_elim_p: "Éliminer", step_inv_ext: "Extraite", note_aug: "*Cette évaluation suppose que la dernière colonne est un vecteur constant.", home_sub: "Outil de calcul d'algèbre linéaire avec des décompositions étape par étape.", feat_title: "Capacités du Système", f1_t: "Résolution Haute Précision", f1_d: "Les calculs conservent les formats de fraction pour éviter la perte de précision.", f2_t: "Génération de Matrices", f2_d: "Générateur mathématiquement garanti pour produire des solutions entières.", f3_t: "Optimisation", f3_d: "Réduction en matrice triangulaire pour minimiser la charge sur les déterminants.", f4_t: "Multilingue", f4_d: "Prise en charge dans 10 langues." 
             },
             de: { 
-                login_desc: "Lineare Algebra-System.", login_user: "Benutzername...", login_pass: "Passwort...", login_btn: "Einloggen", welcome: "Hallo", logout: "Abmelden",
-                login_toggle_reg: "Kein Konto? Registrieren", login_toggle_log: "Haben Sie ein Konto? Einloggen", btn_register: "Registrieren", reg_user: "Benutzername erstellen...", reg_pass: "Passwort erstellen...", reg_pass2: "Passwort bestätigen...", msg_pass_nomatch: "Passwörter stimmen nicht überein!", msg_user_exists: "Benutzername existiert bereits!", msg_reg_success: "Registrierung erfolgreich! Bitte einloggen.", msg_reg_err: "Felder dürfen nicht leer sein!", msg_log_err: "Falscher Benutzername oder Passwort!",
+                login_desc: "Lineare Algebra-System.", login_user: "E-Mail eingeben...", login_pass: "Passwort...", login_btn: "Einloggen", welcome: "Hallo", logout: "Abmelden",
+                login_toggle_reg: "Kein Konto? Registrieren", login_toggle_log: "Haben Sie ein Konto? Einloggen", btn_register: "Registrieren", reg_user: "E-Mail eingeben...", reg_pass: "Passwort erstellen...", reg_pass2: "Passwort bestätigen...", msg_pass_nomatch: "Passwörter stimmen nicht überein!", msg_reg_success: "Registrierung erfolgreich! Bitte einloggen.", msg_reg_err: "Felder dürfen nicht leer sein!", msg_log_err: "Falsche E-Mail oder Passwort!",
                 nav_home: "Startseite", nav_gauss: "Gauß-Jordan", nav_cramer: "Cramersche Regel", nav_addsub: "Add / Sub", nav_trans: "Transponierte", nav_rank: "Rang", nav_det: "Determinante", nav_cofactor: "Kofaktormatrix", nav_inv: "Inverse Matrix", desc_gauss: "Transformiert eine Matrix.", desc_cramer: "Löst lineare Gleichungen.", desc_addsub: "Addition und Subtraktion.", desc_trans: "Tauscht Zeilen und Spalten.", desc_rank: "Unabhängige Zeilen.", desc_det: "Berechnung mit Dreiecksmatrix.", desc_cofactor: "Kofaktoren.", desc_inv: "Inverse Matrix.", ui_size: "Größe:", ui_var: "Vars:", ui_row: "Zeilen:", ui_col: "Spalten:", ui_set: "Setzen", ui_in: "Eingabe", ui_calc: "Berechnen", ui_clr: "Löschen", ui_clrall: "Alles Löschen", ui_step: "Schritte anzeigen", ui_log: "Protokoll", step_init: "Start", step_res: "Ergebnis", alert_max: "Max 100x100!", no_sol: "Keine Lösung.", inf_sol: "Unendlich viele.", btn_auto_pm: "Zufall (+/-)", btn_auto_p: "Zufall (+)", mat_a: "Matrix A", mat_b: "Matrix B", mat_d: "Matrix D", step_proc: "Prozess", step_swap: "Zeile tauschen", step_div: "Zeile {r} / {p}", step_elim: "Eliminiere Sp {c}", step_eq: "Lösung:", step_elim_pivot: "Pivot-Eliminierung", step_swap_det: "Tausch: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Eliminiere Sp {c}", step_det_tri: "Dreiecksmatrix", step_det_form: "Det = Vorzeichen × (Diagonale)", zero_row_col: "Nullzeile. Det = 0", step_cof1: "1: Minor (M) & Kofaktor (C)", step_cof2: "2: Minormatrix", step_cof3: "3: Vorzeichen", step_div_p: "Teilen {p}", step_elim_p: "Eliminieren", step_inv_ext: "Extrahiert", note_aug: "*Diese Auswertung geht davon aus, dass die letzte Spalte der Vektor der Konstanten ist.", home_sub: "Lineare Algebra-Rechenwerkzeug mit Schritt-für-Schritt-Aufschlüsselungen.", feat_title: "Systemfunktionen", f1_t: "Hochpräzise Auflösung", f1_d: "Berechnungen behalten automatisch Bruchformate bei.", f2_t: "Testmatrizen", f2_d: "Kalibrierter Generator, der ganzzahlige Lösungssets erzeugt.", f3_t: "Optimierung", f3_d: "Reduktion auf eine obere Dreiecksmatrix zur Minimierung der Rechenlast.", f4_t: "Mehrsprachige", f4_d: "Volle Unterstützung in 10 Sprachen." 
             },
             ar: { 
-                login_desc: "نظام الجبر الخطي.", login_user: "اسم المستخدم...", login_pass: "كلمة المرور...", login_btn: "تسجيل الدخول", welcome: "أهلاً", logout: "خروج",
-                login_toggle_reg: "ليس لديك حساب؟ إنشاء حساب", login_toggle_log: "لديك حساب بالفعل؟ تسجيل الدخول", btn_register: "إنشاء حساب", reg_user: "إنشاء اسم مستخدم...", reg_pass: "إنشاء كلمة مرور...", reg_pass2: "تأكيد كلمة المرور...", msg_pass_nomatch: "كلمات المرور غير متطابقة!", msg_user_exists: "اسم المستخدم موجود بالفعل!", msg_reg_success: "تم التسجيل بنجاح! الرجاء تسجيل الدخول.", msg_reg_err: "لا يمكن أن تكون الحقول فارغة!", msg_log_err: "اسم المستخدم أو كلمة المرور غير صحيحة!",
+                login_desc: "نظام الجبر الخطي.", login_user: "أدخل البريد الإلكتروني...", login_pass: "كلمة المرور...", login_btn: "تسجيل الدخول", welcome: "أهلاً", logout: "خروج",
+                login_toggle_reg: "ليس لديك حساب؟ إنشاء حساب", login_toggle_log: "لديك حساب بالفعل؟ تسجيل الدخول", btn_register: "إنشاء حساب", reg_user: "أدخل البريد الإلكتروني...", reg_pass: "إنشاء كلمة مرور...", reg_pass2: "تأكيد كلمة المرور...", msg_pass_nomatch: "كلمات المرور غير متطابقة!", msg_reg_success: "تم التسجيل بنجاح! الرجاء تسجيل الدخول.", msg_reg_err: "لا يمكن أن تكون الحقول فارغة!", msg_log_err: "البريد الإلكتروني أو كلمة المرور غير صحيحة!",
                 nav_home: "الرئيسية", nav_gauss: "جوردان-جاوس", nav_cramer: "قاعدة كرامر", nav_addsub: "جمع / طرح", nav_trans: "منقولة", nav_rank: "رتبة", nav_det: "المحدد", nav_cofactor: "مصفوفة مرافقة", nav_inv: "المعكوس", desc_gauss: "تحويل المصفوفة.", desc_cramer: "حل المعادلات الخطية.", desc_addsub: "الجمع والطرح.", desc_trans: "منقولة المصفوفة.", desc_rank: "الصفوف المستقلة.", desc_det: "حساب خطوة بخطوة.", desc_cofactor: "مصفوفة العوامل المرافقة.", desc_inv: "المعكوس.", ui_size: "الحجم:", ui_var: "المتغيرات:", ui_row: "الصفوف:", ui_col: "الأعمدة:", ui_set: "تطبيق", ui_in: "إدخال", ui_calc: "احسب", ui_clr: "مسح", ui_clrall: "مسح الكل", ui_step: "عرض الخطوات", ui_log: "السجل", step_init: "البداية", step_res: "النتيجة", alert_max: "الحد 100x100!", no_sol: "لا يوجد حل.", inf_sol: "حلول لا نهائية.", btn_auto_pm: "عشوائي (+/-)", btn_auto_p: "عشوائي (+)", mat_a: "المصفوفة A", mat_b: "المصفوفة B", mat_d: "المصفوفة D", step_proc: "العملية", step_swap: "تبديل صف", step_div: "قسمة {r} على {p}", step_elim: "إلغاء عمود {c}", step_eq: "الحل:", step_elim_pivot: "إلغاء المحور", step_swap_det: "تبديل: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "إلغاء عمود {c}", step_det_tri: "الضرب القطري", step_det_form: "Det = إشارة × القطر", zero_row_col: "صف صفري. Det = 0", step_cof1: "1: المرافق", step_cof2: "2: المصفوفة", step_cof3: "3: الإشارات", step_div_p: "قسمة {p}", step_elim_p: "إلغاء", step_inv_ext: "مستخرج", note_aug: "*يفترض أن العمود الأخير هو الثوابت.", home_sub: "أداة حسابية للجبر الخطي مع تفصيل منهجي للخطوات.", feat_title: "قدرات النظام", f1_t: "دقة عالية", f1_d: "تحافظ الحسابات تلقائيًا على تنسيقات الكسور لمنع فقدان الدقة.", f2_t: "توليد مصفوفات اختبار", f2_d: "مولد مصفوفات مُعاير يضمن رياضيًا إنتاج مجموعات حلول صحيحة.", f3_t: "تحسين خوارزمي", f3_d: "تنفيذ تقليل المصفوفة المثلثية العليا لتقليل العبء الحسابي.", f4_t: "واجهة متعددة اللغات", f4_d: "دعم كامل للواجهة وسجلات التفصيل الرياضي بـ 10 لغات." 
             },
             ko: { 
-                login_desc: "선형 대수 시스템", login_user: "사용자 이름 입력...", login_pass: "비밀번호...", login_btn: "로그인", welcome: "안녕하세요", logout: "로그아웃",
-                login_toggle_reg: "계정이 없습니까? 가입하기", login_toggle_log: "계정이 있습니까? 로그인", btn_register: "가입하기", reg_user: "사용자 이름 만들기...", reg_pass: "비밀번호 만들기...", reg_pass2: "비밀번호 확인...", msg_pass_nomatch: "비밀번호가 일치하지 않습니다!", msg_user_exists: "사용자 이름이 이미 존재합니다!", msg_reg_success: "등록 성공! 로그인해 주세요.", msg_reg_err: "입력란을 비울 수 없습니다!", msg_log_err: "사용자 이름 또는 비밀번호가 잘못되었습니다!",
+                login_desc: "선형 대수 시스템", login_user: "이메일 입력...", login_pass: "비밀번호...", login_btn: "로그인", welcome: "안녕하세요", logout: "로그아웃",
+                login_toggle_reg: "계정이 없습니까? 가입하기", login_toggle_log: "계정이 있습니까? 로그인", btn_register: "가입하기", reg_user: "이메일 입력...", reg_pass: "비밀번호 만들기...", reg_pass2: "비밀번호 확인...", msg_pass_nomatch: "비밀번호가 일치하지 않습니다!", msg_reg_success: "등록 성공! 로그인해 주세요.", msg_reg_err: "입력란을 비울 수 없습니다!", msg_log_err: "이메일 또는 비밀번호가 잘못되었습니다!",
                 nav_home: "홈", nav_gauss: "가우스-조르당", nav_cramer: "크래머 공식", nav_addsub: "덧셈 / 뺄셈", nav_trans: "전치 행렬", nav_rank: "행렬 계수", nav_det: "행렬식", nav_cofactor: "여인수 행렬", nav_inv: "역행렬", desc_gauss: "가우스-조르당 소거법.", desc_cramer: "크래머 공식.", desc_addsub: "행렬 덧셈 및 뺄셈.", desc_trans: "전치 행렬.", desc_rank: "행렬의 계수(Rank).", desc_det: "상삼각행렬로 변환하여 행렬식 계산.", desc_cofactor: "소행렬식을 이용한 여인수 행렬.", desc_inv: "가우스 조르당을 이용한 역행렬 계산.", ui_size: "크기:", ui_var: "변수:", ui_row: "행:", ui_col: "열:", ui_set: "설정", ui_in: "행렬 입력", ui_calc: "계산", ui_clr: "지우기", ui_clrall: "모두 지우기", ui_step: "단계별 풀이", ui_log: "로그", step_init: "초기 행렬", step_res: "최종 결과", alert_max: "최대 100x100!", no_sol: "해가 없습니다.", inf_sol: "무수히 많은 해.", btn_auto_pm: "랜덤 (+/-)", btn_auto_p: "랜덤 (+)", mat_a: "행렬 A", mat_b: "행렬 B", mat_d: "행렬 D", step_proc: "과정", step_swap: "행 교환", step_div: "{r}행을 {p}로 나누기", step_elim: "{c}열 소거", step_eq: "해:", step_elim_pivot: "피벗 소거", step_swap_det: "행 교환: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "{c}열 피벗 소거", step_det_tri: "상삼각행렬 곱", step_det_form: "Det = 부호 × (주대각선 곱)", zero_row_col: "영행렬 감지. Det = 0", step_cof1: "1: 소행렬식(M) & 여인수(C)", step_cof2: "2: 소행렬", step_cof3: "3: 부호 패턴", step_div_p: "{p}로 나누기", step_elim_p: "소거", step_inv_ext: "추출됨", note_aug: "*마지막 열을 상수 벡터로 간주합니다.", home_sub: "실시간 체계적인 단계별 풀이를 제공하는 선형대수학 계산 도구.", feat_title: "시스템 기능", f1_t: "고정밀 해상도", f1_d: "계산은 소수 연산에서의 정밀도 손실을 방지하기 위해 분수 형식을 자동으로 유지합니다.", f2_t: "테스트 행렬 생성", f2_d: "정수 해 집합을 생성하도록 수학적으로 보장된 보정된 행렬 생성기.", f3_t: "알고리즘 최적화", f3_d: "대형 행렬식의 계산 부하를 최소화하기 위한 상삼각행렬 축소 구현.", f4_t: "다국어 인터페이스", f4_d: "10개 언어로 된 인터페이스 및 수학적 풀이 로그 완벽 지원." 
             }
         };
 
-        // === STATE VARIABLES ===
         let lang = 'id';
         let mode = 'home';
         let rows = 2, cols = 3;
 
-        // === FUNGSI LOGIN, REGISTER & SESSION ===
-        function checkLoginStatus() {
-            let user = localStorage.getItem("zero_matriks_session");
-            if(user) {
-                document.getElementById('login-wrapper').style.display = 'none';
-                document.getElementById('app-wrapper').style.display = 'block';
-                document.getElementById('display-user').innerText = user;
-                navigate('home');
-            } else {
-                document.getElementById('login-wrapper').style.display = 'flex';
-                document.getElementById('app-wrapper').style.display = 'none';
-            }
-        }
-
-        function toggleAuth(mode) {
-            if(mode === 'reg') {
+        // FUNGSI UMUM NON-FIREBASE
+        function toggleAuth(m) {
+            if(m === 'reg') {
                 document.getElementById('form-login').style.display = 'none';
                 document.getElementById('form-register').style.display = 'block';
             } else {
@@ -326,72 +310,7 @@
                 document.getElementById('form-register').style.display = 'none';
             }
         }
-
-        function doRegister() {
-            let u = document.getElementById('reg-username').value.trim();
-            let p1 = document.getElementById('reg-password').value;
-            let p2 = document.getElementById('reg-password-confirm').value;
-            
-            if(u === "" || p1 === "") { 
-                alert(t('msg_reg_err')); 
-                return; 
-            }
-            if(p1 !== p2) { 
-                alert(t('msg_pass_nomatch')); 
-                return; 
-            }
-            
-            let users = JSON.parse(localStorage.getItem('zm_db_users')) || {};
-            if(users[u]) {
-                alert(t('msg_user_exists'));
-                return;
-            }
-            
-            // Simpan ke "Database" Lokal
-            users[u] = p1;
-            localStorage.setItem('zm_db_users', JSON.stringify(users));
-            
-            alert(t('msg_reg_success'));
-            toggleAuth('login');
-            
-            // Bersihkan form
-            document.getElementById('reg-username').value = '';
-            document.getElementById('reg-password').value = '';
-            document.getElementById('reg-password-confirm').value = '';
-        }
-
-        function doLogin() {
-            let u = document.getElementById('login-username').value.trim();
-            let p = document.getElementById('login-password').value;
-            
-            if(u === "") return;
-            
-            let users = JSON.parse(localStorage.getItem('zm_db_users')) || {};
-            
-            if(users[u] && users[u] === p) {
-                localStorage.setItem("zero_matriks_session", u);
-                checkLoginStatus();
-            } else {
-                alert(t('msg_log_err'));
-            }
-        }
-
-        function doLogout() {
-            localStorage.removeItem("zero_matriks_session");
-            document.getElementById('login-username').value = '';
-            document.getElementById('login-password').value = '';
-            checkLoginStatus();
-        }
-
-        // Tembak event "Enter" di kolom password
-        document.getElementById("login-password").addEventListener("keyup", function(event) {
-            if (event.key === "Enter") doLogin();
-        });
-        document.getElementById("reg-password-confirm").addEventListener("keyup", function(event) {
-            if (event.key === "Enter") doRegister();
-        });
-
-        // TRANSLATOR
+        
         function t(k) { return tr[lang][k] || k; }
 
         function changeLanguage() { 
@@ -403,7 +322,6 @@
                 if(tr[lang][k]) e.innerText = tr[lang][k]; 
             }); 
 
-            // Update Teks Layer Aplikasi
             document.getElementById('lbl_welcome').innerText = t('welcome');
             document.getElementById('btn_logout').innerText = t('logout');
             
@@ -414,7 +332,6 @@
             document.getElementById('languageSelect').value = document.getElementById('login-lang').value;
             lang = document.getElementById('languageSelect').value;
             
-            // Update Teks Layer Login
             document.getElementById('lbl_login_desc').innerText = t('login_desc');
             document.getElementById('login-username').placeholder = t('login_user');
             document.getElementById('login-password').placeholder = t('login_pass');
@@ -430,7 +347,6 @@
             changeLanguage();
         }
 
-        // === FUNGSI NAVIGASI ===
         function navigate(m) {
             mode = m; 
             document.querySelectorAll('.sidebar a').forEach(e => e.classList.remove('active')); 
@@ -514,14 +430,11 @@
             buildGrid(isSq ? 'sq' : isCr ? 'cr' : isDbl ? 'db' : 'sg');
         }
 
-        // === FUNGSI MEMBANGUN GRID INPUT ===
         function buildGrid(type) {
             document.getElementById('solution-area').innerHTML = '';
-            
             if(type === 'sq') { rows = cols = parseInt(document.getElementById('dim-n').value); } 
             else if(type === 'cr') { rows = parseInt(document.getElementById('dim-n').value); cols = rows + 1; } 
             else { rows = parseInt(document.getElementById('dim-row').value); cols = parseInt(document.getElementById('dim-col').value); }
-            
             if(rows > 100 || cols > 100) return alert(t('alert_max'));
             
             let html = `<div class="matrix-input-box">`;
@@ -583,7 +496,6 @@
                     X.push(neg ? Math.floor(Math.random() * 11) - 5 : Math.floor(Math.random() * 10)); 
                 }
             }
-
             for(let i=0; i<rows; i++) {
                 let bVal = 0;
                 for(let j=0; j<cols; j++) { 
@@ -591,15 +503,9 @@
                     if(c) {
                         let val = neg ? Math.floor(Math.random() * 19) - 9 : Math.floor(Math.random() * 10); 
                         if(isSystem) {
-                            if(j < cols - 1) {
-                                c.value = val;
-                                bVal += val * X[j];
-                            } else {
-                                c.value = bVal; 
-                            }
-                        } else {
-                            c.value = val;
-                        }
+                            if(j < cols - 1) { c.value = val; bVal += val * X[j]; } 
+                            else { c.value = bVal; }
+                        } else { c.value = val; }
                     } 
                 } 
             }
@@ -622,24 +528,16 @@
             if(typeof n === 'string') return n;
             if(Math.abs(n) < 1e-10) return "0";
             if(Math.abs(n) > 1e10) return n.toExponential(3); 
-            
-            let sign = n < 0 ? "-" : "";
-            let val = Math.abs(n);
-            
+            let sign = n < 0 ? "-" : ""; let val = Math.abs(n);
             if(Math.abs(val - Math.round(val)) < 1e-10) return sign + Math.round(val);
-            
-            let h1 = 1, h2 = 0, k1 = 0, k2 = 1;
-            let b = val;
+            let h1 = 1, h2 = 0, k1 = 0, k2 = 1; let b = val;
             for(let i = 0; i < 30; i++) {
                 let a = Math.floor(b);
                 let auxH = h1; h1 = a * h1 + h2; h2 = auxH;
                 let auxK = k1; k1 = a * k1 + k2; k2 = auxK;
-                
                 if (Math.abs(val - (h1 / k1)) < 1e-7) {
-                    if (k1 === 1) return sign + h1;
-                    return sign + h1 + "/" + k1;
+                    if (k1 === 1) return sign + h1; return sign + h1 + "/" + k1;
                 }
-                
                 if (Math.abs(b - a) < 1e-10) break;
                 b = 1 / (b - a);
             }
@@ -650,9 +548,7 @@
             let h = `<div class="step-panel step-render"><div class="step-title">${title}</div><div style="overflow-x:auto;"><table class="matrix-table"><tbody>`; 
             m.forEach(r => { 
                 h += `<tr>`; 
-                r.forEach((v,i) => {
-                    h += `<td ${(isA && i === dI) ? 'class="divider"' : ''}>${fN(v)}</td>`;
-                }); 
+                r.forEach((v,i) => { h += `<td ${(isA && i === dI) ? 'class="divider"' : ''}>${fN(v)}</td>`; }); 
                 h += `</tr>`; 
             }); 
             return h + `</tbody></table></div></div>`; 
@@ -663,7 +559,6 @@
         function cD(m) { 
             if(!m.length) return 0; 
             if(m.length === 1) return m[0][0]; 
-            
             let mt = cln(m), n = mt.length, d = 1; 
             for(let i=0; i<n; i++) { 
                 let p = mt[i][i]; 
@@ -693,55 +588,37 @@
             
             let htmlOut = `<h3 style="margin-top:40px; color:var(--text-main); font-weight:500; font-size:1.15em; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">${t('ui_log')}</h3>`;
             
-            // --- ADD / SUBTRACT ---
             if (op === 'add' || op === 'sub') {
-                let B = getM('B', rows, cols);
-                let C = [], SM = [];
-                let sign = (op === 'add') ? '+' : '-';
-                
+                let B = getM('B', rows, cols); let C = [], SM = []; let sign = (op === 'add') ? '+' : '-';
                 for(let i=0; i<rows; i++) { 
                     let rC = [], rS = []; 
                     for(let j=0; j<cols; j++) { 
-                        let val = (op === 'add') ? (A[i][j] + B[i][j]) : (A[i][j] - B[i][j]);
-                        rC.push(val); 
+                        let val = (op === 'add') ? (A[i][j] + B[i][j]) : (A[i][j] - B[i][j]); rC.push(val); 
                         if(showSteps) rS.push(`${fN(A[i][j])} ${sign} ${fN(B[i][j])}`); 
                     } 
-                    C.push(rC); 
-                    if(showSteps) SM.push(rS); 
+                    C.push(rC); if(showSteps) SM.push(rS); 
                 }
                 if(showSteps) { htmlOut += rT(A, t('mat_a')) + rT(B, t('mat_b')) + rT(SM, t('step_proc')); } 
                 htmlOut += rT(C, `${t('step_res')} (A ${sign} B)`);
             
-            // --- TRANSPOSE ---
             } else if (op === 'trans') {
                 let C = []; 
                 for(let j=0; j<cols; j++) { 
-                    let rw = []; 
-                    for(let i=0; i<rows; i++) { rw.push(A[i][j]); }
-                    C.push(rw); 
+                    let rw = []; for(let i=0; i<rows; i++) { rw.push(A[i][j]); } C.push(rw); 
                 }
                 if(showSteps) htmlOut += rT(A, t('step_init')); 
                 htmlOut += rT(C, `${t('step_res')} (${cols}x${rows})`);
 
-            // --- GAUSS-JORDAN ELIMINATION ---
             } else if (op === 'gauss') {
                 let m = cln(A); 
                 if(showSteps) htmlOut += rT(m, t('step_init'));
                 
                 let r = rows, c = cols, lead = 0;
                 for(let rt=0; rt<r; rt++) { 
-                    if(c <= lead) break; 
-                    let i = rt; 
-                    while(Math.abs(m[i][lead]) < 1e-10) { 
-                        i++; 
-                        if(r === i) { i = rt; lead++; if(c === lead) break; } 
-                    } 
+                    if(c <= lead) break; let i = rt; 
+                    while(Math.abs(m[i][lead]) < 1e-10) { i++; if(r === i) { i = rt; lead++; if(c === lead) break; } } 
                     if(c === lead) break;
-                    
-                    if(i !== rt) { 
-                        let tp = m[i]; m[i] = m[rt]; m[rt] = tp; 
-                        if(showSteps) htmlOut += rT(cln(m), t('step_swap')); 
-                    }
+                    if(i !== rt) { let tp = m[i]; m[i] = m[rt]; m[rt] = tp; if(showSteps) htmlOut += rT(cln(m), t('step_swap')); }
                     
                     let p = m[rt][lead]; 
                     if(Math.abs(p) > 1e-10) { 
@@ -754,8 +631,7 @@
                         if(k !== rt) { 
                             let f = m[k][lead]; 
                             if(Math.abs(f) > 1e-10) { 
-                                for(let j=0; j<c; j++) { m[k][j] -= f * m[rt][j]; }
-                                eli = true; 
+                                for(let j=0; j<c; j++) { m[k][j] -= f * m[rt][j]; } eli = true; 
                             } 
                         } 
                     }
@@ -765,24 +641,15 @@
 
                 if(!showSteps) htmlOut += rT(m, t('step_res'));
                 
-                let isConsistent = true;
-                let rankA = 0;
+                let isConsistent = true; let rankA = 0;
                 for(let i=0; i<rows; i++) {
                     let allZeroA = true;
-                    for(let j=0; j<cols-1; j++) {
-                        if (Math.abs(m[i][j]) > 1e-10) { allZeroA = false; break; }
-                    }
+                    for(let j=0; j<cols-1; j++) { if (Math.abs(m[i][j]) > 1e-10) { allZeroA = false; break; } }
                     let bZero = Math.abs(m[i][cols-1]) <= 1e-10;
-                    if (!allZeroA) {
-                        rankA++;
-                    } else if (!bZero) {
-                        isConsistent = false;
-                        break;
-                    }
+                    if (!allZeroA) { rankA++; } else if (!bZero) { isConsistent = false; break; }
                 }
                 
                 htmlOut += `<div class="result-box">`;
-                
                 if (cols > 1) {
                     if (!isConsistent) {
                         htmlOut += `<h4 style="margin:0 0 5px 0; color:var(--danger-color); font-weight:500;">${t('no_sol')}</h4>`;
@@ -793,8 +660,7 @@
                     } else {
                         htmlOut += `<h4 style="margin:0; color:var(--primary-color); padding-bottom:15px; font-weight:500;">${t('step_eq')}</h4>`; 
                         for(let i=0; i<cols-1; i++) { 
-                            let val = fN(m[i][cols-1]);
-                            if (Math.abs(m[i][cols-1]) < 1e-10) val = 0;
+                            let val = fN(m[i][cols-1]); if (Math.abs(m[i][cols-1]) < 1e-10) val = 0;
                             htmlOut += `X<sub>${i+1}</sub> &nbsp;=&nbsp; <b>${val}</b><br>`; 
                         }
                     }
@@ -803,75 +669,48 @@
                 }
                 htmlOut += `</div>`;
 
-            // --- MATRIX RANK ---
             } else if (op === 'rank') {
-                let m = cln(A); 
-                if(showSteps) htmlOut += rT(m, t('step_init')); 
-                
+                let m = cln(A); if(showSteps) htmlOut += rT(m, t('step_init')); 
                 let rk = cols;
                 for(let rw=0; rw<rk; rw++) { 
                     if(Math.abs(m[rw][rw]) > 1e-10) { 
                         for(let c=0; c<rows; c++) { 
-                            if(c !== rw) { 
-                                let mt = m[c][rw]/m[rw][rw]; 
-                                for(let i=0; i<rk; i++) { m[c][i] -= mt * m[rw][i]; }
-                            } 
+                            if(c !== rw) { let mt = m[c][rw]/m[rw][rw]; for(let i=0; i<rk; i++) { m[c][i] -= mt * m[rw][i]; } } 
                         } 
                         if(showSteps && rw < rows-1) htmlOut += rT(cln(m), t('step_elim_pivot')); 
-                    }
-                    else { 
+                    } else { 
                         let rd = true; 
                         for(let i=rw+1; i<rows; i++) { 
                             if(Math.abs(m[i][rw]) > 1e-10) { 
-                                let tp = m[rw]; m[rw] = m[i]; m[i] = tp; 
-                                if(showSteps) htmlOut += rT(cln(m), t('step_swap')); 
-                                rd = false; break; 
+                                let tp = m[rw]; m[rw] = m[i]; m[i] = tp; if(showSteps) htmlOut += rT(cln(m), t('step_swap')); rd = false; break; 
                             } 
                         } 
-                        if(rd) { rk--; for(let i=0; i<rows; i++) { m[i][rw] = m[i][rk]; } } 
-                        rw--; 
+                        if(rd) { rk--; for(let i=0; i<rows; i++) { m[i][rw] = m[i][rk]; } } rw--; 
                     } 
                 }
                 htmlOut += `<div class="result-box">Rank &nbsp;=&nbsp; <b style="color:var(--primary-color);">${rk}</b></div>`;
 
-            // --- DETERMINANT ---
             } else if (op === 'det') {
-                let m = cln(A);
-                let n = rows;
-                if(showSteps) htmlOut += rT(m, t('step_init')); 
-                
-                let detSign = 1;
-                let isZero = false;
-                
+                let m = cln(A); let n = rows; if(showSteps) htmlOut += rT(m, t('step_init')); 
+                let detSign = 1; let isZero = false;
                 for(let i=0; i<n; i++) {
                     let pivot = m[i][i];
-                    
                     if(Math.abs(pivot) < 1e-10) {
                         let swapped = false;
                         for(let k=i+1; k<n; k++) {
                             if(Math.abs(m[k][i]) > 1e-10) {
                                 let temp = m[i]; m[i] = m[k]; m[k] = temp;
-                                detSign *= -1; 
-                                pivot = m[i][i];
-                                swapped = true;
-                                if(showSteps) htmlOut += rT(cln(m), t('step_swap_det').replace('{r1}', i+1).replace('{r2}', k+1));
-                                break;
+                                detSign *= -1; pivot = m[i][i]; swapped = true;
+                                if(showSteps) htmlOut += rT(cln(m), t('step_swap_det').replace('{r1}', i+1).replace('{r2}', k+1)); break;
                             }
                         }
-                        if(!swapped) {
-                            isZero = true;
-                            break;
-                        }
+                        if(!swapped) { isZero = true; break; }
                     }
-                    
                     let eliminated = false;
                     for(let k=i+1; k<n; k++) {
                         let factor = m[k][i] / pivot;
                         if(Math.abs(factor) > 1e-10) {
-                            for(let j=i; j<n; j++) {
-                                m[k][j] -= factor * m[i][j];
-                            }
-                            eliminated = true;
+                            for(let j=i; j<n; j++) { m[k][j] -= factor * m[i][j]; } eliminated = true;
                         }
                     }
                     if(showSteps && eliminated) htmlOut += rT(cln(m), t('step_elim_det').replace('{c}', i+1));
@@ -880,20 +719,12 @@
                 let finalDet = 1;
                 if(isZero) {
                     finalDet = 0;
-                    if(showSteps) {
-                        htmlOut += `<div class="result-box" style="color:var(--danger-color); font-weight:500;">${t('zero_row_col')}</div>`;
-                    } else {
-                        htmlOut += `<div class="result-box">Determinant &nbsp;=&nbsp; <b style="color:var(--primary-color);">0</b></div>`;
-                    }
+                    if(showSteps) { htmlOut += `<div class="result-box" style="color:var(--danger-color); font-weight:500;">${t('zero_row_col')}</div>`; } 
+                    else { htmlOut += `<div class="result-box">Determinant &nbsp;=&nbsp; <b style="color:var(--primary-color);">0</b></div>`; }
                 } else {
                     let diags = [];
-                    for(let i=0; i<n; i++) {
-                        finalDet *= m[i][i];
-                        diags.push(fN(m[i][i]));
-                    }
-                    finalDet *= detSign;
-                    if(Math.abs(finalDet) < 1e-10) finalDet = 0;
-                    
+                    for(let i=0; i<n; i++) { finalDet *= m[i][i]; diags.push(fN(m[i][i])); }
+                    finalDet *= detSign; if(Math.abs(finalDet) < 1e-10) finalDet = 0;
                     if(showSteps) {
                         htmlOut += `<div class="result-box" style="text-align:left; background:var(--bg-panel); border-color:var(--border-color);">
                             <span style="color:var(--text-main); font-weight:500;">${t('step_det_tri')}</span><br><br>
@@ -902,34 +733,24 @@
                             <hr style="border-color:var(--border-color); margin:15px 0;">
                             Determinant &nbsp;=&nbsp; <b style="color:var(--primary-color); font-size:1.15em;">${fN(finalDet)}</b>
                         </div>`;
-                    } else {
-                        htmlOut += `<div class="result-box">Determinant &nbsp;=&nbsp; <b style="color:var(--primary-color);">${fN(finalDet)}</b></div>`;
-                    }
+                    } else { htmlOut += `<div class="result-box">Determinant &nbsp;=&nbsp; <b style="color:var(--primary-color);">${fN(finalDet)}</b></div>`; }
                 }
 
-            // --- CRAMER'S RULE ---
             } else if (op === 'cramer') {
                 let m = cln(A); let n = rows; let D = []; 
                 for(let i=0; i<n; i++) { D.push(m[i].slice(0,n)); }
-                let detD = cD(D); 
-                if(Math.abs(detD) < 1e-10) detD = 0;
+                let detD = cD(D); if(Math.abs(detD) < 1e-10) detD = 0;
                 
                 if(showSteps) htmlOut += rT(D, t('mat_d'));
                 htmlOut += `<div class="result-box" style="padding:15px;">Det(D) &nbsp;=&nbsp; <b>${fN(detD)}</b></div>`;
                 
-                if(Math.abs(detD) === 0) {
-                    htmlOut += `<div class="result-box" style="color:var(--danger-color); font-weight:500;">${t('no_sol')} (Det = 0)</div>`;
-                } else { 
+                if(Math.abs(detD) === 0) { htmlOut += `<div class="result-box" style="color:var(--danger-color); font-weight:500;">${t('no_sol')} (Det = 0)</div>`; } 
+                else { 
                     for(let v=0; v<n; v++) { 
-                        let Dx = cln(D); 
-                        for(let i=0; i<n; i++) { Dx[i][v] = m[i][n]; }
-                        let detDx = cD(Dx); 
-                        if(Math.abs(detDx) < 1e-10) detDx = 0;
-                        
+                        let Dx = cln(D); for(let i=0; i<n; i++) { Dx[i][v] = m[i][n]; }
+                        let detDx = cD(Dx); if(Math.abs(detDx) < 1e-10) detDx = 0;
                         if(showSteps) htmlOut += rT(Dx, t('mat_d') + `<sub>${v+1}</sub>`);
-                        let x = detDx / detD;
-                        if(Math.abs(x) < 1e-10) x = 0;
-                        
+                        let x = detDx / detD; if(Math.abs(x) < 1e-10) x = 0;
                         htmlOut += `
                         <div class="result-box" style="margin-top:20px; overflow-x:auto;">
                             Det(D<sub>${v+1}</sub>) = <b>${fN(detDx)}</b><br>
@@ -939,14 +760,8 @@
                     } 
                 }
 
-            // --- COFACTOR MATRIX ---
             } else if (op === 'cofactor') {
-                if(rows === 1) { 
-                    htmlOut += rT([[1]], t('step_res')); 
-                    s.innerHTML = htmlOut; 
-                    return; 
-                }
-                
+                if(rows === 1) { htmlOut += rT([[1]], t('step_res')); s.innerHTML = htmlOut; return; }
                 let C = []; let MinorMat = []; 
                 let st = `<div class="result-box" style="text-align:left; background:var(--bg-body); border-color:var(--border-color);">
                           <h4 style="color:var(--text-main); margin-top:0; font-weight:500;">${t('step_cof1')}</h4>
@@ -954,48 +769,28 @@
                           <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:15px;">`;
                 
                 if(showSteps) htmlOut += rT(A, t('step_init'));
-                
                 for(let i=0; i<rows; i++) { 
                     let rC = []; let rM = []; 
                     for(let j=0; j<cols; j++) {
                         let mr = []; 
                         for(let r=0; r<rows; r++) { 
-                            if(r === i) continue; 
-                            let mR = []; 
-                            for(let c=0; c<cols; c++) { 
-                                if(c === j) continue; 
-                                mR.push(A[r][c]); 
-                            } 
-                            mr.push(mR); 
+                            if(r === i) continue; let mR = []; 
+                            for(let c=0; c<cols; c++) { if(c === j) continue; mR.push(A[r][c]); } mr.push(mR); 
                         }
-                        
-                        let dM = cD(mr);
-                        if(Math.abs(dM) < 1e-10) dM = 0;
-                        
-                        let sg = ((i+j)%2 === 0) ? 1 : -1;
-                        let cf = sg * dM;
-                        let ds = ""; 
-                        
-                        if(Math.abs(cf) < 1e-10) cf = 0; 
-                        
-                        rC.push(cf); 
-                        rM.push(dM);
+                        let dM = cD(mr); if(Math.abs(dM) < 1e-10) dM = 0;
+                        let sg = ((i+j)%2 === 0) ? 1 : -1; let cf = sg * dM; let ds = ""; if(Math.abs(cf) < 1e-10) cf = 0; 
+                        rC.push(cf); rM.push(dM);
                         
                         if(showSteps) { 
                             if(mr.length === 2) { 
                                 let a = mr[0][0], b = mr[0][1], cv = mr[1][0], d = mr[1][1]; 
                                 ds = `(${fN(a)} &times; ${fN(d)}) - (${fN(b)} &times; ${fN(cv)})`; 
-                            } else if(mr.length === 1) {
-                                ds = `${fN(mr[0][0])}`;
-                            }
+                            } else if(mr.length === 1) { ds = `${fN(mr[0][0])}`; }
                             
                             let mh = `<div style="overflow-x:auto;"><table class="matrix-table" style="font-size:0.85em; margin:10px 0; border:none; box-shadow:none;"><tbody>`; 
                             mr.forEach(rr => { 
-                                mh += `<tr>`; 
-                                rr.forEach(v => mh += `<td style="padding:6px; background:var(--bg-body); border-color:var(--border-color);">${fN(v)}</td>`); 
-                                mh += `</tr>`; 
-                            }); 
-                            mh += `</tbody></table></div>`;
+                                mh += `<tr>`; rr.forEach(v => mh += `<td style="padding:6px; background:var(--bg-body); border-color:var(--border-color);">${fN(v)}</td>`); mh += `</tr>`; 
+                            }); mh += `</tbody></table></div>`;
                             
                             st += `<div style="background:var(--bg-panel); padding:20px; border-radius:8px; border:1px solid var(--border-color);">
                                      <span style="color:var(--text-main); font-weight:500;">R${i+1}, C${j+1}</span><br>
@@ -1006,48 +801,27 @@
                                      C = <span style="color:${sg>0?'var(--text-main)':'var(--danger-color)'}; font-weight:500;">${sg>0?'(+1)':'(-1)'}</span> &times; ${fN(dM)} &nbsp;=&nbsp; <b style="color:var(--primary-color);">${fN(cf)}</b>
                                    </div>`;
                         }
-                    } 
-                    C.push(rC); 
-                    MinorMat.push(rM);
+                    } C.push(rC); MinorMat.push(rM);
                 }
                 
                 if(showSteps) { 
                     htmlOut += st + `</div></div>` + rT(MinorMat, t('step_cof2')); 
-                    let sM = []; 
-                    for(let i=0; i<rows; i++) { 
-                        let sr = []; 
-                        for(let j=0; j<cols; j++) { sr.push(((i+j)%2 === 0) ? '+' : '-'); } 
-                        sM.push(sr); 
-                    } 
+                    let sM = []; for(let i=0; i<rows; i++) { let sr = []; for(let j=0; j<cols; j++) { sr.push(((i+j)%2 === 0) ? '+' : '-'); } sM.push(sr); } 
                     htmlOut += rT(sM, t('step_cof3')); 
                 }
                 htmlOut += rT(C, t('step_res'));
 
-            // --- INVERSE MATRIX ---
             } else if (op === 'inv') {
                 let ag = []; 
-                for(let i=0; i<rows; i++) { 
-                    let rw = [...A[i]]; 
-                    for(let j=0; j<rows; j++) { rw.push(i === j ? 1 : 0); }
-                    ag.push(rw); 
-                } 
-                
+                for(let i=0; i<rows; i++) { let rw = [...A[i]]; for(let j=0; j<rows; j++) { rw.push(i === j ? 1 : 0); } ag.push(rw); } 
                 if(showSteps) htmlOut += rT(cln(ag), "[A | I]", true, rows);
                 
                 let l = 0, ps = true; 
                 for(let r=0; r<rows; r++) { 
-                    if(rows <= l) break; 
-                    let i = r; 
-                    while(Math.abs(ag[i][l]) < 1e-10) { 
-                        i++; 
-                        if(rows === i) { i = r; l++; if(rows === l) { ps = false; break; } } 
-                    } 
+                    if(rows <= l) break; let i = r; 
+                    while(Math.abs(ag[i][l]) < 1e-10) { i++; if(rows === i) { i = r; l++; if(rows === l) { ps = false; break; } } } 
                     if(!ps) break;
-                    
-                    if(i !== r) { 
-                        let tp = ag[i]; ag[i] = ag[r]; ag[r] = tp; 
-                        if(showSteps) htmlOut += rT(cln(ag), t('step_swap'), true, rows); 
-                    } 
+                    if(i !== r) { let tp = ag[i]; ag[i] = ag[r]; ag[r] = tp; if(showSteps) htmlOut += rT(cln(ag), t('step_swap'), true, rows); } 
                     
                     let p = ag[r][l];
                     if(Math.abs(p - 1) > 1e-10) { 
@@ -1059,38 +833,120 @@
                     for(let k=0; k<rows; k++) { 
                         if(k !== r) { 
                             let f = ag[k][l]; 
-                            if(Math.abs(f) > 1e-10) { 
-                                for(let j=0; j<rows*2; j++) { ag[k][j] -= f * ag[r][j]; }
-                                el = true; 
-                            } 
+                            if(Math.abs(f) > 1e-10) { for(let j=0; j<rows*2; j++) { ag[k][j] -= f * ag[r][j]; } el = true; } 
                         } 
                     } 
                     if(showSteps && el) htmlOut += rT(cln(ag), t('step_elim_p'), true, rows); 
                     l++;
                 }
                 
-                if(!ps) { 
-                    htmlOut += `<div class="result-box" style="color:var(--danger-color); font-weight:500;">${t('no_sol')} (Det = 0)</div>`; 
-                } else { 
-                    let I = []; 
-                    for(let i=0; i<rows; i++) { I.push(ag[i].slice(rows)); }
-                    if(!showSteps) {
-                        htmlOut += rT(I, t('step_res')); 
-                    } else {
-                        htmlOut += `<div class="result-box" style="font-weight:500; padding:15px;">${t('step_inv_ext')}</div>` + rT(I, `A<sup>-1</sup>`); 
-                    }
+                if(!ps) { htmlOut += `<div class="result-box" style="color:var(--danger-color); font-weight:500;">${t('no_sol')} (Det = 0)</div>`; } 
+                else { 
+                    let I = []; for(let i=0; i<rows; i++) { I.push(ag[i].slice(rows)); }
+                    if(!showSteps) { htmlOut += rT(I, t('step_res')); } 
+                    else { htmlOut += `<div class="result-box" style="font-weight:500; padding:15px;">${t('step_inv_ext')}</div>` + rT(I, `A<sup>-1</sup>`); }
                 }
             }
             
-            s.innerHTML = htmlOut; 
-            s.scrollIntoView({ behavior: 'smooth' });
+            s.innerHTML = htmlOut; s.scrollIntoView({ behavior: 'smooth' });
         }
         
-        // Panggil saat pertama kali halaman diload
-        window.onload = () => {
-            changeLanguage();
-            checkLoginStatus();
+        // Panggil bahasa default saat dimuat
+        window.onload = () => { changeLanguage(); };
+    </script>
+
+    <!-- === FIREBASE SCRIPT (MODULAR v9+) === -->
+    <script type="module">
+        // Import dari CDN persis seperti arahan Google Firebase terbaru
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+        // Konfigurasi Project Anda (Berdasarkan gambar)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCFwwLiL4FBgAQ13OHVnWVGwxsApcDSR7U",
+            authDomain: "zeromatriks-f3062.firebaseapp.com",
+            projectId: "zeromatriks-f3062",
+            storageBucket: "zeromatriks-f3062.firebasestorage.app",
+            messagingSenderId: "379008700427",
+            appId: "1:379008700427:web:988a7fa91f3367a123770e",
+            measurementId: "G-7E7D2CLSNX"
         };
+
+        // Inisialisasi Firebase & Layanan Auth
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Pasang pendengar sesi ke objek `window` agar UI bisa menyesuaikan
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('login-wrapper').style.display = 'none';
+                document.getElementById('app-wrapper').style.display = 'block';
+                // Ambil string sebelum '@' sebagai nama tampilan
+                let displayName = user.email.split('@')[0];
+                document.getElementById('display-user').innerText = displayName;
+                // Jalankan navigasi Home
+                if(typeof window.navigate === 'function') window.navigate('home');
+            } else {
+                document.getElementById('login-wrapper').style.display = 'flex';
+                document.getElementById('app-wrapper').style.display = 'none';
+            }
+        });
+
+        // Daftarkan fungsi ke window object agar bisa dipanggil dari onclick HTML
+        window.doRegister = function() {
+            let email = document.getElementById('reg-username').value.trim();
+            let p1 = document.getElementById('reg-password').value;
+            let p2 = document.getElementById('reg-password-confirm').value;
+
+            if(email === "" || p1 === "") { alert("Isi form dengan benar!"); return; }
+            if(p1 !== p2) { alert("Sandi tidak cocok!"); return; }
+
+            // Panggil API Firebase
+            createUserWithEmailAndPassword(auth, email, p1)
+                .then((userCredential) => {
+                    alert("Akun berhasil dibuat! Silakan masuk.");
+                    document.getElementById('reg-username').value = '';
+                    document.getElementById('reg-password').value = '';
+                    document.getElementById('reg-password-confirm').value = '';
+                    if(typeof window.toggleAuth === 'function') window.toggleAuth('login');
+                })
+                .catch((error) => {
+                    alert("Error pendaftaran: " + error.message);
+                });
+        };
+
+        window.doLogin = function() {
+            let email = document.getElementById('login-username').value.trim();
+            let p = document.getElementById('login-password').value;
+
+            if(email === "") return;
+
+            // Panggil API Firebase
+            signInWithEmailAndPassword(auth, email, p)
+                .then((userCredential) => {
+                    // Berhasil. Listener `onAuthStateChanged` akan menembakkan transisi halaman.
+                })
+                .catch((error) => {
+                    alert("Error: Email atau sandi Anda salah!");
+                });
+        };
+
+        window.doLogout = function() {
+            signOut(auth).then(() => {
+                document.getElementById('login-username').value = '';
+                document.getElementById('login-password').value = '';
+            }).catch((error) => {
+                alert("Gagal Keluar: " + error.message);
+            });
+        };
+        
+        // Listener Enter key
+        document.getElementById("login-password").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") window.doLogin();
+        });
+        document.getElementById("reg-password-confirm").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") window.doRegister();
+        });
     </script>
 </body>
 </html>
