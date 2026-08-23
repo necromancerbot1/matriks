@@ -48,14 +48,6 @@
                 <select id="login-lang" onchange="changeLangFromLogin()" style="background:var(--bg-body); color:var(--text-muted); border:1px solid var(--border-color); padding:5px 10px; border-radius:4px; outline:none; cursor:pointer;">
                     <option value="id" selected>🇮🇩 ID</option>
                     <option value="en">🇬🇧 EN</option>
-                    <option value="jp">🇯🇵 JP</option>
-                    <option value="zh">🇨🇳 ZH</option>
-                    <option value="ru">🇷🇺 RU</option>
-                    <option value="es">🇪🇸 ES</option>
-                    <option value="fr">🇫🇷 FR</option>
-                    <option value="de">🇩🇪 DE</option>
-                    <option value="ar">🇸🇦 AR</option>
-                    <option value="ko">🇰🇷 KO</option>
                 </select>
             </div>
         </div>
@@ -70,14 +62,6 @@
                     <select id="languageSelect" onchange="changeLanguage()">
                         <option value="id">ID - Indonesia</option>
                         <option value="en">EN - English</option>
-                        <option value="jp">JP - 日本語</option>
-                        <option value="zh">ZH - 中文</option>
-                        <option value="ru">RU - Русский</option>
-                        <option value="es">ES - Español</option>
-                        <option value="fr">FR - Français</option>
-                        <option value="de">DE - Deutsch</option>
-                        <option value="ar">AR - العربية</option>
-                        <option value="ko">KO - 한국어</option>
                     </select>
                 </div>
                 <div class="user-profile">
@@ -106,24 +90,28 @@
                     <li><a href="#" id="nav-inv" onclick="navigate('inv')" data-lang="nav_inv">Inverse</a></li>
                     
                     <li style="margin-top:15px; border-top:1px solid var(--border-color); padding-top:15px;">
-                        <a href="#" id="nav-chat" onclick="navigate('chat')" data-lang="nav_chat" style="color:var(--info-color);">👥 Diskusi & Teman</a>
+                        <a href="#" id="nav-materi" onclick="navigate('materi')" data-lang="nav_materi" style="color:var(--info-color);">📚 Buku Materi</a>
                     </li>
                     <li>
                         <a href="#" id="nav-quiz" onclick="navigate('quiz')" data-lang="nav_quiz" style="color:#f59e0b;">🎮 Kuis & Ranking</a>
                     </li>
                     <li>
-                        <a href="#" id="nav-profile" onclick="navigate('profile')" data-lang="nav_profile" style="color:var(--success-color);">⚙️ Profil Saya</a>
+                        <a href="#" id="nav-chat" onclick="navigate('chat')" data-lang="nav_chat" style="color:var(--success-color);">👥 Diskusi Kelas</a>
+                    </li>
+                    <li>
+                        <a href="#" id="nav-profile" onclick="navigate('profile')" data-lang="nav_profile" style="color:var(--text-muted);">⚙️ Profil Saya</a>
                     </li>
                 </ul>
             </aside>
         </div>
     </div>
 
-    <!-- === PENGHUBUNG KE FILE JAVASCRIPT === -->
+    <!-- === PENGHUBUNG KE SEMUA FILE JAVASCRIPT === -->
     <script src="app.js"></script>
     <script src="auth.js"></script>
     <script src="chat.js"></script>
     <script src="quiz.js"></script>
+    <script src="materi.js"></script> <!-- MODUL BARU -->
 
 </body>
 </html>
