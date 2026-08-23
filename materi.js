@@ -1,61 +1,64 @@
-// === LOGIKA BUKU MATERI (E-BOOK) ===
+// === BUKU REFERENSI MATERI ALDABAR LINEAR ===
 
 function renderMateriUI(c) {
     c.innerHTML = `
-        <div style="max-width:800px; margin:0 auto;">
-            <div style="text-align:center; margin-bottom:30px;">
-                <h2>Buku Materi Aljabar Linear</h2>
-                <p style="color:var(--text-muted);">Pilih rangkuman aljabar berdasarkan tingkat pendidikan.</p>
+        <div style="max-width:850px; margin:0 auto;">
+            <div style="text-align:center; margin-bottom:40px;">
+                <h2 style="font-size:2em; font-weight:500; margin-bottom:10px;">📚 Buku Referensi Matriks</h2>
+                <p style="color:var(--text-secondary); font-size:1.1em;">Silabus terstruktur untuk komputasi matriks berdasarkan tingkatan akademik.</p>
             </div>
 
-            <!-- MATERI SMP -->
-            <div style="background:var(--bg-panel); border:1px solid var(--border-color); border-left:4px solid #34d399; border-radius:8px; padding:25px; margin-bottom:20px;">
-                <h3 style="color:#34d399; margin-top:0;">🟢 Tingkat SMP: Operasi Dasar & SPLDV</h3>
-                <p style="color:var(--text-muted); font-size:0.95em;">Di tingkat ini, Anda diperkenalkan pada konsep dasar baris dan kolom serta penjumlahan matriks.</p>
-                <div style="background:var(--bg-body); padding:15px; border-radius:6px; font-family:monospace; color:var(--text-main); font-size:0.9em; overflow-x:auto;">
-                    <b>1. Penjumlahan & Pengurangan:</b><br>
-                    Matriks hanya bisa dijumlah/dikurang jika ordonya (ukuran baris x kolom) SAMA.<br>
-                    [ a  b ] + [ e  f ] = [ a+e  b+f ]<br>
-                    [ c  d ]   [ g  h ]   [ c+g  d+h ]<br><br>
+            <!-- MATERI DASAR -->
+            <div class="data-card" style="border-left:5px solid var(--accent-success); margin-bottom:30px;">
+                <h3 style="color:var(--accent-success); margin-top:0; font-size:1.3em;">■ Modul Fundamental (Dasar/SMP)</h3>
+                <p style="color:var(--text-secondary); font-size:0.95em; margin-bottom:20px;">Pengenalan arsitektur matriks, indeks baris/kolom, serta eksekusi operasi aritmatika dasar.</p>
+                
+                <div style="background:var(--bg-base); padding:20px; border-radius:8px; border:1px solid var(--border-subtle); font-family:monospace; color:var(--text-primary); font-size:0.95em; overflow-x:auto;">
+                    <b style="color:var(--brand-main);">[1] Kondisi Penjumlahan & Pengurangan:</b><br>
+                    Operasi komputasi valid eksklusif jika kedua matriks memiliki dimensi ordo (m x n) yang setara.<br><br>
+                    <span style="opacity:0.8;">[ a  b ]   [ e  f ]     [ a+e  b+f ]</span><br>
+                    <span style="opacity:0.8;">[ c  d ] + [ g  h ]  =  [ c+g  d+h ]</span><br><br>
                     
-                    <b>2. Perkalian Skalar:</b><br>
-                    Mengalikan sebuah angka dengan semua elemen matriks.<br>
-                    k * [ a  b ] = [ ka  kb ]
+                    <b style="color:var(--brand-main);">[2] Skalabilitas Matriks:</b><br>
+                    Fungsi skalar di mana suatu bilangan konstanta (k) dikalikan merata pada setiap komponen elemen matriks.<br><br>
+                    <span style="opacity:0.8;">k * [ a  b ] = [ ka  kb ]</span>
                 </div>
             </div>
 
-            <!-- MATERI SMA -->
-            <div style="background:var(--bg-panel); border:1px solid var(--border-color); border-left:4px solid #60a5fa; border-radius:8px; padding:25px; margin-bottom:20px;">
-                <h3 style="color:#60a5fa; margin-top:0;">🔵 Tingkat SMA: Determinan, Invers & Cramer</h3>
-                <p style="color:var(--text-muted); font-size:0.95em;">Matriks mulai digunakan untuk memecahkan sistem persamaan linear dengan teknik Invers dan Cramer.</p>
-                <div style="background:var(--bg-body); padding:15px; border-radius:6px; font-family:monospace; color:var(--text-main); font-size:0.9em; overflow-x:auto;">
-                    <b>1. Determinan 2x2:</b><br>
-                    A = [ a  b ]  -->  Det(A) = (a * d) - (b * c)<br>
-                        [ c  d ]<br><br>
+            <!-- MATERI MENENGAH -->
+            <div class="data-card" style="border-left:5px solid var(--brand-main); margin-bottom:30px;">
+                <h3 style="color:var(--brand-main); margin-top:0; font-size:1.3em;">■ Modul Intermediat (Menengah/SMA)</h3>
+                <p style="color:var(--text-secondary); font-size:0.95em; margin-bottom:20px;">Logika pemrosesan Sistem Persamaan Linear, kalkulasi nilai Determinan, pembentukan matriks Invers dan rasio Aturan Cramer.</p>
+                
+                <div style="background:var(--bg-base); padding:20px; border-radius:8px; border:1px solid var(--border-subtle); font-family:monospace; color:var(--text-primary); font-size:0.95em; overflow-x:auto;">
+                    <b style="color:var(--accent-warning);">[1] Fungsi Determinan Ordo 2x2:</b><br>
+                    <span style="opacity:0.8;">A = [ a  b ]  -->  Det(A) = (a * d) - (b * c)</span><br>
+                    <span style="opacity:0.8;">    [ c  d ]</span><br><br>
 
-                    <b>2. Invers Matriks 2x2:</b><br>
-                    A^-1 =  1 / Det(A) * [  d  -b ]<br>
-                                         [ -c   a ]<br><br>
+                    <b style="color:var(--accent-warning);">[2] Persamaan Invers Matriks 2x2:</b><br>
+                    <span style="opacity:0.8;">A^-1 =  1 / Det(A) * [  d  -b ]</span><br>
+                    <span style="opacity:0.8;">                     [ -c   a ]</span><br><br>
 
-                    <b>3. Syarat Perkalian:</b><br>
-                    Kolom matriks pertama HARUS SAMA dengan baris matriks kedua (m x n * n x p = m x p).
+                    <b style="color:var(--accent-warning);">[3] Syarat Perkalian Dua Matriks:</b><br>
+                    Dimensi kolom pada matriks P harus kongruen dengan dimensi baris pada matriks Q (Ordo: m x n * n x p = m x p).
                 </div>
             </div>
 
-            <!-- MATERI MAHASISWA -->
-            <div style="background:var(--bg-panel); border:1px solid var(--border-color); border-left:4px solid #f87171; border-radius:8px; padding:25px; margin-bottom:20px;">
-                <h3 style="color:#f87171; margin-top:0;">🔴 Tingkat Mahasiswa: Eselon Baris, Eigen & Rank</h3>
-                <p style="color:var(--text-muted); font-size:0.95em;">Penggunaan algoritma eliminasi canggih seperti Gauss-Jordan dan analisis ruang vektor (Vektor Eigen).</p>
-                <div style="background:var(--bg-body); padding:15px; border-radius:6px; font-family:monospace; color:var(--text-main); font-size:0.9em; overflow-x:auto;">
-                    <b>1. Eliminasi Gauss-Jordan (RREF):</b><br>
-                    Mengubah matriks augmented menjadi bentuk eselon baris tereduksi (diagonal utamanya 1, sisanya 0).<br><br>
+            <!-- MATERI UNIVERSITAS -->
+            <div class="data-card" style="border-left:5px solid var(--accent-danger); margin-bottom:30px;">
+                <h3 style="color:var(--accent-danger); margin-top:0; font-size:1.3em;">■ Modul Analisis Lanjut (Universitas)</h3>
+                <p style="color:var(--text-secondary); font-size:0.95em; margin-bottom:20px;">Operasi algoritma lanjut menggunakan metode Eselon Baris, Evaluasi Vektor Eigen (Eigenvectors), serta analisis matriks multi-dimensi.</p>
+                
+                <div style="background:var(--bg-base); padding:20px; border-radius:8px; border:1px solid var(--border-subtle); font-family:monospace; color:var(--text-primary); font-size:0.95em; overflow-x:auto;">
+                    <b style="color:var(--accent-success);">[1] Eliminasi Gauss-Jordan (Pola RREF):</b><br>
+                    Metodologi pengubahan matriks augmented menjadi bentuk Eselon Baris Tereduksi (di mana elemen diagonal utama bernilai 1, dan elemen lain bernilai 0). Sangat efisien untuk mencari himpunan penyelesaian variabel tak hingga.<br><br>
 
-                    <b>2. Persamaan Nilai Eigen (Eigenvalues):</b><br>
-                    Det(A - λI) = 0<br>
-                    Dicari nilai konstanta (λ) yang tidak mengubah orientasi vektor aslinya.<br><br>
+                    <b style="color:var(--accent-success);">[2] Persamaan Vektor Eigen (Eigenvalues):</b><br>
+                    <span style="opacity:0.8;">Det(A - λI) = 0</span><br>
+                    Kalkulasi nilai saklar (λ) yang tidak akan merubah rentang vektor ketika ditransformasikan menggunakan representasi matriksnya.<br><br>
 
-                    <b>3. Rank Matriks:</b><br>
-                    Jumlah maksimum baris/kolom yang saling independen linear (tidak bisa dijadikan 0 semua lewat eliminasi Gauss).
+                    <b style="color:var(--accent-success);">[3] Dekomposisi Rank Matriks:</b><br>
+                    Pengujian struktural untuk mendefinisikan jumlah parameter vektor maksimum (baris/kolom) yang bersifat saling independen secara linear dalam sebuah bangun matriks.
                 </div>
             </div>
         </div>`;
