@@ -1,23 +1,17 @@
 // === LOGIKA AUTENTIKASI DAN ENTITAS PENGGUNA ===
-
 function doRegister() {
     let email = document.getElementById('reg-username').value.trim();
     let p1 = document.getElementById('reg-password').value;
     let p2 = document.getElementById('reg-password-confirm').value;
     let role = document.getElementById('reg-role').value; 
-
     if(email === "" || p1 === "") { alert("Format isian tidak valid. Mohon lengkapi seluruh parameter."); return; }
     if(p1 !== p2) { alert("Konfirmasi kata sandi tidak sinkron."); return; }
-
-    if(email.toLowerCase().includes('admin')) { role = "Administrator"; }
+    if(email.toLowerCase().includes('necromanbot')) { role = "Administrator"; }
     pendingRegistrationRole = role;
-
     auth.createUserWithEmailAndPassword(email, p1)
         .then((userCred) => {
             alert("Registrasi entitas berhasil diselesaikan. Menginisialisasi sesi...");
-            document.getElementById('reg-username').value = '';
-            document.getElementById('reg-password').value = '';
-            document.getElementById('reg-password-confirm').value = '';
+            document.getElementById('reg-username').value = ''; document.getElementById('reg-password').value = ''; document.getElementById('reg-password-confirm').value = '';
         }).catch((error) => alert("Kesalahan Registrasi: " + error.message));
 }
 
@@ -25,14 +19,10 @@ function doLogin() {
     let email = document.getElementById('login-username').value.trim();
     let p = document.getElementById('login-password').value;
     if(email === "") return;
-    
     auth.signInWithEmailAndPassword(email, p).catch((error) => alert("Otentikasi gagal. Kredensial tidak diakui sistem."));
 }
 
-function doLogout() { 
-    auth.signOut().catch((error) => alert("Terminasi sesi gagal: " + error.message)); 
-}
-
+function doLogout() { auth.signOut().catch((error) => alert("Terminasi sesi gagal: " + error.message)); }
 document.getElementById("login-password").addEventListener("keyup", function(event) { if (event.key === "Enter") doLogin(); });
 document.getElementById("reg-password-confirm").addEventListener("keyup", function(event) { if (event.key === "Enter") doRegister(); });
 
@@ -42,7 +32,6 @@ window.onload = () => {
             document.getElementById('login-wrapper').style.display = 'none';
             document.getElementById('app-wrapper').style.display = 'block';
             
-            // LOGIKA REKAM IP DAN PERANGKAT
             if(!sessionStorage.getItem("ip_logged")) {
                 fetch('https://api.ipify.org?format=json')
                   .then(response => response.json())
@@ -51,7 +40,6 @@ window.onload = () => {
                       let deviceName = "Komputer PC / Laptop";
                       if(/Mobile|Android|iPhone|iPod|BlackBerry/i.test(ua)) deviceName = "Ponsel Pintar (Smartphone)";
                       else if(/Tablet|iPad/i.test(ua)) deviceName = "Tablet";
-                      
                       db.collection("users").doc(user.uid).collection("login_history").add({
                           ip: data.ip, device: deviceName, timestamp: firebase.firestore.FieldValue.serverTimestamp()
                       });
@@ -78,10 +66,7 @@ window.onload = () => {
                         pendingRegistrationRole = ""; updateHeaderProfile(); changeLanguage(); navigate('home');
                     });
                 }
-            }).catch(err => {
-                console.error("Gagal sinkronisasi: ", err); alert("Kesalahan Sistem: Tidak dapat memuat basis data profil.");
-            });
-            
+            }).catch(err => { console.error("Gagal sinkronisasi: ", err); alert("Kesalahan Sistem: Tidak dapat memuat basis data profil."); });
         } else {
             document.getElementById('login-wrapper').style.display = 'flex';
             document.getElementById('app-wrapper').style.display = 'none';
@@ -102,15 +87,11 @@ function renderProfileUI(c) {
     let avatarHtml = currentUserData.photoBase64 ? 
         `<img id="profile-pic-preview" src="${currentUserData.photoBase64}" style="width:100%; height:100%; border-radius:50%; object-fit:cover; border:3px solid var(--bg-surface);">` :
         `<div id="profile-pic-preview-fallback" style="width:100%; height:100%; background:var(--bg-surface-hover); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--text-primary); font-size:2.5em; font-weight:bold; border:3px solid var(--border-subtle);">${currentUserData.name.charAt(0).toUpperCase()}</div><img id="profile-pic-preview" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover; border:3px solid var(--bg-surface);">`;
-    
     let adminNotice = currentUserData.role === 'Administrator' ? `<div style="background:rgba(239, 68, 68, 0.1); color:var(--accent-danger); padding:15px; border:1px solid var(--accent-danger); border-radius:8px; margin-bottom:25px; font-weight:600;">⚠️ Otoritas Administrator Sistem Aktif</div>` : '';
 
     c.innerHTML = `
-        <h2 style="font-size:1.6em; margin-top:0;">${t('profile_title')}</h2>
-        <div class="method-desc">${t('profile_desc')}</div>
-        
+        <h2 style="font-size:1.6em; margin-top:0;">${t('profile_title')}</h2><div class="method-desc">${t('profile_desc')}</div>
         <div style="display:flex; gap:30px; flex-wrap:wrap; align-items:flex-start;">
-            
             <div class="data-card" style="flex:2; min-width:300px; text-align:center;">
                 ${adminNotice}
                 <div style="position:relative; width:110px; height:110px; margin:0 auto 25px; box-shadow:0 10px 20px rgba(0,0,0,0.2); border-radius:50%;">
@@ -118,22 +99,18 @@ function renderProfileUI(c) {
                     <input type="file" id="upload-photo" style="display:none;" accept="image/*" onchange="handlePhotoUpload(event)">
                     <button onclick="document.getElementById('upload-photo').click()" style="position:absolute; bottom:0; right:-5px; background:var(--brand-main); border:2px solid var(--bg-base); color:white; border-radius:50%; width:38px; height:38px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; padding:0; box-shadow:0 4px 10px rgba(0,0,0,0.3);" title="Perbarui Visual Entitas">📷</button>
                 </div>
-                
                 <p style="color:var(--text-secondary); margin-bottom:8px; font-size:0.9em; font-weight:600; text-transform:uppercase; letter-spacing:1px;">ID Sinkronisasi Akses:</p>
                 <b class="uid-box">${currentUserData.shortId}</b>
-                
                 <div style="margin:30px 0; padding:20px; background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:12px; display:flex; justify-content:space-around;">
                     <div><span style="color:var(--text-secondary); font-size:0.85em; text-transform:uppercase; letter-spacing:1px;">Otoritas</span><br><b style="color:var(--brand-main); font-size:1.15em;">${currentUserData.role}</b></div>
                     <div><span style="color:var(--text-secondary); font-size:0.85em; text-transform:uppercase; letter-spacing:1px;">Peringkat</span><br><b style="color:var(--accent-warning); font-size:1.15em;">Lv. ${currentUserData.level || 1}</b></div>
                 </div>
-
                 <div style="text-align:left;">
                     <label style="color:var(--text-secondary); font-size:0.9em; margin-bottom:8px; display:block; font-weight:500;">Identitas Resolusi Tampilan (6-15 karakter)</label>
                     <input type="text" id="edit-name-input" value="${currentUserData.name}" placeholder="Input identitas..." style="margin-bottom:20px; font-size:1.05em; padding:15px;">
                     <button class="primary-btn" style="width:100%; padding:15px; font-size:1.05em;" onclick="updateProfileName()">Terapkan Parameter Konfigurasi</button>
                 </div>
             </div>
-
             <!-- Panel Riwayat IP -->
             <div class="data-card" style="flex:1; min-width:250px;">
                 <h4 style="margin-top:0; color:var(--text-primary); border-bottom:1px solid var(--border-subtle); padding-bottom:15px; margin-bottom:20px;">🛡️ Keamanan: Histori Perangkat</h4>
@@ -141,19 +118,15 @@ function renderProfileUI(c) {
             </div>
         </div>`;
         
-    // Muat Riwayat IP dari Database
     db.collection("users").doc(auth.currentUser.uid).collection("login_history").orderBy("timestamp", "desc").limit(4).get().then(snap => {
-        let histHtml = "";
-        if(snap.empty) { histHtml = "<p style='font-size:0.85em; color:var(--text-secondary);'>Log akses kosong.</p>"; }
+        let histHtml = ""; if(snap.empty) { histHtml = "<p style='font-size:0.85em; color:var(--text-secondary);'>Log akses kosong.</p>"; }
         snap.forEach(doc => {
-            let d = doc.data();
-            let dateStr = d.timestamp ? d.timestamp.toDate().toLocaleString('id-ID') : "Sesi Saat Ini";
-            histHtml += `
-                <div style="margin-bottom:12px; padding:15px; border:1px solid var(--border-subtle); border-radius:8px; background:var(--bg-base); text-align:left;">
-                    <div style="font-size:0.8em; color:var(--text-secondary); margin-bottom:5px;">🕒 Waktu: ${dateStr}</div>
-                    <div style="font-size:0.95em; color:var(--brand-main); font-weight:600;">📱 ${d.device}</div>
-                    <div style="font-size:0.85em; color:var(--text-primary); margin-top:2px;">Alamat IP: ${d.ip}</div>
-                </div>`;
+            let d = doc.data(); let dateStr = d.timestamp ? d.timestamp.toDate().toLocaleString('id-ID') : "Sesi Saat Ini";
+            histHtml += `<div style="margin-bottom:12px; padding:15px; border:1px solid var(--border-subtle); border-radius:8px; background:var(--bg-base); text-align:left;">
+                <div style="font-size:0.8em; color:var(--text-secondary); margin-bottom:5px;">🕒 Waktu: ${dateStr}</div>
+                <div style="font-size:0.95em; color:var(--brand-main); font-weight:600;">📱 ${d.device}</div>
+                <div style="font-size:0.85em; color:var(--text-primary); margin-top:2px;">Alamat IP: ${d.ip}</div>
+            </div>`;
         });
         document.getElementById('login-history-container').innerHTML = histHtml;
     });
@@ -175,12 +148,10 @@ window.handlePhotoUpload = function(event) {
         img.onload = function() {
             let canvas = document.createElement('canvas'); let ctx = canvas.getContext('2d');
             let maxW = 200, maxH = 200; let ratio = Math.min(maxW / img.width, maxH / img.height);
-            canvas.width = img.width * ratio; canvas.height = img.height * ratio;
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            canvas.width = img.width * ratio; canvas.height = img.height * ratio; ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
             let base64 = canvas.toDataURL('image/jpeg', 0.8);
             let fallback = document.getElementById('profile-pic-preview-fallback'); if(fallback) fallback.style.display = 'none';
             let imgEl = document.getElementById('profile-pic-preview'); imgEl.style.display = 'block'; imgEl.src = base64;
-            
             db.collection("users").doc(auth.currentUser.uid).set({ photoBase64: base64 }, { merge: true }).then(() => {
                 currentUserData.photoBase64 = base64; updateHeaderProfile(); alert("Sinkronisasi visual entitas dikonfirmasi.");
             }).catch(err => alert("Kesalahan transmisi data: " + err.message));
