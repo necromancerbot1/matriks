@@ -19,7 +19,7 @@ let lang = 'id';
 let mode = 'home';
 let rows = 2, cols = 3;
 
-// === KAMUS 10 BAHASA (BUG-FREE FALLBACK) ===
+// === KAMUS BAHASA (BUILT-IN FAILSAFE) ===
 const tr = {
     id: { 
         login_desc: "Sistem Komputasi Aljabar Linear Terpadu", login_user: "Alamat Surel...", login_pass: "Kata Sandi...", login_btn: "Otentikasi Masuk", welcome: "Sesi:", logout: "Keluar Sesi", login_toggle_reg: "Registrasi Pengguna Baru", login_toggle_log: "Sudah Terdaftar? Masuk", btn_register: "Buat Akun", reg_user: "Alamat Surel...", reg_pass: "Buat Kata Sandi...", reg_pass2: "Konfirmasi Sandi...", opt_student: "Mahasiswa / Pelajar", opt_teacher: "Dosen / Pengajar", msg_pass_nomatch: "Otentikasi sandi tidak valid!",
@@ -51,23 +51,29 @@ const tr = {
     ko: { nav_home: "홈", nav_gauss: "가우스-조르당", nav_cramer: "크래머", nav_gemini: "🤖 AI 튜터", nav_chat: "채팅", nav_profile: "프로필", login_btn: "로그인", logout: "로그아웃" }
 };
 
-// Fallback logic untuk bahasa asing agar merujuk ke Bahasa Inggris jika terjemahan tidak tersedia (Anti-Bug)
-const langs = ['jp','zh','ru','es','fr','de','ar','ko'];
-langs.forEach(l => { 
-    for(let key in tr.en) {
-        if(!tr[l][key]) tr[l][key] = tr.en[key];
-    }
-});
-
-function t(k) { return tr[lang][k] || tr.en[k] || k; }
+// Fungsi penerjemah kebal peluru (Bulletproof Fallback)
+function t(k) { 
+    try {
+        if (tr[lang] && tr[lang][k]) return tr[lang][k];
+        if (tr.en && tr.en[k]) return tr.en[k];
+        if (tr.id && tr.id[k]) return tr.id[k];
+        return k; 
+    } catch(e) { return k; }
+}
 
 function changeLanguage() { 
     lang = document.getElementById('languageSelect').value; 
     document.getElementById('login-lang').value = lang;
     document.querySelectorAll('.sidebar a').forEach(e => { 
-        let k = e.getAttribute('data-lang'); if(t(k)) e.innerText = t(k); 
+        let k = e.getAttribute('data-lang'); if(t(k) !== k) e.innerText = t(k); 
     }); 
-    document.getElementById('display-user').innerHTML = document.getElementById('display-user').innerHTML.replace(/.*?(:)/, t('welcome'));
+    
+    // Perbaikan Replace Welcome yang stabil
+    let welcomeText = t('welcome');
+    if(!document.getElementById('display-user').innerHTML.includes(welcomeText)) {
+        document.getElementById('display-user').innerHTML = `${welcomeText} &nbsp; ${currentUserData.photoBase64 ? '<img src="'+currentUserData.photoBase64+'" class="header-avatar">' : ''} <span>${currentUserData.name}</span>`;
+    }
+    
     document.getElementById('btn_logout').innerText = t('logout');
     navigate(mode); 
 }
@@ -105,7 +111,7 @@ function navigate(m) {
     if(m === 'chat') { renderChatUI(c); return; }
     if(m === 'quiz') { renderQuizUI(c); return; }
     if(m === 'materi') { renderMateriUI(c); return; }
-    if(m === 'gemini') { renderGeminiUI(c); return; } // Panggilan Modul AI Baru
+    if(m === 'gemini') { renderGeminiUI(c); return; }
 
     let isSq = (m === 'det' || m === 'inv' || m === 'cofactor');
     let isCr = (m === 'cramer');
@@ -121,7 +127,6 @@ function navigate(m) {
     buildGrid(isSq ? 'sq' : isCr ? 'cr' : isDbl ? 'db' : 'sg');
 }
 
-// === KALKULATOR MATRIKS LOGIC ===
 function buildGrid(type) {
     document.getElementById('solution-area').innerHTML = '';
     if(type === 'sq') { rows = cols = parseInt(document.getElementById('dim-n').value); } 
