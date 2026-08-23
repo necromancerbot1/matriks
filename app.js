@@ -34,7 +34,7 @@ const tr = {
     },
     en: { 
         // Mode EN disingkat untuk menghemat karakter. Default tetap ID.
-        login_btn: "Login", welcome: "Hello", logout: "Logout", nav_home: "Home", nav_materi: "📚 Study Book", nav_quiz: "🎮 Quiz", nav_chat: "👥 Class Chat", nav_profile: "⚙️ Profile"
+        login_btn: "Login", welcome: "Hello", logout: "Logout", nav_home: "Home", nav_materi: "Study Book", nav_quiz: "Quiz", nav_chat: "Class Chat", nav_profile: "Profile"
     }
 };
 
