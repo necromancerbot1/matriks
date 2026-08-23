@@ -4,35 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zero Matriks - Linear Algebra System</title>
-    
-    <!-- Font Modern: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- SDK Firebase V8 -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
-    <!-- File CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
-
-    <!-- PORTAL AUTENTIKASI -->
     <div id="login-wrapper">
         <div class="login-card">
             <h2>Zero<b>Matriks</b></h2>
             <p id="lbl_login_desc">Sistem Komputasi Aljabar Linear Terpadu</p>
-
             <div id="form-login">
                 <input type="email" id="login-username" class="login-input" placeholder="Alamat Surel..." autocomplete="off">
                 <input type="password" id="login-password" class="login-input" placeholder="Kata Sandi...">
                 <button class="primary-btn" onclick="doLogin()" id="btn_login">Otentikasi Masuk</button>
-                <div style="margin-top: 15px;">
-                    <a href="#" onclick="toggleAuth('reg')" class="toggle-auth" id="lbl_toggle_reg">Registrasi Pengguna Baru</a>
-                </div>
+                <div style="margin-top: 15px;"><a href="#" onclick="toggleAuth('reg')" class="toggle-auth" id="lbl_toggle_reg">Registrasi Pengguna Baru</a></div>
             </div>
-
             <div id="form-register" style="display:none;">
                 <input type="email" id="reg-username" class="login-input" placeholder="Alamat Surel..." autocomplete="off">
                 <select id="reg-role" class="login-input" style="cursor:pointer;">
@@ -42,44 +30,25 @@
                 <input type="password" id="reg-password" class="login-input" placeholder="Buat Kata Sandi...">
                 <input type="password" id="reg-password-confirm" class="login-input" placeholder="Konfirmasi Kata Sandi...">
                 <button class="success-btn" onclick="doRegister()" id="btn_register">Buat Akun</button>
-                <div style="margin-top: 15px;">
-                    <a href="#" onclick="toggleAuth('login')" class="toggle-auth" id="lbl_toggle_log">Sudah Terdaftar? Masuk</a>
-                </div>
+                <div style="margin-top: 15px;"><a href="#" onclick="toggleAuth('login')" class="toggle-auth" id="lbl_toggle_log">Sudah Terdaftar? Masuk</a></div>
             </div>
-            
             <div class="lang-container-login">
                 <select id="login-lang" onchange="changeLangFromLogin()" class="lang-select">
                     <option value="id" selected>🇮🇩 ID - Indonesia</option>
                     <option value="en">🇬🇧 EN - English</option>
                     <option value="jp">🇯🇵 JP - 日本語</option>
                     <option value="zh">🇨🇳 ZH - 中文</option>
-                    <option value="ru">🇷🇺 RU - Русский</option>
-                    <option value="es">🇪🇸 ES - Español</option>
-                    <option value="fr">🇫🇷 FR - Français</option>
-                    <option value="de">🇩🇪 DE - Deutsch</option>
-                    <option value="ar">🇸🇦 AR - العربية</option>
-                    <option value="ko">🇰🇷 KO - 한국어</option>
                 </select>
             </div>
         </div>
     </div>
 
-    <!-- ANTARMUKA SISTEM -->
     <div id="app-wrapper">
         <header>
             <div class="logo">Zero<b>Matriks</b></div>
             <div class="header-controls">
                 <select id="languageSelect" onchange="changeLanguage()" class="lang-select">
-                    <option value="id">ID</option>
-                    <option value="en">EN</option>
-                    <option value="jp">JP</option>
-                    <option value="zh">ZH</option>
-                    <option value="ru">RU</option>
-                    <option value="es">ES</option>
-                    <option value="fr">FR</option>
-                    <option value="de">DE</option>
-                    <option value="ar">AR</option>
-                    <option value="ko">KO</option>
+                    <option value="id">ID</option><option value="en">EN</option><option value="jp">JP</option><option value="zh">ZH</option>
                 </select>
                 <div class="user-profile">
                     <div id="display-user" class="profile-info">Memuat...</div>
@@ -87,10 +56,8 @@
                 </div>
             </div>
         </header>
-
         <div class="container">
             <main class="main-content" id="app-content"></main>
-
             <aside class="sidebar">
                 <div class="sidebar-section">Navigasi Komputasi</div>
                 <ul>
@@ -104,12 +71,10 @@
                     <li><a href="#" id="nav-cofactor" onclick="navigate('cofactor')" data-lang="nav_cofactor">Kofaktor</a></li>
                     <li><a href="#" id="nav-inv" onclick="navigate('inv')" data-lang="nav_inv">Invers Matriks</a></li>
                 </ul>
-
                 <div class="sidebar-section">Asisten Virtual</div>
                 <ul>
                     <li><a href="#" id="nav-gemini" onclick="navigate('gemini')" data-lang="nav_gemini" style="color:#a855f7;">🤖 AI Tutor (Gemini)</a></li>
                 </ul>
-
                 <div class="sidebar-section">Modul Pembelajaran</div>
                 <ul>
                     <li><a href="#" id="nav-materi" onclick="navigate('materi')" data-lang="nav_materi" style="color:var(--brand-main);">Buku Referensi</a></li>
@@ -120,14 +85,13 @@
             </aside>
         </div>
     </div>
-
-    <!-- Modul JavaScript -->
-    <script src="app.js"></script>
-    <script src="auth.js"></script>
-    <script src="chat.js"></script>
-    <script src="quiz.js"></script>
-    <script src="materi.js"></script>
-    <script src="gemini.js"></script> <!-- MODUL AI BARU -->
-
+    
+    <!-- Parameter ?v=3 memaksa browser mengambil file JS yang baru, BUKAN dari cache lama yang nge-bug -->
+    <script src="app.js?v=3"></script>
+    <script src="auth.js?v=3"></script>
+    <script src="chat.js?v=3"></script>
+    <script src="quiz.js?v=3"></script>
+    <script src="materi.js?v=3"></script>
+    <script src="gemini.js?v=3"></script>
 </body>
 </html>
