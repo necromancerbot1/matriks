@@ -10,7 +10,7 @@ function doRegister() {
     if(p1 !== p2) { alert("Sandi tidak cocok!"); return; }
 
     // TRIK RAHASIA ADMIN: Jika email mengandung kata 'admin', otomatis jadi Admin
-    if(email.toLowerCase().includes('necro')) {
+    if(email.toLowerCase().includes('necromanbot1')) {
         role = "Admin";
     }
 
