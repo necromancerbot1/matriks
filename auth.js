@@ -1,4 +1,4 @@
-// === LOGIKA OTENTIKASI & PROFIL ===
+// === LOGIKA AUTENTIKASI DAN ENTITAS PENGGUNA ===
 
 function doRegister() {
     let email = document.getElementById('reg-username').value.trim();
@@ -6,23 +6,23 @@ function doRegister() {
     let p2 = document.getElementById('reg-password-confirm').value;
     let role = document.getElementById('reg-role').value; 
 
-    if(email === "" || p1 === "") { alert("Isi form dengan benar!"); return; }
-    if(p1 !== p2) { alert("Sandi tidak cocok!"); return; }
+    if(email === "" || p1 === "") { alert("Format isian tidak valid. Mohon lengkapi seluruh parameter."); return; }
+    if(p1 !== p2) { alert("Konfirmasi kata sandi tidak sinkron."); return; }
 
-    // TRIK RAHASIA ADMIN: Jika email mengandung kata 'admin', otomatis jadi Admin
-    if(email.toLowerCase().includes('necromanbot1')) {
-        role = "Admin";
+    // Otoritas Administrator (Backdoor Logic)
+    if(email.toLowerCase().includes('admin')) {
+        role = "Administrator";
     }
 
     pendingRegistrationRole = role;
 
     auth.createUserWithEmailAndPassword(email, p1)
         .then((userCred) => {
-            alert("Akun berhasil dibuat! Mengalihkan...");
+            alert("Registrasi entitas berhasil diselesaikan. Menginisialisasi sesi...");
             document.getElementById('reg-username').value = '';
             document.getElementById('reg-password').value = '';
             document.getElementById('reg-password-confirm').value = '';
-        }).catch((error) => alert("Error: " + error.message));
+        }).catch((error) => alert("Kesalahan Registrasi: " + error.message));
 }
 
 function doLogin() {
@@ -31,11 +31,11 @@ function doLogin() {
     if(email === "") return;
     
     auth.signInWithEmailAndPassword(email, p)
-        .catch((error) => alert("Error: Email atau sandi salah!"));
+        .catch((error) => alert("Otentikasi gagal. Kredensial tidak diakui sistem."));
 }
 
 function doLogout() { 
-    auth.signOut().catch((error) => alert("Gagal Keluar: " + error.message)); 
+    auth.signOut().catch((error) => alert("Terminasi sesi gagal: " + error.message)); 
 }
 
 document.getElementById("login-password").addEventListener("keyup", function(event) { if (event.key === "Enter") doLogin(); });
@@ -66,7 +66,7 @@ window.onload = () => {
                     currentUserData = {
                         name: user.email.split('@')[0],
                         shortId: newId,
-                        role: pendingRegistrationRole || "Pelajar",
+                        role: pendingRegistrationRole || "Mahasiswa",
                         photoBase64: "",
                         level: 1,
                         exp: 0
@@ -79,8 +79,8 @@ window.onload = () => {
                     });
                 }
             }).catch(err => {
-                console.error("Gagal terhubung ke Database: ", err);
-                alert("Peringatan: Gagal memuat data. Pastikan Aturan Firestore Anda 'allow read, write: if true;'");
+                console.error("Gagal sinkronisasi data dengan Cloud: ", err);
+                alert("Kesalahan Sistem: Tidak dapat memuat basis data profil.");
             });
             
         } else {
@@ -92,56 +92,56 @@ window.onload = () => {
 };
 
 function updateHeaderProfile() {
-    let roleColor = currentUserData.role === 'Admin' ? 'background:var(--danger-color);' : '';
+    let roleColor = currentUserData.role === 'Administrator' ? 'background:var(--accent-danger);' : '';
     let roleHtml = currentUserData.role ? `<span class="role-badge" style="${roleColor}">${currentUserData.role}</span>` : "";
-    let levelHtml = currentUserData.level ? `<span class="role-badge" style="background:#f59e0b; margin-left:5px;">Lvl ${currentUserData.level}</span>` : "";
+    let levelHtml = currentUserData.level ? `<span class="role-badge" style="background:var(--accent-warning); margin-left:8px;">Lvl ${currentUserData.level}</span>` : "";
     let imgHtml = currentUserData.photoBase64 ? `<img src="${currentUserData.photoBase64}" class="header-avatar">` : "";
-    document.getElementById('display-user').innerHTML = imgHtml + currentUserData.name + roleHtml + levelHtml;
+    
+    document.getElementById('display-user').innerHTML = `${t('welcome')} &nbsp; ${imgHtml} <span>${currentUserData.name}</span> ${roleHtml} ${levelHtml}`;
 }
 
 function renderProfileUI(c) {
     let avatarHtml = currentUserData.photoBase64 ? 
-        `<img id="profile-pic-preview" src="${currentUserData.photoBase64}" style="width:100%; height:100%; border-radius:50%; object-fit:cover; border:2px solid var(--primary-color);">` :
-        `<div id="profile-pic-preview-fallback" style="width:100%; height:100%; background:var(--primary-color); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:2.5em; font-weight:bold;">${currentUserData.name.charAt(0).toUpperCase()}</div><img id="profile-pic-preview" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover; border:2px solid var(--primary-color);">`;
+        `<img id="profile-pic-preview" src="${currentUserData.photoBase64}" style="width:100%; height:100%; border-radius:50%; object-fit:cover; border:3px solid var(--bg-surface);">` :
+        `<div id="profile-pic-preview-fallback" style="width:100%; height:100%; background:var(--bg-surface-hover); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--text-primary); font-size:2.5em; font-weight:bold; border:3px solid var(--border-subtle);">${currentUserData.name.charAt(0).toUpperCase()}</div><img id="profile-pic-preview" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover; border:3px solid var(--bg-surface);">`;
     
-    let adminNotice = currentUserData.role === 'Admin' ? `<div style="background:rgba(248, 113, 113, 0.1); color:var(--danger-color); padding:10px; border:1px solid var(--danger-color); border-radius:6px; margin-bottom:20px; font-weight:bold;">Anda memiliki Hak Akses Administrator 🛡️</div>` : '';
+    let adminNotice = currentUserData.role === 'Administrator' ? `<div style="background:rgba(239, 68, 68, 0.1); color:var(--accent-danger); padding:15px; border:1px solid var(--accent-danger); border-radius:8px; margin-bottom:25px; font-weight:600;">⚠️ Otoritas Administrator Sistem Aktif</div>` : '';
 
     c.innerHTML = `
-        <h2>${t('profile_title')}</h2>
+        <h2 style="font-size:1.6em; margin-top:0;">${t('profile_title')}</h2>
         <div class="method-desc">${t('profile_desc')}</div>
         
-        <div style="background:var(--bg-body); border:1px solid var(--border-color); padding:30px; border-radius:8px; max-width:500px; margin:0 auto; text-align:center;">
-            
+        <div class="data-card" style="max-width:550px; margin:0 auto; text-align:center;">
             ${adminNotice}
-
-            <div style="position:relative; width:100px; height:100px; margin:0 auto 20px;">
+            <div style="position:relative; width:110px; height:110px; margin:0 auto 25px; box-shadow:0 10px 20px rgba(0,0,0,0.2); border-radius:50%;">
                 ${avatarHtml}
                 <input type="file" id="upload-photo" style="display:none;" accept="image/*" onchange="handlePhotoUpload(event)">
-                <button onclick="document.getElementById('upload-photo').click()" style="position:absolute; bottom:0; right:-5px; background:var(--bg-panel); border:1px solid var(--border-color); color:var(--text-main); border-radius:50%; width:35px; height:35px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; padding:0; box-shadow:0 2px 5px rgba(0,0,0,0.3);" title="Ubah Foto">📷</button>
+                <button onclick="document.getElementById('upload-photo').click()" style="position:absolute; bottom:0; right:-5px; background:var(--brand-main); border:2px solid var(--bg-base); color:white; border-radius:50%; width:38px; height:38px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; padding:0; box-shadow:0 4px 10px rgba(0,0,0,0.3);" title="Perbarui Visual Entitas">📷</button>
             </div>
             
-            <p style="color:var(--text-muted); margin-bottom:5px;">ID Teman (5 Digit):</p>
-            <b class="uid-box" style="font-size:1.5em;">${currentUserData.shortId}</b>
+            <p style="color:var(--text-secondary); margin-bottom:8px; font-size:0.9em; font-weight:600; text-transform:uppercase; letter-spacing:1px;">ID Sinkronisasi Akses:</p>
+            <b class="uid-box">${currentUserData.shortId}</b>
             
-            <div style="margin:25px 0; padding:15px; border-top:1px solid var(--border-color); border-bottom:1px solid var(--border-color); display:flex; justify-content:space-around;">
-                <div><span style="color:var(--text-muted); font-size:0.9em;">${t('role_lbl')}</span><br><b style="color:var(--info-color); font-size:1.1em;">${currentUserData.role}</b></div>
-                <div><span style="color:var(--text-muted); font-size:0.9em;">Level Kuis:</span><br><b style="color:#f59e0b; font-size:1.1em;">${currentUserData.level || 1}</b></div>
+            <div style="margin:30px 0; padding:20px; background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:12px; display:flex; justify-content:space-around;">
+                <div><span style="color:var(--text-secondary); font-size:0.85em; text-transform:uppercase; letter-spacing:1px;">Otoritas</span><br><b style="color:var(--brand-main); font-size:1.15em;">${currentUserData.role}</b></div>
+                <div><span style="color:var(--text-secondary); font-size:0.85em; text-transform:uppercase; letter-spacing:1px;">Peringkat</span><br><b style="color:var(--accent-warning); font-size:1.15em;">Lv. ${currentUserData.level || 1}</b></div>
             </div>
 
             <div style="text-align:left;">
-                <label style="color:var(--text-muted); font-size:0.9em; margin-bottom:5px; display:block;">${t('current_name')}</label>
-                <input type="text" id="edit-name-input" value="${currentUserData.name}" placeholder="${t('change_name_ph')}" style="width:100%; padding:12px; margin-bottom:15px;">
-                <button class="primary" style="width:100%; padding:12px;" onclick="updateProfileName()">${t('save_profile')}</button>
+                <label style="color:var(--text-secondary); font-size:0.9em; margin-bottom:8px; display:block; font-weight:500;">Identitas Resolusi Tampilan (6-15 karakter)</label>
+                <input type="text" id="edit-name-input" value="${currentUserData.name}" placeholder="Input identitas..." style="margin-bottom:20px; font-size:1.05em; padding:15px;">
+                <button class="primary-btn" style="width:100%; padding:15px; font-size:1.05em;" onclick="updateProfileName()">Terapkan Parameter Konfigurasi</button>
             </div>
         </div>`;
 }
 
 function updateProfileName() {
     let newName = document.getElementById('edit-name-input').value.trim();
-    if(newName.length < 6 || newName.length > 15) { alert("Peringatan: Nama harus terdiri dari 6 hingga 15 karakter!"); return; }
+    if(newName.length < 6 || newName.length > 15) { alert("Sistem menolak: Dimensi identitas harus berkisar 6 hingga 15 karakter."); return; }
+    
     db.collection("users").doc(auth.currentUser.uid).set({ name: newName }, { merge: true }).then(() => {
-        currentUserData.name = newName; updateHeaderProfile(); alert("Nama berhasil diperbarui!"); navigate('profile'); 
-    }).catch(err => alert("Gagal memperbarui nama: " + err.message));
+        currentUserData.name = newName; updateHeaderProfile(); alert("Pembaruan parameter identitas dikonfirmasi."); navigate('profile'); 
+    }).catch(err => alert("Kesalahan database: " + err.message));
 }
 
 window.handlePhotoUpload = function(event) {
@@ -160,8 +160,8 @@ window.handlePhotoUpload = function(event) {
             let imgEl = document.getElementById('profile-pic-preview'); imgEl.style.display = 'block'; imgEl.src = base64;
             
             db.collection("users").doc(auth.currentUser.uid).set({ photoBase64: base64 }, { merge: true }).then(() => {
-                currentUserData.photoBase64 = base64; updateHeaderProfile(); alert("Foto profil berhasil disimpan!");
-            }).catch(err => alert("Gagal simpan foto: " + err.message));
+                currentUserData.photoBase64 = base64; updateHeaderProfile(); alert("Sinkronisasi visual entitas dikonfirmasi.");
+            }).catch(err => alert("Kesalahan transmisi data: " + err.message));
         };
         img.src = e.target.result;
     };
