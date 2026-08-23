@@ -49,8 +49,16 @@
             
             <div class="lang-container-login">
                 <select id="login-lang" onchange="changeLangFromLogin()" class="lang-select">
-                    <option value="id" selected>ID - Indonesia</option>
-                    <option value="en">EN - English</option>
+                    <option value="id" selected>🇮🇩 ID - Indonesia</option>
+                    <option value="en">🇬🇧 EN - English</option>
+                    <option value="jp">🇯🇵 JP - 日本語</option>
+                    <option value="zh">🇨🇳 ZH - 中文</option>
+                    <option value="ru">🇷🇺 RU - Русский</option>
+                    <option value="es">🇪🇸 ES - Español</option>
+                    <option value="fr">🇫🇷 FR - Français</option>
+                    <option value="de">🇩🇪 DE - Deutsch</option>
+                    <option value="ar">🇸🇦 AR - العربية</option>
+                    <option value="ko">🇰🇷 KO - 한국어</option>
                 </select>
             </div>
         </div>
@@ -64,6 +72,14 @@
                 <select id="languageSelect" onchange="changeLanguage()" class="lang-select">
                     <option value="id">ID</option>
                     <option value="en">EN</option>
+                    <option value="jp">JP</option>
+                    <option value="zh">ZH</option>
+                    <option value="ru">RU</option>
+                    <option value="es">ES</option>
+                    <option value="fr">FR</option>
+                    <option value="de">DE</option>
+                    <option value="ar">AR</option>
+                    <option value="ko">KO</option>
                 </select>
                 <div class="user-profile">
                     <div id="display-user" class="profile-info">Memuat...</div>
@@ -89,6 +105,11 @@
                     <li><a href="#" id="nav-inv" onclick="navigate('inv')" data-lang="nav_inv">Invers Matriks</a></li>
                 </ul>
 
+                <div class="sidebar-section">Asisten Virtual</div>
+                <ul>
+                    <li><a href="#" id="nav-gemini" onclick="navigate('gemini')" data-lang="nav_gemini" style="color:#a855f7;">🤖 AI Tutor (Gemini)</a></li>
+                </ul>
+
                 <div class="sidebar-section">Modul Pembelajaran</div>
                 <ul>
                     <li><a href="#" id="nav-materi" onclick="navigate('materi')" data-lang="nav_materi" style="color:var(--brand-main);">Buku Referensi</a></li>
@@ -106,6 +127,7 @@
     <script src="chat.js"></script>
     <script src="quiz.js"></script>
     <script src="materi.js"></script>
+    <script src="gemini.js"></script> <!-- MODUL AI BARU -->
 
 </body>
 </html>
