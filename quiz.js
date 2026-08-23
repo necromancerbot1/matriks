@@ -1,38 +1,41 @@
-// === LOGIKA KUIS MENGHITUNG (20 SOAL BERLEVEL), KALKULATOR MINI & LEADERBOARD ===
+// === LOGIKA KUIS (PILIHAN LEVEL), KALKULATOR MINI & LEADERBOARD ===
 
-// Array 20 Soal Aljabar Linear (Kalkulasi Matematis)
-const quizData = [
-    // --- LEVEL 1: MUDAH ---
-    { lvl: "Mudah", q: "Berapa hasil dari [2  3] + [1  4]?", options: ["[3  7]", "[2  12]", "[1  -1]", "[3  12]"], ans: 0 },
-    { lvl: "Mudah", q: "Hitung pengurangan matriks: [5  8] - [2  3]", options: ["[3  5]", "[7  11]", "[10  24]", "[3  -5]"], ans: 0 },
-    { lvl: "Mudah", q: "Jika A = [4  2], hitunglah 3A (Skalar x Matriks)", options: ["[12  6]", "[7  5]", "[12  2]", "[4  6]"], ans: 0 },
-    { lvl: "Mudah", q: "Hasil kali matriks baris [1  2] dengan matriks kolom [3; 4] adalah...", options: ["11", "5", "8", "3"], ans: 0 }, // 1*3 + 2*4 = 11
-    { lvl: "Mudah", q: "Hitung Determinan dari matriks 2x2: \n| 3  2 |\n| 1  4 |", options: ["10", "14", "12", "5"], ans: 0 }, // 12 - 2 = 10
-    { lvl: "Mudah", q: "Hitung Determinan matriks 2x2: \n| 5 -2 |\n| 3  1 |", options: ["11", "3", "-1", "7"], ans: 0 }, // 5 - (-6) = 11
-    { lvl: "Mudah", q: "Jika Determinan suatu matriks 2x2 adalah 0, maka matriks tersebut disebut...", options: ["Singular", "Ortogonal", "Identitas", "Simetris"], ans: 0 },
-    
-    // --- LEVEL 2: MENENGAH ---
-    { lvl: "Menengah", q: "Matriks A=[2  1; 4  3]. Berapa nilai Kofaktor C_12 (Baris 1, Kolom 2)?", options: ["-4", "4", "-1", "2"], ans: 0 }, // (-1)^(1+2) * M_12 = -1 * 4 = -4
-    { lvl: "Menengah", q: "Matriks A=[2  1; 4  3]. Berapa Kofaktor C_22?", options: ["2", "-2", "3", "1"], ans: 0 }, // (-1)^(2+2) * M_22 = 1 * 2 = 2
-    { lvl: "Menengah", q: "Jika A = [1 0; 0 1] dan B = [5 6; 7 8], maka A x B = ...", options: ["[1 0; 0 1]", "[5 6; 7 8]", "[0 0; 0 0]", "[6 6; 7 9]"], ans: 1 },
-    { lvl: "Menengah", q: "Jika matriks P ordo 2x3 dan matriks Q ordo 3x4, maka PxQ menghasilkan ordo...", options: ["2x4", "3x3", "2x3", "Tidak bisa"], ans: 0 },
-    { lvl: "Menengah", q: "Hitung Determinan 2x2: \n| -4  -3 |\n| -2   5 |", options: ["-26", "-14", "26", "14"], ans: 0 }, // -20 - 6 = -26
-    { lvl: "Menengah", q: "Diketahui persamaan 2x + y = 5 dan x - y = 1. Berapa nilai Determinan Utama (D) menggunakan Cramer?", options: ["-3", "3", "-1", "1"], ans: 0 }, // |2 1; 1 -1| = -2 - 1 = -3
-    { lvl: "Menengah", q: "Berapa rank maksimum dari matriks 3x4?", options: ["3", "4", "7", "12"], ans: 0 },
-    
-    // --- LEVEL 3: SULIT ---
-    { lvl: "Sulit", q: "A = [2 0; 0 2]. Berapa nilai Determinan dari A^3 (A pangkat 3)?", options: ["64", "8", "16", "32"], ans: 0 }, // Det(A) = 4. Det(A^3) = 4^3 = 64
-    { lvl: "Sulit", q: "Nilai eigen dari matriks identitas I (ordo 2x2) adalah...", options: ["λ = 1", "λ = 0", "λ = 2", "Tidak ada"], ans: 0 },
-    { lvl: "Sulit", q: "Berapa nilai Determinan dari matriks Segitiga Atas:\n| 2  5  7 |\n| 0  3  1 |\n| 0  0  4 |", options: ["24", "14", "0", "9"], ans: 0 }, // 2*3*4 = 24
-    { lvl: "Sulit", q: "Matriks X = [4  2; 2  1]. Hitung nilai Determinan X.", options: ["0", "8", "4", "2"], ans: 0 }, // 4 - 4 = 0
-    { lvl: "Sulit", q: "Karena Determinan X (soal sebelumnya) adalah 0, maka matriks X...", options: ["Tidak punya Invers", "Punya Invers", "Ortogonal", "Skalar"], ans: 0 },
-    { lvl: "Sulit", q: "Hitung (A x B)^T jika diketahui A^T = [1 2] dan B^T = [3; 4].", options: "Ingat sifat: (AB)^T = B^T x A^T", options: ["B^T x A^T", "A^T x B^T", "A x B", "A^T + B^T"], ans: 0 }
-];
+const quizDatabase = {
+    smp: [
+        { q: "Berapa hasil dari [2  3] + [1  4]?", options: ["[3  7]", "[2  12]", "[1  -1]", "[3  12]"], ans: 0 },
+        { q: "Hitung pengurangan matriks: [5  8] - [2  3]", options: ["[3  5]", "[7  11]", "[10  24]", "[3  -5]"], ans: 0 },
+        { q: "Jika A = [4  2], hitunglah 3A (Skalar x Matriks)", options: ["[12  6]", "[7  5]", "[12  2]", "[4  6]"], ans: 0 },
+        { q: "Diketahui persamaan x + y = 10 dan x - y = 4. Berapa nilai x?", options: ["7", "6", "3", "5"], ans: 0 },
+        { q: "Berapa hasil dari 2 * [3  -1]?", options: ["[6  -2]", "[5  1]", "[6  -1]", "[3  -2]"], ans: 0 },
+        { q: "Hasil kali matriks baris [1  2] dengan matriks kolom [3; 4] adalah...", options: ["11", "5", "8", "3"], ans: 0 }
+    ],
+    sma: [
+        { q: "Hitung Determinan dari matriks 2x2: \n| 3  2 |\n| 1  4 |", options: ["10", "14", "12", "5"], ans: 0 },
+        { q: "Matriks A=[2  1; 4  3]. Berapa nilai Kofaktor C_12 (Baris 1, Kolom 2)?", options: ["-4", "4", "-1", "2"], ans: 0 },
+        { q: "Jika matriks P ordo 2x3 dan matriks Q ordo 3x4, maka PxQ menghasilkan ordo...", options: ["2x4", "3x3", "2x3", "Tidak bisa"], ans: 0 },
+        { q: "Jika Determinan suatu matriks 2x2 adalah 0, maka matriks tersebut...", options: ["Tidak punya Invers (Singular)", "Punya Invers", "Identitas", "Simetris"], ans: 0 },
+        { q: "Jika A = [1 0; 0 1] dan B = [5 6; 7 8], maka A x B = ...", options: ["[5 6; 7 8]", "[1 0; 0 1]", "[0 0; 0 0]", "[6 6; 7 9]"], ans: 0 },
+        { q: "Diketahui 2x + y = 5 dan x - y = 1. Berapa nilai Determinan Utama (D) menggunakan Cramer?", options: ["-3", "3", "-1", "1"], ans: 0 }
+    ],
+    mahasiswa: [
+        { q: "A = [2 0; 0 2]. Berapa nilai Determinan dari A^3 (A pangkat 3)?", options: ["64", "8", "16", "32"], ans: 0 },
+        { q: "Nilai eigen dari matriks identitas I (ordo 2x2) adalah...", options: ["λ = 1", "λ = 0", "λ = 2", "Tidak ada"], ans: 0 },
+        { q: "Berapa rank maksimum dari matriks 3x4?", options: ["3", "4", "7", "12"], ans: 0 },
+        { q: "Metode mengubah matriks menjadi bentuk Eselon Baris Tereduksi disebut...", options: ["Eliminasi Gauss-Jordan", "Sarrus", "Kofaktor", "Cramer"], ans: 0 },
+        { q: "Hitung (A x B)^T jika diketahui A^T = [1 2] dan B^T = [3; 4].\n(Ingat sifat: (AB)^T = B^T x A^T)", options: ["B^T x A^T", "A^T x B^T", "A x B", "A^T + B^T"], ans: 0 },
+        { q: "Berapa nilai Determinan dari matriks Segitiga Atas:\n| 2  5  7 |\n| 0  3  1 |\n| 0  0  4 |", options: ["24", "14", "0", "9"], ans: 0 }
+    ]
+};
 
+let activeQuizArray = [];
 let currentQuestion = 0;
 let score = 0;
+let currentExpReward = 0;
 
 function renderQuizUI(c) {
+    let adminResetBtn = currentUserData.role === 'Admin' ? 
+        `<button style="background:var(--danger-color); color:white; border:none; padding:10px; width:100%; border-radius:6px; margin-bottom:15px; cursor:pointer; font-weight:bold; font-size:1em;" onclick="resetLeaderboard()">🚨 Reset Peringkat Mingguan</button>` : '';
+
     c.innerHTML = `
         <div style="display:flex; flex-direction:column; align-items:center; width:100%;">
             <div style="text-align:center; margin-bottom:25px;">
@@ -46,10 +49,19 @@ function renderQuizUI(c) {
             
             <div style="display:flex; width:100%; gap:25px; flex-wrap:wrap;">
                 
-                <!-- PANEL KUIS -->
+                <!-- PANEL PEMILIHAN LEVEL / SOAL -->
                 <div id="quiz-panel" style="flex:2; min-width:300px; background:var(--bg-body); border:1px solid var(--border-color); padding:30px; border-radius:8px;">
-                    <div style="text-align:center; padding:40px 0;">
-                        <button class="primary" style="font-size:1.2em; padding:15px 40px;" onclick="startQuiz()">Tantang Kuis Menghitung!</button>
+                    <h3 style="color:var(--text-main); font-weight:500; text-align:center; margin-top:0;">Pilih Tingkat Kesulitan</h3>
+                    <div style="display:flex; flex-direction:column; gap:15px; margin-top:20px;">
+                        <button style="background:var(--bg-panel); border:1px solid var(--border-color); color:var(--text-main); padding:20px; border-radius:8px; font-size:1.1em; cursor:pointer; text-align:left; transition:0.3s;" onclick="startQuiz('smp', 10)">
+                            <b style="color:#34d399;">🟢 Tingkat SMP (Dasar)</b><br><span style="font-size:0.85em; color:var(--text-muted);">Operasi Dasar & Persamaan Linear. (+10 EXP / Soal Benar)</span>
+                        </button>
+                        <button style="background:var(--bg-panel); border:1px solid var(--border-color); color:var(--text-main); padding:20px; border-radius:8px; font-size:1.1em; cursor:pointer; text-align:left; transition:0.3s;" onclick="startQuiz('sma', 15)">
+                            <b style="color:#60a5fa;">🔵 Tingkat SMA (Menengah)</b><br><span style="font-size:0.85em; color:var(--text-muted);">Determinan, Invers & Kofaktor 2x2. (+15 EXP / Soal Benar)</span>
+                        </button>
+                        <button style="background:var(--bg-panel); border:1px solid var(--border-color); color:var(--text-main); padding:20px; border-radius:8px; font-size:1.1em; cursor:pointer; text-align:left; transition:0.3s;" onclick="startQuiz('mahasiswa', 25)">
+                            <b style="color:#f87171;">🔴 Tingkat Mahasiswa (Sulit)</b><br><span style="font-size:0.85em; color:var(--text-muted);">Sifat Lanjut, Vektor Eigen & Rank. (+25 EXP / Soal Benar)</span>
+                        </button>
                     </div>
                 </div>
 
@@ -69,6 +81,7 @@ function renderQuizUI(c) {
                     <!-- PANEL LEADERBOARD -->
                     <div style="background:var(--bg-body); border:1px solid var(--border-color); padding:20px; border-radius:8px;">
                         <h4 style="margin:0 0 15px 0; color:#f59e0b; text-align:center;">🏆 ${t('leaderboard')}</h4>
+                        ${adminResetBtn}
                         <div id="leaderboard-container"><p style="text-align:center; color:var(--text-muted); font-size:0.9em;">Memuat...</p></div>
                     </div>
                 </div>
@@ -87,34 +100,32 @@ window.calcPress = function(val) {
 }
 window.calcEval = function() {
     try { 
-        // Menggunakan evaluasi sederhana untuk angka & operator dasar
         calcStr = eval(calcStr).toString(); 
     } catch(e) { 
         calcStr = "Error"; 
     }
     document.getElementById('calc-display').value = calcStr;
-    calcStr = ""; // Reset setelah sama dengan
+    calcStr = ""; 
 }
 
-
-// LOGIKA KUIS UTAMA
-function startQuiz() {
+// LOGIKA KUIS
+function startQuiz(levelKey, expPerQuestion) {
+    activeQuizArray = quizDatabase[levelKey];
+    currentExpReward = expPerQuestion;
     currentQuestion = 0;
     score = 0;
     showQuestion();
 }
 
 function showQuestion() {
-    let qData = quizData[currentQuestion];
+    let qData = activeQuizArray[currentQuestion];
     let panel = document.getElementById('quiz-panel');
-    
-    // Render baris ganti untuk soal matriks agar terlihat rapi
     let formattedQuestion = qData.q.replace(/\n/g, "<br>");
     
     let html = `
         <div style="display:flex; justify-content:space-between; margin-bottom:15px; color:var(--text-muted); font-weight:600;">
-            <span>Soal ${currentQuestion + 1} / ${quizData.length}</span>
-            <span style="color:var(--success-color);">Tingkat: ${qData.lvl}</span>
+            <span>Soal ${currentQuestion + 1} / ${activeQuizArray.length}</span>
+            <span style="color:var(--success-color);">EXP Didapat: +${score}</span>
         </div>
         <h3 style="margin-top:0; color:var(--text-main); font-weight:500; font-size:1.2em; line-height:1.5; margin-bottom:25px; padding:15px; background:var(--bg-panel); border-radius:8px;">
             ${formattedQuestion}
@@ -130,35 +141,29 @@ function showQuestion() {
 }
 
 function checkAnswer(selectedIdx) {
-    if(selectedIdx === quizData[currentQuestion].ans) {
-        score += 15; // Setiap jawaban benar mendapat 15 EXP
+    if(selectedIdx === activeQuizArray[currentQuestion].ans) {
+        score += currentExpReward;
     }
-    
     currentQuestion++;
-    if(currentQuestion < quizData.length) {
+    if(currentQuestion < activeQuizArray.length) {
         showQuestion();
     } else {
         finishQuiz();
     }
 }
 
-// LOGIKA KALKULASI EXP & LEVEL TERPERCAYA (BUG FIXED)
 function finishQuiz() {
     let panel = document.getElementById('quiz-panel');
     
-    // Pastikan angka diambil dalam format Integer murni untuk mencegah Bug String
     let oldLevel = parseInt(currentUserData.level) || 1;
     let oldExp = parseInt(currentUserData.exp) || 0;
     
-    // Kalkulasi Total EXP baru
     let totalExpObtained = oldExp + score;
-    
-    // Sistem Level: Tiap 100 EXP = Naik 1 Level
     let addedLevel = Math.floor(totalExpObtained / 100);
     let newLevel = oldLevel + addedLevel;
     let newExp = totalExpObtained % 100;
     
-    let msg = score > 150 ? "Luar biasa! Matematika Anda hebat! 🌟" : "Terus berlatih! Kalkulator selalu siap membantu. 👍";
+    let msg = score > 0 ? "Luar biasa! Matematika Anda hebat! 🌟" : "Terus berlatih! Kalkulator selalu siap membantu. 👍";
     
     panel.innerHTML = `
         <div style="text-align:center; padding:20px 0;">
@@ -170,21 +175,18 @@ function finishQuiz() {
                 <b style="font-size:1.5em; color:#f59e0b;">Level ${newLevel}</b>
             </div>
             <br>
-            <button class="primary" onclick="startQuiz()">Main Lagi (Farming EXP)</button>
+            <button class="primary" onclick="renderQuizUI(document.getElementById('app-content'))">Main Lagi (Farming EXP)</button>
         </div>`;
         
-    // SIMPAN KE FIRESTORE (Memaksa tipe Data Integer)
     db.collection("users").doc(auth.currentUser.uid).set({
         level: Number(newLevel),
         exp: Number(newExp)
     }, {merge: true}).then(() => {
-        // Update Memori Lokal
         currentUserData.level = newLevel;
         currentUserData.exp = newExp;
-        updateHeaderProfile(); // Panggil fungsi di auth.js untuk update Badge UI
+        updateHeaderProfile(); 
         
-        // PUSH KE LEADERBOARD GLOBAL UNTUK RANKING
-        let totalRawScore = (newLevel * 100) + newExp; // Variabel pancingan untuk menentukan Ranking
+        let totalRawScore = (newLevel * 100) + newExp; 
         
         db.collection("leaderboard").doc(auth.currentUser.uid).set({
             name: currentUserData.name,
@@ -192,12 +194,11 @@ function finishQuiz() {
             totalExp: Number(totalRawScore), 
             lastPlayed: firebase.firestore.FieldValue.serverTimestamp()
         }, {merge: true}).then(() => {
-            loadLeaderboard(); // Segarkan UI papan peringkat
+            loadLeaderboard(); 
         });
     }).catch(err => alert("Gagal menyimpan EXP: " + err.message));
 }
 
-// LOGIKA PAPAN PERINGKAT
 function loadLeaderboard() {
     db.collection("leaderboard").orderBy("totalExp", "desc").limit(10).get().then(snapshot => {
         let container = document.getElementById('leaderboard-container');
@@ -228,4 +229,17 @@ function loadLeaderboard() {
         });
         container.innerHTML = html + `</table>`;
     });
+}
+
+window.resetLeaderboard = function() {
+    if(confirm("PERINGATAN ADMIN: Apakah Anda yakin ingin MENGHAPUS SEMUA DATA PERINGKAT mingguan? Tindakan ini tidak dapat dibatalkan!")) {
+        db.collection("leaderboard").get().then(snapshot => {
+            if(snapshot.empty) { alert("Papan peringkat sudah kosong."); return; }
+            let batch = db.batch();
+            snapshot.forEach(doc => { batch.delete(doc.ref); });
+            batch.commit().then(() => {
+                alert("Sistem berhasil me-reset Papan Peringkat Mingguan!"); loadLeaderboard();
+            }).catch(err => alert("Gagal mereset: " + err.message));
+        });
+    }
 }
