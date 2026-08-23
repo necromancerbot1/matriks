@@ -1,6 +1,6 @@
 // === LOGIKA AI TUTOR (Integrasi Google Gemini API) ===
 
-// API Key yang sudah diverifikasi:
+// API Key Anda sudah ditanamkan di sini:
 const GEMINI_API_KEY = "AQ.Ab8RN6LcPbtufzbbzA6zGh9gGIZCLvTlvqYlE7KIcZkBLQdJhw"; 
 
 // Prompt dasar agar AI bisa menjawab topik apa saja dengan persona akademis
@@ -18,7 +18,6 @@ function loadChatHistory() {
     if(savedHistory) {
         geminiHistory = JSON.parse(savedHistory);
     } else {
-        // Jika belum ada riwayat, gunakan prompt dasar
         geminiHistory = JSON.parse(JSON.stringify(systemPrompt));
     }
 }
@@ -28,13 +27,12 @@ function saveChatHistory() {
     localStorage.setItem("zeroBotHistory", JSON.stringify(geminiHistory));
 }
 
-// Fungsi untuk menghapus riwayat chat (Reset Bot)
+// Fungsi untuk menghapus riwayat chat (Tombol Tong Sampah)
 window.clearAIHistory = function() {
     if(confirm("Apakah Anda yakin ingin menghapus seluruh riwayat percakapan dengan ZeroBot?")) {
         localStorage.removeItem("zeroBotHistory");
         geminiHistory = JSON.parse(JSON.stringify(systemPrompt));
         renderAIHistory();
-        alert("Riwayat obrolan AI telah dihapus.");
     }
 }
 
@@ -48,7 +46,8 @@ function renderGeminiUI(c) {
         <div class="chat-container" style="height: 550px; background:var(--bg-base); border:1px solid #a855f7; box-shadow:0 0 15px rgba(168, 85, 247, 0.15);">
             <div class="chat-header" style="background:var(--bg-surface); border-bottom:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center;">
                 <span style="font-size:1.1em; font-weight:500; color:var(--text-secondary);">Status Modul Engine: <b style="color:#a855f7; font-weight:700;">🟢 Online (API Ready)</b></span>
-                <button onclick="clearAIHistory()" style="background:transparent; border:none; color:var(--accent-danger); font-size:1.2em; cursor:pointer;" title="Hapus Riwayat Obrolan">🗑️</button>
+                <!-- INI DIA TOMBOL TONG SAMPAHNYA -->
+                <button onclick="clearAIHistory()" style="background:transparent; border:none; color:var(--accent-danger); font-size:1.4em; cursor:pointer; padding:0 5px;" title="Hapus Riwayat Obrolan">🗑️</button>
             </div>
             
             <div id="ai-chat-messages" class="chat-messages" style="flex:1; overflow-y:auto; padding:25px; display:flex; flex-direction:column; gap:15px;">
@@ -92,7 +91,7 @@ function renderAIHistory() {
     
     // Tampilkan pesan kosong jika belum ada interaksi pengguna
     if(geminiHistory.length <= 2) {
-        html = `<p style="color:var(--text-secondary); text-align:center; font-style:italic;">Memori log diskusi kosong. Silakan mulai sesi obrolan.</p>`;
+        html = `<p style="color:var(--text-secondary); text-align:center; font-style:italic; margin-top:auto; margin-bottom:auto;">Memori log diskusi kosong. Silakan mulai sesi obrolan.</p>`;
     }
     
     container.innerHTML = html;
