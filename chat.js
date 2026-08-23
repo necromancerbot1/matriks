@@ -1,4 +1,4 @@
-// === LOGIKA PERTEMANAN 2 ARAH & CHAT GRUP ===
+// === OBROLAN & GRUP ===
 
 let activeChatId = null;
 let activeChatName = null;
