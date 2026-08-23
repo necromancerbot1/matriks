@@ -1,4 +1,4 @@
-// === OBROLAN & GRUP ===
+// === LOGIKA JARINGAN KOMUNIKASI & FORUM KELAS ===
 
 let activeChatId = null;
 let activeChatName = null;
@@ -6,31 +6,34 @@ let activeChatType = null;
 
 function renderChatUI(c) {
     if(!activeChatId) {
+        let groupTitle = currentUserData.role === 'Administrator' ? "🛡️ Ruang Kelas Terdaftar (Akses Admin)" : t('my_groups');
+
         c.innerHTML = `
-            <h2>${t('chat_title')}</h2>
-            <div class="method-desc">${t('chat_desc')}<br><br>ID Teman Anda: <b class="uid-box">${currentUserData.shortId}</b></div>
-            <div style="display:flex; gap:20px; flex-wrap:wrap; margin-top:25px;">
-                <!-- Panel Teman -->
-                <div style="flex:1; min-width:250px; background:var(--bg-body); padding:25px; border-radius:8px; border:1px solid var(--border-color);">
-                    <h4 style="margin-top:0; color:var(--text-main); font-weight:600;">+ ${t('add_friend')}</h4>
-                    <div style="display:flex; gap:10px; margin-bottom:15px;">
-                        <input type="number" id="friend-id-input" placeholder="${t('add_friend_ph')}" style="flex:1;">
-                        <button class="primary" onclick="sendFriendRequest()">${t('add_friend')}</button>
+            <h2 style="font-size:1.6em; margin-top:0;">${t('chat_title')}</h2>
+            <div class="method-desc">${t('chat_desc')}<br><br>ID Sinkronisasi Anda: <b class="uid-box" style="margin-left:10px;">${currentUserData.shortId}</b></div>
+            <div style="display:flex; gap:30px; flex-wrap:wrap; margin-top:30px;">
+                
+                <!-- Panel Peer-to-Peer -->
+                <div class="data-card" style="flex:1; min-width:300px;">
+                    <h4 style="margin-top:0; color:var(--text-primary); font-size:1.1em; border-bottom:1px solid var(--border-subtle); padding-bottom:15px; margin-bottom:20px;">Permintaan Sinkronisasi Entitas</h4>
+                    <div style="display:flex; gap:12px; margin-bottom:20px;">
+                        <input type="number" id="friend-id-input" placeholder="Input ID Kredensial 5-Digit..." style="flex:1;">
+                        <button class="primary-btn" onclick="sendFriendRequest()">Kirim</button>
                     </div>
-                    <div id="pending-requests-container" style="margin-bottom:15px;"></div>
-                    <h4 style="margin:25px 0 15px; color:var(--text-main); font-weight:600;">${t('my_friends')}</h4>
-                    <div id="friend-list-container"><p style="color:var(--text-muted); font-size:0.9em;">Memuat...</p></div>
+                    <div id="pending-requests-container" style="margin-bottom:25px;"></div>
+                    <h4 style="margin:0 0 15px 0; color:var(--text-primary); font-size:1.1em; border-bottom:1px solid var(--border-subtle); padding-bottom:15px;">Koneksi Peer-to-Peer Terverifikasi</h4>
+                    <div id="friend-list-container"><p style="color:var(--text-secondary); font-size:0.9em;">Menganalisis node jaringan...</p></div>
                 </div>
                 
-                <!-- Panel Grup -->
-                <div style="flex:1; min-width:250px; background:var(--bg-body); padding:25px; border-radius:8px; border:1px solid var(--border-color);">
-                    <h4 style="margin-top:0; color:var(--text-main); font-weight:600;">+ ${t('create_group')}</h4>
-                    <div style="display:flex; gap:10px;">
-                        <input type="text" id="new-group-name" placeholder="${t('group_name_ph')}" style="flex:1;">
-                        <button class="primary" onclick="createNewGroup()">${t('create_group')}</button>
+                <!-- Panel Ruang Kelas -->
+                <div class="data-card" style="flex:1; min-width:300px;">
+                    <h4 style="margin-top:0; color:var(--text-primary); font-size:1.1em; border-bottom:1px solid var(--border-subtle); padding-bottom:15px; margin-bottom:20px;">Registrasi Ruang Diskusi Baru</h4>
+                    <div style="display:flex; gap:12px; margin-bottom:20px;">
+                        <input type="text" id="new-group-name" placeholder="Input Penamaan Ruang..." style="flex:1;">
+                        <button class="success-btn" onclick="createNewGroup()">Inisialisasi</button>
                     </div>
-                    <h4 style="margin:25px 0 15px; color:var(--text-main); font-weight:600;">${t('my_groups')}</h4>
-                    <div id="group-list-container"><p style="color:var(--text-muted); font-size:0.9em;">Memuat...</p></div>
+                    <h4 style="margin:0 0 15px 0; color:var(--text-primary); font-size:1.1em; border-bottom:1px solid var(--border-subtle); padding-bottom:15px;">${groupTitle}</h4>
+                    <div id="group-list-container"><p style="color:var(--text-secondary); font-size:0.9em;">Menganalisis direktori ruang...</p></div>
                 </div>
             </div>`;
         loadPendingRequests();
@@ -38,45 +41,41 @@ function renderChatUI(c) {
         loadGroups();
     } else {
         c.innerHTML = `
-            <button class="auto" onclick="leaveChat()" style="margin-bottom:15px; border:1px solid var(--border-color);">${t('back_to_groups')}</button>
+            <button class="secondary-btn" onclick="leaveChat()" style="margin-bottom:20px;">← Terminasi Koneksi Ruang</button>
             <div class="chat-container">
-                <div class="chat-header"><span>${activeChatType === 'dm' ? '👤 Teman' : '👥 Grup'}: <b style="color:var(--primary-color);">${activeChatName}</b></span></div>
-                <div id="chat-messages" class="chat-messages"><p style="color:var(--text-muted); text-align:center;">Memuat pesan...</p></div>
+                <div class="chat-header">
+                    <span style="font-size:1.1em; font-weight:500; color:var(--text-secondary);">${activeChatType === 'dm' ? 'Jaringan Privat' : 'Jaringan Kelompok'}: <b style="color:var(--text-primary); font-weight:700;">${activeChatName}</b></span>
+                </div>
+                <div id="chat-messages" class="chat-messages"><p style="color:var(--text-secondary); text-align:center; margin-top:auto; margin-bottom:auto;">Menunggu sinkronisasi data teks...</p></div>
                 <div class="chat-input-box">
-                    <input type="text" id="chat-input" placeholder="${t('type_msg')}" onkeydown="if(event.key==='Enter') sendChatMessage()">
-                    <button class="primary" onclick="sendChatMessage()">${t('send')}</button>
+                    <input type="text" id="chat-input" placeholder="Input parameter pesan..." onkeydown="if(event.key==='Enter') sendChatMessage()">
+                    <button class="primary-btn" onclick="sendChatMessage()">Transmisikan</button>
                 </div>
             </div>`;
         listenMessages(activeChatId);
     }
 }
 
-// KIRIM PERMINTAAN (REQUEST)
+// KIRIM PERMINTAAN
 function sendFriendRequest() {
     let shortIdInput = document.getElementById('friend-id-input').value.trim();
     let myUid = auth.currentUser.uid;
     if(!shortIdInput) return;
-    if(shortIdInput === currentUserData.shortId) { alert("Tidak bisa menambahkan ID sendiri!"); return; }
+    if(shortIdInput === currentUserData.shortId) { alert("Sistem mendeteksi siklus. Anda tidak dapat menyinkronkan ID Anda sendiri."); return; }
 
     db.collection("users").where("shortId", "==", shortIdInput).get().then(snapshot => {
-        if(snapshot.empty) { alert("ID Teman tidak ditemukan!"); return; }
+        if(snapshot.empty) { alert("Kegagalan penelusuran. ID Entitas tidak terdaftar di sistem."); return; }
         let fUid = snapshot.docs[0].id;
         
-        // Cek jika sudah berteman
         db.collection("users").doc(myUid).collection("friends").doc(fUid).get().then(doc => {
-            if(doc.exists) { alert("Kalian sudah berteman!"); return; }
-            
-            // Kirim request ke doc teman target
+            if(doc.exists) { alert("Entitas tersebut telah terverifikasi dalam jaringan Anda."); return; }
             db.collection("users").doc(fUid).collection("friend_requests").doc(myUid).set({
-                senderName: currentUserData.name, 
-                senderShortId: currentUserData.shortId, 
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                senderName: currentUserData.name, senderShortId: currentUserData.shortId, timestamp: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => { 
-                alert("Permintaan pertemanan terkirim!"); 
-                document.getElementById('friend-id-input').value = ''; 
+                alert("Protokol permintaan berhasil diinisialisasi."); document.getElementById('friend-id-input').value = ''; 
             });
         });
-    }).catch(err => alert("Error: " + err.message));
+    }).catch(err => alert("Interupsi Database: " + err.message));
 }
 
 // BACA PERMINTAAN MASUK
@@ -86,88 +85,98 @@ function loadPendingRequests() {
         let container = document.getElementById('pending-requests-container'); if(!container) return;
         if(snapshot.empty) { container.innerHTML = ""; return; }
         
-        let html = `<div style="background:rgba(245, 158, 11, 0.1); border:1px solid #f59e0b; padding:10px; border-radius:6px; margin-bottom:15px;">
-            <b style="color:#f59e0b; font-size:0.85em;">PERMINTAAN MASUK:</b>`;
+        let html = `<div style="background:rgba(59, 130, 246, 0.1); border:1px solid var(--brand-main); padding:15px; border-radius:8px; margin-bottom:20px;">
+            <b style="color:var(--brand-main); font-size:0.85em; text-transform:uppercase; letter-spacing:1px;">Aktivitas Jaringan Tertunda:</b>`;
         snapshot.forEach(doc => {
             let req = doc.data();
-            html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
-                <span style="font-size:0.9em; color:var(--text-main);">${req.senderName} (${req.senderShortId})</span>
-                <button style="background:var(--success-color); color:white; border:none; padding:4px 10px; border-radius:4px; cursor:pointer;" onclick="acceptFriend('${doc.id}', '${req.senderName}', '${req.senderShortId}')">Terima</button>
+            html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; background:var(--bg-base); padding:10px 15px; border-radius:6px; border:1px solid var(--border-subtle);">
+                <span style="font-size:0.95em; color:var(--text-primary); font-weight:500;">${req.senderName} <span style="color:var(--text-secondary);">(${req.senderShortId})</span></span>
+                <button class="success-btn" style="padding:6px 15px; font-size:0.85em;" onclick="acceptFriend('${doc.id}', '${req.senderName}', '${req.senderShortId}')">Otorisasi</button>
             </div>`;
         });
         container.innerHTML = html + `</div>`;
     });
 }
 
-// TERIMA PERMINTAAN (TULIS KE 2 SISI)
+// TERIMA PERMINTAAN
 function acceptFriend(senderUid, senderName, senderShortId) {
     let myUid = auth.currentUser.uid;
-    // Tulis ke daftar temanku
     db.collection("users").doc(myUid).collection("friends").doc(senderUid).set({ name: senderName, shortId: senderShortId, addedAt: firebase.firestore.FieldValue.serverTimestamp() });
-    // Tulis ke daftar teman dia
     db.collection("users").doc(senderUid).collection("friends").doc(myUid).set({ name: currentUserData.name, shortId: currentUserData.shortId, addedAt: firebase.firestore.FieldValue.serverTimestamp() });
-    // Hapus request
     db.collection("users").doc(myUid).collection("friend_requests").doc(senderUid).delete().then(() => {
-        alert("Permintaan diterima! Kalian sekarang berteman."); 
-        loadFriends();
+        alert("Otorisasi selesai. Koneksi jaringan disetujui."); loadFriends();
     });
 }
 
-// MUAT DAFTAR TEMAN DAN TOMBOL HAPUS
 function loadFriends() {
     let myUid = auth.currentUser.uid;
     db.collection("users").doc(myUid).collection("friends").get().then(snapshot => {
         let container = document.getElementById('friend-list-container'); if(!container) return;
-        if(snapshot.empty) { container.innerHTML = `<p style="color:var(--text-muted); font-size:0.9em;">Belum ada teman.</p>`; return; }
+        if(snapshot.empty) { container.innerHTML = `<p style="color:var(--text-secondary); font-size:0.9em; font-style:italic;">Tidak mendeteksi koneksi jaringan.</p>`; return; }
         
         let html = "";
         snapshot.forEach(doc => {
             let f = doc.data();
-            html += `<div class="group-item" style="display:flex; justify-content:space-between; align-items:center;">
+            html += `<div class="list-item">
                         <div style="flex:1;" onclick="openChat('${doc.id}', '${f.name}', 'dm')">
-                            <b style="color:var(--info-color);">👤 ${f.name}</b>
-                            <span style="display:block; font-size:0.75em; color:var(--text-muted);">ID: ${f.shortId}</span>
+                            <b style="color:var(--text-primary); font-size:1.05em;">${f.name}</b>
+                            <span style="display:block; font-size:0.8em; color:var(--text-secondary); margin-top:2px;">Kredensial: ${f.shortId}</span>
                         </div>
-                        <button style="background:var(--danger-color); color:white; border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer;" onclick="deleteFriend('${doc.id}', '${f.name}')">Hapus</button>
+                        <button class="danger-btn outline" onclick="deleteFriend('${doc.id}', '${f.name}')">Terminasi</button>
                      </div>`;
         });
         container.innerHTML = html;
     });
 }
 
-// HAPUS TEMAN (2 ARAH)
 function deleteFriend(fUid, fName) {
-    if(confirm(`Yakin ingin menghapus ${fName} dari daftar teman? (Chat juga akan dihapus dari daftar Anda)`)) {
+    if(confirm(`Konfirmasi terminasi: Memutus koneksi jaringan secara permanen dengan entitas [${fName}]?`)) {
         let myUid = auth.currentUser.uid;
-        
-        // Hapus dari sisi Anda
         db.collection("users").doc(myUid).collection("friends").doc(fUid).delete().then(() => {
-            // Hapus dari sisi teman Anda (Agar adil 2 arah)
             db.collection("users").doc(fUid).collection("friends").doc(myUid).delete();
-            alert(`${fName} berhasil dihapus dari pertemanan.`);
-            loadFriends();
-        }).catch(err => alert("Gagal menghapus teman: " + err.message));
+            alert(`Terminasi selesai. Koneksi dengan ${fName} diakhiri.`); loadFriends();
+        }).catch(err => alert("Kesalahan terminasi: " + err.message));
     }
 }
 
-// GRUP LOGIC
+// GRUP LOGIC DENGAN AKSES ADMIN
 function createNewGroup() {
     let name = document.getElementById('new-group-name').value.trim();
-    if(!name) return alert("Nama grup kosong!");
+    if(!name) return alert("Sistem menolak: Parameter nama ruang tidak terdefinisi.");
     db.collection("groups").add({ name: name, createdAt: firebase.firestore.FieldValue.serverTimestamp() })
       .then(() => { document.getElementById('new-group-name').value = ''; loadGroups(); });
 }
 
 function loadGroups() {
-    db.collection("groups").orderBy("createdAt", "desc").limit(15).get().then((querySnapshot) => {
+    let limitCount = currentUserData.role === 'Administrator' ? 500 : 15;
+    
+    db.collection("groups").orderBy("createdAt", "desc").limit(limitCount).get().then((querySnapshot) => {
         let container = document.getElementById('group-list-container'); if(!container) return;
-        if(querySnapshot.empty) { container.innerHTML = `<p style="color:var(--text-muted); font-size:0.9em;">Belum ada grup.</p>`; return; }
+        if(querySnapshot.empty) { container.innerHTML = `<p style="color:var(--text-secondary); font-size:0.9em; font-style:italic;">Direktori ruang kosong.</p>`; return; }
+        
         let html = "";
         querySnapshot.forEach((doc) => {
-            let g = doc.data(); html += `<div class="group-item" onclick="openChat('${doc.id}', '${g.name}', 'group')"><b style="color:var(--success-color);">👥 ${g.name}</b></div>`;
+            let g = doc.data(); 
+            let deleteBtn = currentUserData.role === 'Administrator' ? `<button class="danger-btn outline" style="border:none; padding:5px 10px;" onclick="event.stopPropagation(); deleteGroup('${doc.id}', '${g.name}')" title="Bypass Hapus Grup">Hapus Data</button>` : '';
+            
+            html += `<div class="list-item" onclick="openChat('${doc.id}', '${g.name}', 'group')">
+                        <div style="flex:1;">
+                            <b style="color:var(--text-primary); font-size:1.05em;">${g.name}</b>
+                        </div>
+                        ${deleteBtn}
+                     </div>`;
         });
         container.innerHTML = html;
     });
+}
+
+// HAPUS GRUP (KHUSUS ADMIN)
+window.deleteGroup = function(groupId, groupName) {
+    if(confirm(`OTORISASI ADMIN DIBUTUHKAN: Konfirmasi penghapusan absolut untuk ruang kelas [${groupName}] dari server pusat?`)) {
+        db.collection("groups").doc(groupId).delete().then(() => {
+            alert(`Eksekusi berhasil. Ruang [${groupName}] terhapus dari log server.`); loadGroups();
+        });
+    }
 }
 
 // CHAT REAL-TIME LOGIC
@@ -184,7 +193,7 @@ function listenMessages(chatId) {
     if(unsubscribeChat) unsubscribeChat(); 
     unsubscribeChat = db.collection("chat_messages").doc(chatId).collection("msgs").orderBy("timestamp", "asc").onSnapshot((snapshot) => {
         let html = ""; let myUid = auth.currentUser.uid;
-        if(snapshot.empty) { container.innerHTML = `<p style="color:var(--text-muted); text-align:center;">Belum ada pesan.</p>`; return; }
+        if(snapshot.empty) { container.innerHTML = `<p style="color:var(--text-secondary); text-align:center; margin-top:auto; margin-bottom:auto; font-style:italic;">Memori log diskusi kosong.</p>`; return; }
         snapshot.forEach((doc) => {
             let m = doc.data(); let isMe = m.senderUid === myUid; let bubbleClass = isMe ? "msg-bubble outgoing" : "msg-bubble incoming";
             html += `<div class="${bubbleClass}"><span class="msg-sender">${m.senderName}</span>${m.text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div>`;
