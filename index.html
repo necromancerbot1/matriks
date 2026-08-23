@@ -3,73 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zero Matriks - Terpadu</title>
+    <title>Zero Matriks - Linear Algebra System</title>
     
-    <!-- === SDK FIREBASE (COMPAT V8) === -->
+    <!-- Font Modern: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- SDK Firebase V8 -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-    <!-- === PENGHUBUNG KE FILE CSS === -->
+    <!-- File CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- LAYER LOGIN & REGISTER -->
+    <!-- PORTAL AUTENTIKASI -->
     <div id="login-wrapper">
         <div class="login-card">
-            <h2>Zero <b>Matriks</b></h2>
-            <p id="lbl_login_desc">Sistem komputasi Aljabar Linear.</p>
+            <h2>Zero<b>Matriks</b></h2>
+            <p id="lbl_login_desc">Sistem Komputasi Aljabar Linear Terpadu</p>
 
             <div id="form-login">
-                <input type="email" id="login-username" class="login-input" placeholder="Masukkan Email..." autocomplete="off">
+                <input type="email" id="login-username" class="login-input" placeholder="Alamat Surel..." autocomplete="off">
                 <input type="password" id="login-password" class="login-input" placeholder="Kata Sandi...">
-                <button class="login-btn" onclick="doLogin()" id="btn_login">Masuk Sistem</button>
+                <button class="primary-btn" onclick="doLogin()" id="btn_login">Otentikasi Masuk</button>
                 <div style="margin-top: 15px;">
-                    <a href="#" onclick="toggleAuth('reg')" class="toggle-auth" id="lbl_toggle_reg">Belum punya akun? Daftar</a>
+                    <a href="#" onclick="toggleAuth('reg')" class="toggle-auth" id="lbl_toggle_reg">Registrasi Pengguna Baru</a>
                 </div>
             </div>
 
             <div id="form-register" style="display:none;">
-                <input type="email" id="reg-username" class="login-input" placeholder="Masukkan Email Anda..." autocomplete="off">
-                <select id="reg-role" class="login-input" style="cursor:pointer; appearance: auto;">
-                    <option value="Pelajar" id="opt_student">🎓 Pelajar</option>
-                    <option value="Pengajar" id="opt_teacher">👨‍🏫 Pengajar</option>
+                <input type="email" id="reg-username" class="login-input" placeholder="Alamat Surel..." autocomplete="off">
+                <select id="reg-role" class="login-input" style="cursor:pointer;">
+                    <option value="Mahasiswa" id="opt_student">Mahasiswa / Pelajar</option>
+                    <option value="Dosen" id="opt_teacher">Dosen / Pengajar</option>
                 </select>
                 <input type="password" id="reg-password" class="login-input" placeholder="Buat Kata Sandi...">
-                <input type="password" id="reg-password-confirm" class="login-input" placeholder="Konfirmasi Sandi...">
-                <button class="login-btn" onclick="doRegister()" id="btn_register" style="background-color: var(--success-color);">Daftar Akun</button>
+                <input type="password" id="reg-password-confirm" class="login-input" placeholder="Konfirmasi Kata Sandi...">
+                <button class="success-btn" onclick="doRegister()" id="btn_register">Buat Akun</button>
                 <div style="margin-top: 15px;">
-                    <a href="#" onclick="toggleAuth('login')" class="toggle-auth" id="lbl_toggle_log">Sudah punya akun? Masuk</a>
+                    <a href="#" onclick="toggleAuth('login')" class="toggle-auth" id="lbl_toggle_log">Sudah Terdaftar? Masuk</a>
                 </div>
             </div>
             
-            <div style="margin-top: 25px; display:inline-block; border-top:1px solid var(--border-color); padding-top:15px; width:100%;">
-                <select id="login-lang" onchange="changeLangFromLogin()" style="background:var(--bg-body); color:var(--text-muted); border:1px solid var(--border-color); padding:5px 10px; border-radius:4px; outline:none; cursor:pointer;">
-                    <option value="id" selected>🇮🇩 ID</option>
-                    <option value="en">🇬🇧 EN</option>
+            <div class="lang-container-login">
+                <select id="login-lang" onchange="changeLangFromLogin()" class="lang-select">
+                    <option value="id" selected>ID - Indonesia</option>
+                    <option value="en">EN - English</option>
                 </select>
             </div>
         </div>
     </div>
 
-    <!-- LAYER APLIKASI UTAMA -->
+    <!-- ANTARMUKA SISTEM -->
     <div id="app-wrapper">
         <header>
-            <h1>Zero <b>Matriks</b></h1>
+            <div class="logo">Zero<b>Matriks</b></div>
             <div class="header-controls">
-                <div class="lang-selector">
-                    <select id="languageSelect" onchange="changeLanguage()">
-                        <option value="id">ID - Indonesia</option>
-                        <option value="en">EN - English</option>
-                    </select>
-                </div>
+                <select id="languageSelect" onchange="changeLanguage()" class="lang-select">
+                    <option value="id">ID</option>
+                    <option value="en">EN</option>
+                </select>
                 <div class="user-profile">
-                    <span>
-                        <span id="lbl_welcome">Halo</span>, 
-                        <b id="display-user">Guest</b>
-                    </span>
-                    <button class="logout-btn" onclick="doLogout()" id="btn_logout">Logout</button>
+                    <div id="display-user" class="profile-info">Memuat...</div>
+                    <button class="danger-btn outline" onclick="doLogout()" id="btn_logout">Keluar</button>
                 </div>
             </div>
         </header>
@@ -78,35 +76,31 @@
             <main class="main-content" id="app-content"></main>
 
             <aside class="sidebar">
+                <div class="sidebar-section">Navigasi Komputasi</div>
                 <ul>
-                    <li><a href="#" id="nav-home" onclick="navigate('home')" class="active" data-lang="nav_home">Home</a></li>
-                    <li><a href="#" id="nav-gauss" onclick="navigate('gauss')" data-lang="nav_gauss">Gauss-Jordan</a></li>
-                    <li><a href="#" id="nav-cramer" onclick="navigate('cramer')" data-lang="nav_cramer">Cramer's Rule</a></li>
-                    <li><a href="#" id="nav-addsub" onclick="navigate('addsub')" data-lang="nav_addsub">Add / Subtract</a></li>
-                    <li><a href="#" id="nav-trans" onclick="navigate('trans')" data-lang="nav_trans">Transpose</a></li>
-                    <li><a href="#" id="nav-rank" onclick="navigate('rank')" data-lang="nav_rank">Matrix Rank</a></li>
-                    <li><a href="#" id="nav-det" onclick="navigate('det')" data-lang="nav_det">Determinant</a></li>
-                    <li><a href="#" id="nav-cofactor" onclick="navigate('cofactor')" data-lang="nav_cofactor">Cofactor</a></li>
-                    <li><a href="#" id="nav-inv" onclick="navigate('inv')" data-lang="nav_inv">Inverse</a></li>
-                    
-                    <li style="margin-top:15px; border-top:1px solid var(--border-color); padding-top:15px;">
-                        <a href="#" id="nav-materi" onclick="navigate('materi')" data-lang="nav_materi" style="color:var(--info-color);">Buku Materi</a>
-                    </li>
-                    <li>
-                        <a href="#" id="nav-quiz" onclick="navigate('quiz')" data-lang="nav_quiz" style="color:#f59e0b;">Kuis</a>
-                    </li>
-                    <li>
-                        <a href="#" id="nav-chat" onclick="navigate('chat')" data-lang="nav_chat" style="color:var(--success-color);">Diskusi Kelas</a>
-                    </li>
-                    <li>
-                        <a href="#" id="nav-profile" onclick="navigate('profile')" data-lang="nav_profile" style="color:var(--text-muted);">Profil Saya</a>
-                    </li>
+                    <li><a href="#" id="nav-home" onclick="navigate('home')" class="active" data-lang="nav_home">Dasbor Utama</a></li>
+                    <li><a href="#" id="nav-gauss" onclick="navigate('gauss')" data-lang="nav_gauss">Eliminasi Gauss-Jordan</a></li>
+                    <li><a href="#" id="nav-cramer" onclick="navigate('cramer')" data-lang="nav_cramer">Aturan Cramer</a></li>
+                    <li><a href="#" id="nav-addsub" onclick="navigate('addsub')" data-lang="nav_addsub">Operasi Dasar (+/-)</a></li>
+                    <li><a href="#" id="nav-trans" onclick="navigate('trans')" data-lang="nav_trans">Transpos Matriks</a></li>
+                    <li><a href="#" id="nav-rank" onclick="navigate('rank')" data-lang="nav_rank">Peringkat (Rank)</a></li>
+                    <li><a href="#" id="nav-det" onclick="navigate('det')" data-lang="nav_det">Determinan</a></li>
+                    <li><a href="#" id="nav-cofactor" onclick="navigate('cofactor')" data-lang="nav_cofactor">Kofaktor</a></li>
+                    <li><a href="#" id="nav-inv" onclick="navigate('inv')" data-lang="nav_inv">Invers Matriks</a></li>
+                </ul>
+
+                <div class="sidebar-section">Modul Pembelajaran</div>
+                <ul>
+                    <li><a href="#" id="nav-materi" onclick="navigate('materi')" data-lang="nav_materi" style="color:var(--brand-main);">Buku Referensi</a></li>
+                    <li><a href="#" id="nav-quiz" onclick="navigate('quiz')" data-lang="nav_quiz" style="color:var(--accent-warning);">Evaluasi & Peringkat</a></li>
+                    <li><a href="#" id="nav-chat" onclick="navigate('chat')" data-lang="nav_chat" style="color:var(--accent-success);">Forum Diskusi</a></li>
+                    <li><a href="#" id="nav-profile" onclick="navigate('profile')" data-lang="nav_profile" style="color:var(--text-secondary);">Pengaturan Profil</a></li>
                 </ul>
             </aside>
         </div>
     </div>
 
-    <!-- === PENGHUBUNG KE SEMUA FILE JAVASCRIPT === -->
+    <!-- Modul JavaScript -->
     <script src="app.js"></script>
     <script src="auth.js"></script>
     <script src="chat.js"></script>
