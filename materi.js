@@ -4,7 +4,7 @@ function renderMateriUI(c) {
     c.innerHTML = `
         <div style="max-width:800px; margin:0 auto;">
             <div style="text-align:center; margin-bottom:30px;">
-                <h2> Buku Materi Aljabar Linear</h2>
+                <h2>Buku Materi Aljabar Linear</h2>
                 <p style="color:var(--text-muted);">Pilih rangkuman aljabar berdasarkan tingkat pendidikan.</p>
             </div>
 
