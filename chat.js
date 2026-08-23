@@ -1,5 +1,10 @@
 // === LOGIKA PERTEMANAN 2 ARAH & CHAT GRUP ===
 
+// Deklarasi Variabel Global Khusus Chat (Ini yang sebelumnya tertinggal)
+let activeChatId = null;
+let activeChatName = null;
+let activeChatType = null;
+
 function renderChatUI(c) {
     if(!activeChatId) {
         c.innerHTML = `
