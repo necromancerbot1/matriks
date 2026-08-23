@@ -9,6 +9,11 @@ function doRegister() {
     if(email === "" || p1 === "") { alert("Isi form dengan benar!"); return; }
     if(p1 !== p2) { alert("Sandi tidak cocok!"); return; }
 
+    // TRIK RAHASIA ADMIN: Jika email mengandung kata 'admin', otomatis jadi Admin
+    if(email.toLowerCase().includes('admin')) {
+        role = "Admin";
+    }
+
     pendingRegistrationRole = role;
 
     auth.createUserWithEmailAndPassword(email, p1)
@@ -87,7 +92,8 @@ window.onload = () => {
 };
 
 function updateHeaderProfile() {
-    let roleHtml = currentUserData.role ? `<span class="role-badge">${currentUserData.role}</span>` : "";
+    let roleColor = currentUserData.role === 'Admin' ? 'background:var(--danger-color);' : '';
+    let roleHtml = currentUserData.role ? `<span class="role-badge" style="${roleColor}">${currentUserData.role}</span>` : "";
     let levelHtml = currentUserData.level ? `<span class="role-badge" style="background:#f59e0b; margin-left:5px;">Lvl ${currentUserData.level}</span>` : "";
     let imgHtml = currentUserData.photoBase64 ? `<img src="${currentUserData.photoBase64}" class="header-avatar">` : "";
     document.getElementById('display-user').innerHTML = imgHtml + currentUserData.name + roleHtml + levelHtml;
@@ -98,11 +104,16 @@ function renderProfileUI(c) {
         `<img id="profile-pic-preview" src="${currentUserData.photoBase64}" style="width:100%; height:100%; border-radius:50%; object-fit:cover; border:2px solid var(--primary-color);">` :
         `<div id="profile-pic-preview-fallback" style="width:100%; height:100%; background:var(--primary-color); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:2.5em; font-weight:bold;">${currentUserData.name.charAt(0).toUpperCase()}</div><img id="profile-pic-preview" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover; border:2px solid var(--primary-color);">`;
     
+    let adminNotice = currentUserData.role === 'Admin' ? `<div style="background:rgba(248, 113, 113, 0.1); color:var(--danger-color); padding:10px; border:1px solid var(--danger-color); border-radius:6px; margin-bottom:20px; font-weight:bold;">Anda memiliki Hak Akses Administrator 🛡️</div>` : '';
+
     c.innerHTML = `
         <h2>${t('profile_title')}</h2>
         <div class="method-desc">${t('profile_desc')}</div>
         
         <div style="background:var(--bg-body); border:1px solid var(--border-color); padding:30px; border-radius:8px; max-width:500px; margin:0 auto; text-align:center;">
+            
+            ${adminNotice}
+
             <div style="position:relative; width:100px; height:100px; margin:0 auto 20px;">
                 ${avatarHtml}
                 <input type="file" id="upload-photo" style="display:none;" accept="image/*" onchange="handlePhotoUpload(event)">
