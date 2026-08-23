@@ -1,6 +1,5 @@
 // === LOGIKA PERTEMANAN 2 ARAH & CHAT GRUP ===
 
-// Deklarasi Variabel Global Khusus Chat (Ini yang sebelumnya tertinggal)
 let activeChatId = null;
 let activeChatName = null;
 let activeChatType = null;
@@ -11,6 +10,7 @@ function renderChatUI(c) {
             <h2>${t('chat_title')}</h2>
             <div class="method-desc">${t('chat_desc')}<br><br>ID Teman Anda: <b class="uid-box">${currentUserData.shortId}</b></div>
             <div style="display:flex; gap:20px; flex-wrap:wrap; margin-top:25px;">
+                <!-- Panel Teman -->
                 <div style="flex:1; min-width:250px; background:var(--bg-body); padding:25px; border-radius:8px; border:1px solid var(--border-color);">
                     <h4 style="margin-top:0; color:var(--text-main); font-weight:600;">+ ${t('add_friend')}</h4>
                     <div style="display:flex; gap:10px; margin-bottom:15px;">
@@ -21,6 +21,8 @@ function renderChatUI(c) {
                     <h4 style="margin:25px 0 15px; color:var(--text-main); font-weight:600;">${t('my_friends')}</h4>
                     <div id="friend-list-container"><p style="color:var(--text-muted); font-size:0.9em;">Memuat...</p></div>
                 </div>
+                
+                <!-- Panel Grup -->
                 <div style="flex:1; min-width:250px; background:var(--bg-body); padding:25px; border-radius:8px; border:1px solid var(--border-color);">
                     <h4 style="margin-top:0; color:var(--text-main); font-weight:600;">+ ${t('create_group')}</h4>
                     <div style="display:flex; gap:10px;">
@@ -63,10 +65,16 @@ function sendFriendRequest() {
         // Cek jika sudah berteman
         db.collection("users").doc(myUid).collection("friends").doc(fUid).get().then(doc => {
             if(doc.exists) { alert("Kalian sudah berteman!"); return; }
+            
             // Kirim request ke doc teman target
             db.collection("users").doc(fUid).collection("friend_requests").doc(myUid).set({
-                senderName: currentUserData.name, senderShortId: currentUserData.shortId, timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => { alert("Permintaan pertemanan terkirim!"); document.getElementById('friend-id-input').value = ''; });
+                senderName: currentUserData.name, 
+                senderShortId: currentUserData.shortId, 
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => { 
+                alert("Permintaan pertemanan terkirim!"); 
+                document.getElementById('friend-id-input').value = ''; 
+            });
         });
     }).catch(err => alert("Error: " + err.message));
 }
@@ -100,27 +108,49 @@ function acceptFriend(senderUid, senderName, senderShortId) {
     db.collection("users").doc(senderUid).collection("friends").doc(myUid).set({ name: currentUserData.name, shortId: currentUserData.shortId, addedAt: firebase.firestore.FieldValue.serverTimestamp() });
     // Hapus request
     db.collection("users").doc(myUid).collection("friend_requests").doc(senderUid).delete().then(() => {
-        alert("Permintaan diterima! Kalian sekarang berteman."); loadFriends();
+        alert("Permintaan diterima! Kalian sekarang berteman."); 
+        loadFriends();
     });
 }
 
+// MUAT DAFTAR TEMAN DAN TOMBOL HAPUS
 function loadFriends() {
     let myUid = auth.currentUser.uid;
     db.collection("users").doc(myUid).collection("friends").get().then(snapshot => {
         let container = document.getElementById('friend-list-container'); if(!container) return;
         if(snapshot.empty) { container.innerHTML = `<p style="color:var(--text-muted); font-size:0.9em;">Belum ada teman.</p>`; return; }
+        
         let html = "";
         snapshot.forEach(doc => {
             let f = doc.data();
-            html += `<div class="group-item" onclick="openChat('${doc.id}', '${f.name}', 'dm')">
-                        <b style="color:var(--info-color);">👤 ${f.name}</b>
-                        <span style="display:block; font-size:0.75em; color:var(--text-muted);">ID: ${f.shortId}</span>
+            html += `<div class="group-item" style="display:flex; justify-content:space-between; align-items:center;">
+                        <div style="flex:1;" onclick="openChat('${doc.id}', '${f.name}', 'dm')">
+                            <b style="color:var(--info-color);">👤 ${f.name}</b>
+                            <span style="display:block; font-size:0.75em; color:var(--text-muted);">ID: ${f.shortId}</span>
+                        </div>
+                        <button style="background:var(--danger-color); color:white; border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer;" onclick="deleteFriend('${doc.id}', '${f.name}')">Hapus</button>
                      </div>`;
         });
         container.innerHTML = html;
     });
 }
 
+// HAPUS TEMAN (2 ARAH)
+function deleteFriend(fUid, fName) {
+    if(confirm(`Yakin ingin menghapus ${fName} dari daftar teman? (Chat juga akan dihapus dari daftar Anda)`)) {
+        let myUid = auth.currentUser.uid;
+        
+        // Hapus dari sisi Anda
+        db.collection("users").doc(myUid).collection("friends").doc(fUid).delete().then(() => {
+            // Hapus dari sisi teman Anda (Agar adil 2 arah)
+            db.collection("users").doc(fUid).collection("friends").doc(myUid).delete();
+            alert(`${fName} berhasil dihapus dari pertemanan.`);
+            loadFriends();
+        }).catch(err => alert("Gagal menghapus teman: " + err.message));
+    }
+}
+
+// GRUP LOGIC
 function createNewGroup() {
     let name = document.getElementById('new-group-name').value.trim();
     if(!name) return alert("Nama grup kosong!");
@@ -140,6 +170,7 @@ function loadGroups() {
     });
 }
 
+// CHAT REAL-TIME LOGIC
 function openChat(id, name, type) {
     if(type === 'dm') { let uids = [auth.currentUser.uid, id].sort(); activeChatId = `dm_${uids[0]}_${uids[1]}`; } else { activeChatId = id; }
     activeChatName = name; activeChatType = type; navigate('chat');
