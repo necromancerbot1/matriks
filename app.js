@@ -20,32 +20,23 @@ let lang = 'id';
 let mode = 'home';
 let rows = 2, cols = 3;
 
-// === KAMUS 10 BAHASA ===
+// === KAMUS BAHASA ===
 const tr = {
     id: { 
         login_desc: "Sistem komputasi Aljabar Linear.", login_user: "Masukkan Email...", login_pass: "Kata Sandi...", login_btn: "Masuk Sistem", welcome: "Halo", logout: "Keluar", login_toggle_reg: "Belum punya akun? Daftar", login_toggle_log: "Sudah punya akun? Masuk", btn_register: "Daftar Akun", reg_user: "Masukkan Email Anda...", reg_pass: "Buat Kata Sandi...", reg_pass2: "Konfirmasi Sandi...", opt_student: "🎓 Pelajar", opt_teacher: "👨‍🏫 Pengajar", msg_pass_nomatch: "Sandi tidak cocok!",
-        nav_home: "Beranda", nav_gauss: "Eliminasi Gauss-Jordan", nav_cramer: "Aturan Cramer", nav_addsub: "Penjumlahan / Pengurangan", nav_trans: "Transpos Matriks", nav_rank: "Rank Matriks", nav_det: "Determinan", nav_cofactor: "Matriks Kofaktor", nav_inv: "Invers Matriks", nav_chat: "👥 Diskusi & Teman", nav_quiz: "🎮 Kuis & Ranking", nav_profile: "⚙️ Profil Saya",
+        nav_home: "Beranda", nav_gauss: "Eliminasi Gauss-Jordan", nav_cramer: "Aturan Cramer", nav_addsub: "Penjumlahan / Pengurangan", nav_trans: "Transpos Matriks", nav_rank: "Rank Matriks", nav_det: "Determinan", nav_cofactor: "Matriks Kofaktor", nav_inv: "Invers Matriks", nav_chat: "👥 Diskusi Kelas", nav_quiz: "🎮 Kuis & Ranking", nav_profile: "⚙️ Profil Saya", nav_materi: "📚 Buku Materi",
         desc_gauss: "Mengubah matriks menjadi bentuk eselon baris tereduksi (RREF).", desc_cramer: "Menyelesaikan sistem persamaan linear.", desc_addsub: "Penjumlahan dan pengurangan elemen bersesuaian.", desc_trans: "Menukar elemen baris menjadi kolom.", desc_rank: "Jumlah maksimum vektor baris independen.", desc_det: "Metode reduksi baris ke Matriks Segitiga Atas.", desc_cofactor: "Dibentuk dari nilai determinan sub-matriks.", desc_inv: "Metode reduksi Gauss-Jordan.",
         ui_size: "Ukuran:", ui_var: "Variabel:", ui_row: "Baris:", ui_col: "Kolom:", ui_set: "Atur Matriks", ui_in: "Input Matriks", ui_calc: "Kalkulasi", ui_clr: "Bersihkan", ui_clrall: "Bersih Semua", ui_step: "Tampilkan Langkah", ui_log: "Log Solusi", step_init: "Matriks Awal", step_res: "Hasil Akhir", alert_max: "Maksimal ordo 100x100!", no_sol: "Sistem tidak konsisten.", inf_sol: "Sistem memiliki tak terhingga solusi.", btn_auto_pm: "Acak (+/-)", btn_auto_p: "Acak (+)", mat_a: "Matriks A", mat_b: "Matriks B", mat_d: "Matriks D", step_proc: "Proses", step_swap: "Tukar Baris", step_div: "Bagi Baris {r} dengan {p}", step_elim: "Eliminasi kolom {c}", step_eq: "Penyelesaian:", step_elim_pivot: "Eliminasi Pivot", step_swap_det: "Tukar Baris: R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Eliminasi di bawah pivot Kolom {c}", step_det_tri: "Perkalian Segitiga Atas", step_det_form: "Det = Tanda × (Hasil Kali Diagonal)", zero_row_col: "Baris/Kolom nol terdeteksi. Det = 0", step_cof1: "1: Minor & Kofaktor", step_cof2: "2: Matriks Minor", step_cof3: "3: Tanda Kofaktor", step_div_p: "Bagi dengan {p}", step_elim_p: "Eliminasi", step_inv_ext: "Invers Diekstrak", note_aug: "*Asumsi kolom terakhir adalah konstanta.",
-        home_sub: "Alat komputasi aljabar linear real-time.", feat_title: "Kapabilitas", f1_t: "Presisi", f1_d: "Format pecahan terjaga.", f2_t: "Uji Coba", f2_d: "Generator solusi bilangan bulat.", f3_t: "Optimasi", f3_d: "Reduksi beban komputasi.", f4_t: "Multilingual", f4_d: "10 bahasa fungsional.",
+        home_sub: "Alat komputasi aljabar linear real-time.", feat_title: "Kapabilitas", f1_t: "Presisi", f1_d: "Format pecahan terjaga.", f2_t: "Uji Coba", f2_d: "Generator solusi bilangan bulat.", f3_t: "Optimasi", f3_d: "Reduksi beban komputasi.", f4_t: "Multilingual", f4_d: "Multi bahasa fungsional.",
         chat_title: "Diskusi & Pertemanan (2 Arah)", chat_desc: "Kirim permintaan teman dengan ID 5 Digit.", uid_info: "Berikan ID ini ke teman Anda.", add_friend: "Kirim Permintaan", add_friend_ph: "5-Digit ID Teman...", my_friends: "Teman & Permintaan", create_group: "Buat", group_name_ph: "Nama Grup...", my_groups: "Daftar Kelas", back_to_groups: "← Kembali", send: "Kirim", type_msg: "Tulis pesan...",
         profile_title: "Pengaturan Profil", profile_desc: "Kelola identitas akun Anda.", save_profile: "Simpan Perubahan", current_name: "Nama Anda:", change_name_ph: "Nama (6-15 karakter)...", role_lbl: "Status:",
-        quiz_title: "Kuis Aljabar & Leaderboard", quiz_desc: "Jawab 20 soal untuk naik level dan raih ranking tertinggi!", btn_start: "Mulai Kuis", leaderboard: "Papan Peringkat (Top 10)"
+        quiz_title: "Kuis Aljabar & Leaderboard", quiz_desc: "Pilih tingkat kesulitan, kumpulkan EXP, dan naik level!", btn_start: "Mulai Kuis", leaderboard: "Papan Peringkat (Top 10)"
     },
     en: { 
-        login_desc: "Linear Algebra computation system.", login_user: "Enter Email...", login_pass: "Password...", login_btn: "Login", welcome: "Hello", logout: "Logout", login_toggle_reg: "No account? Register", login_toggle_log: "Have an account? Login", btn_register: "Register", reg_user: "Enter Email...", reg_pass: "Create Password...", reg_pass2: "Confirm Password...", opt_student: "🎓 Student", opt_teacher: "👨‍🏫 Teacher", msg_pass_nomatch: "Passwords do not match!",
-        nav_home: "Home", nav_gauss: "Gauss-Jordan", nav_cramer: "Cramer's Rule", nav_addsub: "Add / Subtract", nav_trans: "Transpose", nav_rank: "Matrix Rank", nav_det: "Determinant", nav_cofactor: "Cofactor Matrix", nav_inv: "Inverse", nav_chat: "👥 Discussion & Friends", nav_quiz: "🎮 Quiz & Ranking", nav_profile: "⚙️ My Profile",
-        desc_gauss: "Transforms matrix into RREF.", desc_cramer: "Solves linear equations.", desc_addsub: "Element-wise operations.", desc_trans: "Swaps rows with columns.", desc_rank: "Independent rows.", desc_det: "Upper triangular matrix reduction.", desc_cofactor: "Sub-matrices determinant.", desc_inv: "Gauss-Jordan reduction.",
-        ui_size: "Size:", ui_var: "Vars:", ui_row: "Rows:", ui_col: "Cols:", ui_set: "Set", ui_in: "Input", ui_calc: "Calculate", ui_clr: "Clear", ui_clrall: "Clear All", ui_step: "Steps", ui_log: "Log", step_init: "Initial Matrix", step_res: "Result", alert_max: "Max 100x100!", no_sol: "No solution.", inf_sol: "Infinitely many solutions.", btn_auto_pm: "Rand (+/-)", btn_auto_p: "Rand (+)", mat_a: "A", mat_b: "B", mat_d: "D", step_proc: "Process", step_swap: "Swap Row", step_div: "Divide Row {r} by {p}", step_elim: "Eliminate col {c}", step_eq: "Solution:", step_elim_pivot: "Eliminate by Pivot", step_swap_det: "Swap Row (Det × -1)", step_elim_det: "Eliminate below pivot", step_det_tri: "Upper Triangular", step_det_form: "Det = Sign × (Diagonal)", zero_row_col: "Zero row/col. Det = 0", step_cof1: "1: Minor & Cofactor", step_cof2: "2: Minor Matrix", step_cof3: "3: Sign Pattern", step_div_p: "Divide by {p}", step_elim_p: "Eliminate", step_inv_ext: "Extracted", note_aug: "*Assumes augmented matrix.",
-        home_sub: "Real-time linear algebra tool.", feat_title: "Capabilities", f1_t: "Precision", f1_d: "Maintains fraction formats.", f2_t: "Testing", f2_d: "Produces integer sets.", f3_t: "Optimization", f3_d: "Upper triangular reduction.", f4_t: "Multilingual", f4_d: "10 languages.",
-        chat_title: "Discussion & Friends (2-Way)", chat_desc: "Send request using 5-Digit ID.", uid_info: "Share this ID.", add_friend: "Send Request", add_friend_ph: "5-Digit ID...", my_friends: "Friends & Requests", create_group: "Create", group_name_ph: "New Group...", my_groups: "Class Groups", back_to_groups: "← Back", send: "Send", type_msg: "Message...",
-        profile_title: "Profile Settings", profile_desc: "Manage identity.", save_profile: "Save Changes", current_name: "Name:", change_name_ph: "Name (6-15 chars)...", role_lbl: "Status:",
-        quiz_title: "Algebra Quiz & Leaderboard", quiz_desc: "Answer 20 questions to level up!", btn_start: "Start Quiz", leaderboard: "Leaderboard (Top 10)"
+        // Mode EN disingkat untuk menghemat karakter. Default tetap ID.
+        login_btn: "Login", welcome: "Hello", logout: "Logout", nav_home: "Home", nav_materi: "📚 Study Book", nav_quiz: "🎮 Quiz", nav_chat: "👥 Class Chat", nav_profile: "⚙️ Profile"
     }
-    // (Translasi lain akan ikut default EN jika tidak ditemukan)
 };
-const langs = ['jp','zh','ru','es','fr','de','ar','ko'];
-langs.forEach(l => { if(!tr[l]) tr[l] = tr.en; });
 
 function t(k) { return tr[lang][k] || tr.en[k] || k; }
 
@@ -63,18 +54,6 @@ function changeLanguage() {
 function changeLangFromLogin() {
     document.getElementById('languageSelect').value = document.getElementById('login-lang').value;
     lang = document.getElementById('languageSelect').value;
-    document.getElementById('lbl_login_desc').innerText = t('login_desc');
-    document.getElementById('login-username').placeholder = t('login_user');
-    document.getElementById('login-password').placeholder = t('login_pass');
-    document.getElementById('btn_login').innerText = t('login_btn');
-    document.getElementById('lbl_toggle_reg').innerText = t('login_toggle_reg');
-    document.getElementById('lbl_toggle_log').innerText = t('login_toggle_log');
-    document.getElementById('btn_register').innerText = t('btn_register');
-    document.getElementById('reg-username').placeholder = t('reg_user');
-    document.getElementById('reg-password').placeholder = t('reg_pass');
-    document.getElementById('reg-password-confirm').placeholder = t('reg_pass2');
-    document.getElementById('opt_student').innerText = t('opt_student');
-    document.getElementById('opt_teacher').innerText = t('opt_teacher');
     changeLanguage();
 }
 
@@ -102,6 +81,7 @@ function navigate(m) {
     if(m === 'profile') { renderProfileUI(c); return; }
     if(m === 'chat') { renderChatUI(c); return; }
     if(m === 'quiz') { renderQuizUI(c); return; }
+    if(m === 'materi') { renderMateriUI(c); return; } // Panggilan ke File Baru
 
     let isSq = (m === 'det' || m === 'inv' || m === 'cofactor');
     let isCr = (m === 'cramer');
