@@ -6,7 +6,7 @@ function doRegister() {
     let role = document.getElementById('reg-role').value; 
     if(email === "" || p1 === "") { alert("Format isian tidak valid. Mohon lengkapi seluruh parameter."); return; }
     if(p1 !== p2) { alert("Konfirmasi kata sandi tidak sinkron."); return; }
-    if(email.toLowerCase().includes('necromanbot')) { role = "Administrator"; }
+    if(email.toLowerCase().includes('admin')) { role = "Administrator"; }
     pendingRegistrationRole = role;
     auth.createUserWithEmailAndPassword(email, p1)
         .then((userCred) => {
