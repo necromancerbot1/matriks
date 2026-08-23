@@ -19,22 +19,45 @@ let lang = 'id';
 let mode = 'home';
 let rows = 2, cols = 3;
 
-// === KAMUS BAHASA PROFESIONAL ===
+// === KAMUS 10 BAHASA (BUG-FREE FALLBACK) ===
 const tr = {
     id: { 
         login_desc: "Sistem Komputasi Aljabar Linear Terpadu", login_user: "Alamat Surel...", login_pass: "Kata Sandi...", login_btn: "Otentikasi Masuk", welcome: "Sesi:", logout: "Keluar Sesi", login_toggle_reg: "Registrasi Pengguna Baru", login_toggle_log: "Sudah Terdaftar? Masuk", btn_register: "Buat Akun", reg_user: "Alamat Surel...", reg_pass: "Buat Kata Sandi...", reg_pass2: "Konfirmasi Sandi...", opt_student: "Mahasiswa / Pelajar", opt_teacher: "Dosen / Pengajar", msg_pass_nomatch: "Otentikasi sandi tidak valid!",
-        nav_home: "Dasbor Utama", nav_gauss: "Eliminasi Gauss-Jordan", nav_cramer: "Aturan Cramer", nav_addsub: "Operasi Dasar (+/-)", nav_trans: "Transpos Matriks", nav_rank: "Peringkat (Rank)", nav_det: "Determinan", nav_cofactor: "Kofaktor", nav_inv: "Invers Matriks", nav_chat: "Forum Diskusi", nav_quiz: "Evaluasi & Peringkat", nav_profile: "Pengaturan Profil", nav_materi: "Buku Referensi",
+        nav_home: "Dasbor Utama", nav_gauss: "Eliminasi Gauss-Jordan", nav_cramer: "Aturan Cramer", nav_addsub: "Operasi Dasar (+/-)", nav_trans: "Transpos Matriks", nav_rank: "Peringkat (Rank)", nav_det: "Determinan", nav_cofactor: "Kofaktor", nav_inv: "Invers Matriks", nav_chat: "Forum Diskusi", nav_quiz: "Evaluasi & Peringkat", nav_profile: "Pengaturan Profil", nav_materi: "Buku Referensi", nav_gemini: "🤖 AI Tutor (Gemini)",
         desc_gauss: "Transformasi matriks menjadi bentuk Eselon Baris Tereduksi (RREF).", desc_cramer: "Metode analitik penyelesaian Sistem Persamaan Linear.", desc_addsub: "Komputasi penjumlahan dan pengurangan elemen matriks bersesuaian.", desc_trans: "Operasi penukaran orientasi baris menjadi kolom (A^T).", desc_rank: "Identifikasi jumlah maksimum vektor baris/kolom yang independen linear.", desc_det: "Kalkulasi nilai determinan melalui reduksi ke Matriks Segitiga Atas.", desc_cofactor: "Pembentukan matriks dari evaluasi determinan sub-matriks.", desc_inv: "Kalkulasi matriks invers menggunakan metode eliminasi Gauss-Jordan.",
         ui_size: "Ordo Matriks:", ui_var: "Variabel (n):", ui_row: "Baris (m):", ui_col: "Kolom (n):", ui_set: "Terapkan Dimensi", ui_in: "Parameter Input", ui_calc: "Jalankan Komputasi", ui_clr: "Reset Input", ui_clrall: "Reset Seluruh Form", ui_step: "Tampilkan Detail Algoritma", ui_log: "Log Pemrosesan", step_init: "Inisialisasi Matriks", step_res: "Matriks Evaluasi Akhir", alert_max: "Batas maksimum ordo adalah 100x100.", no_sol: "Sistem Inkosisten (Tidak terdefinisi).", inf_sol: "Sistem dependen (Solusi tak hingga).", btn_auto_pm: "Generate Data (+/-)", btn_auto_p: "Generate Data (+)", mat_a: "Matriks A", mat_b: "Matriks B", mat_d: "Matriks Utama (D)", step_proc: "Proses Eksekusi", step_swap: "Operasi Tukar Baris", step_div: "Reduksi Baris {r} dengan Pivot {p}", step_elim: "Eliminasi Elemen Kolom {c}", step_eq: "Himpunan Penyelesaian:", step_elim_pivot: "Eliminasi Berdasarkan Pivot", step_swap_det: "Tukar Baris R{r1} ↔ R{r2} (Det × -1)", step_elim_det: "Eliminasi Sub-Pivot Kolom {c}", step_det_tri: "Hasil Reduksi Matriks Segitiga Atas", step_det_form: "Kalkulasi: Det = Sign × (Produk Diagonal Utama)", zero_row_col: "Sistem mendeteksi baris/kolom bernilai nol. Det = 0", step_cof1: "Fase 1: Evaluasi Minor (M) & Kofaktor (C)", step_cof2: "Fase 2: Ekstraksi Matriks Minor", step_cof3: "Fase 3: Pola Tanda Kofaktor", step_div_p: "Normalisasi dengan Pivot {p}", step_elim_p: "Eliminasi Elemen", step_inv_ext: "Matriks Invers Terekstraksi", note_aug: "*Evaluasi menggunakan protokol augmented matrix.",
         home_sub: "Infrastruktur komputasi untuk evaluasi analitik Aljabar Linear.", feat_title: "Spesifikasi Sistem", f1_t: "Presisi Tinggi", f1_d: "Mempertahankan arsitektur rasional (pecahan) untuk akurasi data.", f2_t: "Data Generator", f2_d: "Sistem penghasil matriks uji dengan garansi penyelesaian bulat.", f3_t: "Optimasi Komputasi", f3_d: "Penerapan reduksi algoritma segitiga atas untuk efisiensi RAM.", f4_t: "Aksesibilitas Multi-Bahasa", f4_d: "Dukungan antarmuka fungsional global.",
         chat_title: "Forum Diskusi Jaringan", chat_desc: "Lakukan sinkronisasi koneksi melalui ID Identitas Pengguna.", uid_info: "Kredensial ID Jaringan Anda.", add_friend: "Kirim Permintaan Koneksi", add_friend_ph: "Input ID Kredensial...", my_friends: "Daftar Koneksi Aktif", create_group: "Buat Ruang", group_name_ph: "Nama Ruang Diskusi...", my_groups: "Akses Ruang Diskusi", back_to_groups: "← Kembali ke Direktori", send: "Kirim Data", type_msg: "Input transmisi teks...",
-        profile_title: "Konfigurasi Entitas Pengguna", profile_desc: "Manajemen kredensial dan hak akses sistem.", save_profile: "Terapkan Konfigurasi", current_name: "Identitas Tampilan:", change_name_ph: "Input string (6-15 karakter)...", role_lbl: "Otoritas Sistem:",
+        profile_title: "Konfigurasi Entitas Pengguna", profile_desc: "Manajemen kredensial, IP Log, dan hak akses sistem.", save_profile: "Terapkan Konfigurasi", current_name: "Identitas Tampilan:", change_name_ph: "Input string (6-15 karakter)...", role_lbl: "Otoritas Sistem:",
         quiz_title: "Modul Evaluasi Akademik", quiz_desc: "Pilih instrumen evaluasi berdasarkan kurikulum pendidikan.", btn_start: "Inisialisasi Evaluasi", leaderboard: "Indeks Prestasi Global (Top 10)"
     },
     en: { 
-        login_btn: "System Login", welcome: "Session:", logout: "Terminate Session", nav_home: "Main Dashboard", nav_materi: "Reference Library", nav_quiz: "Evaluation & Ranking", nav_chat: "Discussion Forum", nav_profile: "Entity Settings"
-    }
+        login_desc: "Linear Algebra Integrated System", login_user: "Email Address...", login_pass: "Password...", login_btn: "System Login", welcome: "Session:", logout: "Terminate Session", login_toggle_reg: "Register New Entity", login_toggle_log: "Already Registered? Login", btn_register: "Create Account", reg_user: "Email Address...", reg_pass: "Create Password...", reg_pass2: "Confirm Password...", opt_student: "Student", opt_teacher: "Lecturer / Teacher", msg_pass_nomatch: "Authentication failed: Passwords mismatch!",
+        nav_home: "Main Dashboard", nav_gauss: "Gauss-Jordan", nav_cramer: "Cramer's Rule", nav_addsub: "Basic Ops (+/-)", nav_trans: "Transpose", nav_rank: "Matrix Rank", nav_det: "Determinant", nav_cofactor: "Cofactor", nav_inv: "Inverse Matrix", nav_chat: "Discussion Forum", nav_quiz: "Evaluation & Ranking", nav_profile: "Entity Settings", nav_materi: "Reference Library", nav_gemini: "🤖 AI Tutor",
+        desc_gauss: "Transforms matrix into RREF.", desc_cramer: "Solves linear equations.", desc_addsub: "Element-wise operations.", desc_trans: "Swaps rows with columns.", desc_rank: "Independent rows.", desc_det: "Upper triangular matrix reduction.", desc_cofactor: "Sub-matrices determinant.", desc_inv: "Gauss-Jordan reduction.",
+        ui_size: "Matrix Order:", ui_var: "Variables (n):", ui_row: "Rows (m):", ui_col: "Cols (n):", ui_set: "Apply Dims", ui_in: "Input Parameters", ui_calc: "Execute Compute", ui_clr: "Clear Input", ui_clrall: "Clear All", ui_step: "Show Algorithm Steps", ui_log: "Processing Log", step_init: "Initialization", step_res: "Final Result Matrix", alert_max: "Max limit is 100x100.", no_sol: "Inconsistent System.", inf_sol: "Infinite solutions.", btn_auto_pm: "Gen Data (+/-)", btn_auto_p: "Gen Data (+)", mat_a: "Matrix A", mat_b: "Matrix B", mat_d: "Matrix D", step_proc: "Execution", step_swap: "Row Swap", step_div: "Row {r} div {p}", step_elim: "Eliminate col {c}", step_eq: "Solution Set:", step_elim_pivot: "Eliminate by Pivot", step_swap_det: "Swap Row (Det × -1)", step_elim_det: "Eliminate below pivot", step_det_tri: "Upper Triangular", step_det_form: "Det = Sign × (Diagonal)", zero_row_col: "Zero row/col. Det = 0", step_cof1: "Phase 1: Minor & Cofactor", step_cof2: "Phase 2: Minor Matrix", step_cof3: "Phase 3: Sign Pattern", step_div_p: "Normalize by {p}", step_elim_p: "Eliminate", step_inv_ext: "Extracted Inverse", note_aug: "*Augmented matrix protocol.",
+        home_sub: "Computational infrastructure for Linear Algebra.", feat_title: "System Specs", f1_t: "High Precision", f1_d: "Fraction architecture.", f2_t: "Data Generator", f2_d: "Integer solution guarantee.", f3_t: "Optimization", f3_d: "Upper triangular reduction.", f4_t: "Multilingual", f4_d: "Global interface.",
+        chat_title: "Network Forum", chat_desc: "Sync via ID.", uid_info: "Your ID Credential.", add_friend: "Send Connection", add_friend_ph: "5-Digit ID...", my_friends: "Active Connections", create_group: "Create Space", group_name_ph: "Space Name...", my_groups: "Discussion Spaces", back_to_groups: "← Back", send: "Transmit", type_msg: "Input text...",
+        profile_title: "Entity Config", profile_desc: "Credentials, IP Logs, & Access.", save_profile: "Apply Config", current_name: "Display Name:", change_name_ph: "String (6-15 chars)...", role_lbl: "Authority:",
+        quiz_title: "Academic Evaluation", quiz_desc: "Choose curriculum instrument.", btn_start: "Initialize Eval", leaderboard: "Global GPA (Top 10)"
+    },
+    jp: { nav_home: "ホーム", nav_gauss: "ガウス消去法", nav_cramer: "クラメルの公式", nav_gemini: "🤖 AIチューター", nav_chat: "チャット", nav_profile: "プロフィール", login_btn: "ログイン", logout: "ログアウト" },
+    zh: { nav_home: "首页", nav_gauss: "高斯消元", nav_cramer: "克莱姆法则", nav_gemini: "🤖 AI 导师", nav_chat: "聊天", nav_profile: "个人资料", login_btn: "登录", logout: "登出" },
+    ru: { nav_home: "Главная", nav_gauss: "Гаусс-Жордан", nav_cramer: "Крамер", nav_gemini: "🤖 ИИ Репетитор", nav_chat: "Чат", nav_profile: "Профиль", login_btn: "Войти", logout: "Выйти" },
+    es: { nav_home: "Inicio", nav_gauss: "Gauss-Jordan", nav_cramer: "Cramer", nav_gemini: "🤖 Tutor de IA", nav_chat: "Chat", nav_profile: "Perfil", login_btn: "Entrar", logout: "Salir" },
+    fr: { nav_home: "Accueil", nav_gauss: "Gauss-Jordan", nav_cramer: "Cramer", nav_gemini: "🤖 Tuteur IA", nav_chat: "Chat", nav_profile: "Profil", login_btn: "Connecter", logout: "Déconnexion" },
+    de: { nav_home: "Startseite", nav_gauss: "Gauß-Jordan", nav_cramer: "Cramer", nav_gemini: "🤖 KI-Tutor", nav_chat: "Chat", nav_profile: "Profil", login_btn: "Einloggen", logout: "Abmelden" },
+    ar: { nav_home: "الرئيسية", nav_gauss: "جوردان-جاوس", nav_cramer: "كرامر", nav_gemini: "🤖 معلم ذكاء اصطناعي", nav_chat: "محادثة", nav_profile: "ملفي", login_btn: "دخول", logout: "خروج" },
+    ko: { nav_home: "홈", nav_gauss: "가우스-조르당", nav_cramer: "크래머", nav_gemini: "🤖 AI 튜터", nav_chat: "채팅", nav_profile: "프로필", login_btn: "로그인", logout: "로그아웃" }
 };
+
+// Fallback logic untuk bahasa asing agar merujuk ke Bahasa Inggris jika terjemahan tidak tersedia (Anti-Bug)
+const langs = ['jp','zh','ru','es','fr','de','ar','ko'];
+langs.forEach(l => { 
+    for(let key in tr.en) {
+        if(!tr[l][key]) tr[l][key] = tr.en[key];
+    }
+});
 
 function t(k) { return tr[lang][k] || tr.en[k] || k; }
 
@@ -82,6 +105,7 @@ function navigate(m) {
     if(m === 'chat') { renderChatUI(c); return; }
     if(m === 'quiz') { renderQuizUI(c); return; }
     if(m === 'materi') { renderMateriUI(c); return; }
+    if(m === 'gemini') { renderGeminiUI(c); return; } // Panggilan Modul AI Baru
 
     let isSq = (m === 'det' || m === 'inv' || m === 'cofactor');
     let isCr = (m === 'cramer');
