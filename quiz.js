@@ -68,7 +68,7 @@ function renderQuizUI(c) {
                 <div style="flex:1; display:flex; flex-direction:column; gap:25px;">
                     <!-- PANEL KALKULATOR MINI -->
                     <div style="background:var(--bg-panel); border:1px solid var(--border-color); padding:20px; border-radius:8px;">
-                        <h4 style="margin:0 0 15px 0; color:var(--info-color); text-align:center;">🧮 Kalkulator Mini</h4>
+                        <h4 style="margin:0 0 15px 0; color:var(--info-color); text-align:center;">Kalkulator Mini</h4>
                         <input type="text" id="calc-display" style="width:100%; padding:10px; font-size:1.2em; text-align:right; margin-bottom:10px; background:var(--bg-body); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px;" readonly placeholder="0">
                         <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:5px;">
                             <button onclick="calcPress('7')">7</button><button onclick="calcPress('8')">8</button><button onclick="calcPress('9')">9</button><button class="primary" onclick="calcPress('/')">÷</button>
