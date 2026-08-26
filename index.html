@@ -5,18 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zero Matriks - Linear Algebra System</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <link rel="stylesheet" href="style.css?v=7">
+    
+    <link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
+    <!-- PORTAL AUTENTIKASI -->
     <div id="login-wrapper">
         <div class="login-card">
             <h2>Zero<b>Matriks</b></h2>
             <p id="lbl_login_desc">Sistem Komputasi Aljabar Linear Terpadu</p>
             
-            <!-- FORM LOGIN -->
             <div id="form-login">
                 <input type="email" id="login-username" class="login-input" placeholder="Alamat Surel..." autocomplete="off">
                 <input type="password" id="login-password" class="login-input" placeholder="Kata Sandi...">
@@ -28,7 +30,6 @@
                 </div>
             </div>
 
-            <!-- FORM REGISTER -->
             <div id="form-register" style="display:none;">
                 <input type="email" id="reg-username" class="login-input" placeholder="Alamat Surel..." autocomplete="off">
                 <input type="number" id="reg-age" class="login-input" placeholder="Usia Anda (Angka)..." min="10" max="100">
@@ -45,7 +46,6 @@
                 </div>
             </div>
             
-            <!-- PILIHAN BAHASA -->
             <div class="lang-container-login">
                 <select id="login-lang" onchange="changeLangFromLogin()" class="lang-select">
                     <option value="id" selected>🇮🇩 ID - Indonesia</option>
@@ -107,11 +107,11 @@
         </div>
     </div>
     
-    <script src="app.js?v=8"></script>
-    <script src="auth.js?v=8"></script>
-    <script src="chat.js?v=8"></script>
-    <script src="quiz.js?v=8"></script>
-    <script src="materi.js?v=8"></script>
-    <script src="gemini.js?v=8"></script>
+    <script src="app.js?v=9"></script>
+    <script src="auth.js?v=9"></script>
+    <script src="chat.js?v=9"></script>
+    <script src="quiz.js?v=9"></script>
+    <script src="materi.js?v=9"></script>
+    <script src="gemini.js?v=9"></script>
 </body>
 </html>
