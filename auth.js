@@ -1,4 +1,5 @@
 // === LOGIKA AUTENTIKASI DAN ENTITAS PENGGUNA ===
+
 let pendingRegistrationRole = "";
 let pendingRegistrationAge = null;
 
