@@ -1,6 +1,5 @@
 // === LOGIKA AI TUTOR DENGAN API TERSEMBUNYI (OBFUSCATION) ===
 
-// API Key Anda dienkripsi ke dalam format Base64 agar tidak terekspos mentah-mentah ke GitHub.
 const ENCODED_KEY = "QVEuQWI4Uk42TGNQYnR1ZnpiYnpBNnpHaDlnR0laQ0x2VGx2cVlsRTdLSWNaa0JMUWRKaHc="; 
 
 // Browser akan menerjemahkan ulang kunci ini secara lokal saat diakses.
