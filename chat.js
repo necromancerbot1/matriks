@@ -3,7 +3,7 @@ let activeChatId = null, activeChatName = null, activeChatType = null;
 
 function renderChatUI(c) {
     if(!activeChatId) {
-        let groupTitle = currentUserData.role === 'Administrator' ? "🛡️ Ruang Kelas Terdaftar (Akses Admin)" : t('my_groups');
+        let groupTitle = currentUserData.role === 'Administrator' ? "Ruang Kelas Terdaftar (Akses Admin)" : t('my_groups');
         c.innerHTML = `
             <h2 style="font-size:1.6em; margin-top:0;">${t('chat_title')}</h2><div class="method-desc">${t('chat_desc')}<br><br>ID Sinkronisasi Anda: <b class="uid-box" style="margin-left:10px;">${currentUserData.shortId}</b></div>
             <div style="display:flex; gap:30px; flex-wrap:wrap; margin-top:30px;">
@@ -37,10 +37,10 @@ function sendFriendRequest() {
     let shortIdInput = document.getElementById('friend-id-input').value.trim(); let myUid = auth.currentUser.uid;
     if(!shortIdInput) return; if(shortIdInput === currentUserData.shortId) { return ZeroModal.alert("Sistem mendeteksi siklus. Anda tidak dapat menyinkronkan ID Anda sendiri."); }
     db.collection("users").where("shortId", "==", shortIdInput).get().then(snapshot => {
-        if(snapshot.empty) { return ZeroModal.alert("Kegagalan penelusuran. ID Entitas tidak terdaftar di sistem."); }
+        if(snapshot.empty) { return ZeroModal.alert("Kegagalan penelusuran. ID Pengguna tidak terdaftar di sistem."); }
         let fUid = snapshot.docs[0].id;
         db.collection("users").doc(myUid).collection("friends").doc(fUid).get().then(doc => {
-            if(doc.exists) { return ZeroModal.alert("Entitas tersebut telah terverifikasi dalam jaringan Anda."); }
+            if(doc.exists) { return ZeroModal.alert("Pengguna tersebut telah terverifikasi dalam pertemanan kamu."); }
             db.collection("users").doc(fUid).collection("friend_requests").doc(myUid).set({ senderName: currentUserData.name, senderShortId: currentUserData.shortId, timestamp: firebase.firestore.FieldValue.serverTimestamp() }).then(() => { 
                 ZeroModal.alert("Protokol permintaan berhasil diinisialisasi."); document.getElementById('friend-id-input').value = ''; 
             });
@@ -73,7 +73,7 @@ function loadFriends() {
     let myUid = auth.currentUser.uid;
     db.collection("users").doc(myUid).collection("friends").get().then(snapshot => {
         let container = document.getElementById('friend-list-container'); if(!container) return;
-        if(snapshot.empty) { container.innerHTML = `<p style="color:var(--text-secondary); font-size:0.9em; font-style:italic;">Tidak mendeteksi koneksi jaringan.</p>`; return; }
+        if(snapshot.empty) { container.innerHTML = `<p style="color:var(--text-secondary); font-size:0.9em; font-style:italic;">Tidak mendeteksi koneksi pertemanan.</p>`; return; }
         let html = "";
         snapshot.forEach(doc => {
             let f = doc.data();
@@ -84,7 +84,7 @@ function loadFriends() {
 }
 
 function deleteFriend(fUid, fName) {
-    ZeroModal.confirm(`Konfirmasi terminasi: Memutus koneksi jaringan secara permanen dengan entitas [${fName}]?`, function(res) {
+    ZeroModal.confirm(`Konfirmasi terminasi: Memutus koneksi pertemanan secara permanen dengan pengguna [${fName}]?`, function(res) {
         if(res) {
             let myUid = auth.currentUser.uid;
             db.collection("users").doc(myUid).collection("friends").doc(fUid).delete().then(() => {
