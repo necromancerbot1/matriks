@@ -1,7 +1,7 @@
 // === LOGIKA AI TUTOR (Integrasi Google Gemini API) ===
 
 // API Key Anda sudah ditanamkan di sini:
-const GEMINI_API_KEY = "AQ.Ab8RN6JLUcY5lPiRCA0CFT6UwId327rKTqff74Bo2wRsVUI-Yw"; 
+const GEMINI_API_KEY = "."; 
 
 // Prompt dasar agar AI bisa menjawab topik apa saja dengan persona akademis
 const systemPrompt = [
