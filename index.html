@@ -8,21 +8,30 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
     <div id="login-wrapper">
         <div class="login-card">
             <h2>Zero<b>Matriks</b></h2>
             <p id="lbl_login_desc">Sistem Komputasi Aljabar Linear Terpadu</p>
+            
+            <!-- FORM LOGIN -->
             <div id="form-login">
                 <input type="email" id="login-username" class="login-input" placeholder="Alamat Surel..." autocomplete="off">
                 <input type="password" id="login-password" class="login-input" placeholder="Kata Sandi...">
                 <button class="primary-btn" onclick="doLogin()" id="btn_login">Otentikasi Masuk</button>
-                <div style="margin-top: 15px;"><a href="#" onclick="toggleAuth('reg')" class="toggle-auth" id="lbl_toggle_reg">Registrasi Pengguna Baru</a></div>
+                
+                <div style="display:flex; justify-content:space-between; margin-top:15px; font-size:0.9em;">
+                    <a href="#" onclick="resetPassword()" style="color:var(--text-secondary); text-decoration:none; transition:0.2s;" onmouseover="this.style.color='var(--brand-main)'" onmouseout="this.style.color='var(--text-secondary)'">Lupa Kata Sandi?</a>
+                    <a href="#" onclick="toggleAuth('reg')" class="toggle-auth" id="lbl_toggle_reg" style="margin-top:0;">Registrasi Baru</a>
+                </div>
             </div>
+
+            <!-- FORM REGISTER -->
             <div id="form-register" style="display:none;">
                 <input type="email" id="reg-username" class="login-input" placeholder="Alamat Surel..." autocomplete="off">
+                <input type="number" id="reg-age" class="login-input" placeholder="Usia Anda (Angka)..." min="10" max="100">
                 <select id="reg-role" class="login-input" style="cursor:pointer;">
                     <option value="Mahasiswa" id="opt_student">Mahasiswa / Pelajar</option>
                     <option value="Dosen" id="opt_teacher">Dosen / Pengajar</option>
@@ -30,10 +39,13 @@
                 <input type="password" id="reg-password" class="login-input" placeholder="Buat Kata Sandi...">
                 <input type="password" id="reg-password-confirm" class="login-input" placeholder="Konfirmasi Kata Sandi...">
                 <button class="success-btn" onclick="doRegister()" id="btn_register">Buat Akun</button>
-                <div style="margin-top: 15px;"><a href="#" onclick="toggleAuth('login')" class="toggle-auth" id="lbl_toggle_log">Sudah Terdaftar? Masuk</a></div>
+                
+                <div style="margin-top: 15px;">
+                    <a href="#" onclick="toggleAuth('login')" class="toggle-auth" id="lbl_toggle_log">Sudah Terdaftar? Masuk</a>
+                </div>
             </div>
             
-            <!-- 10 BAHASA DIKEMBALIKAN KE PORTAL LOGIN -->
+            <!-- PILIHAN BAHASA -->
             <div class="lang-container-login">
                 <select id="login-lang" onchange="changeLangFromLogin()" class="lang-select">
                     <option value="id" selected>🇮🇩 ID - Indonesia</option>
@@ -51,25 +63,14 @@
         </div>
     </div>
 
+    <!-- ANTARMUKA SISTEM -->
     <div id="app-wrapper">
         <header>
             <div class="logo">Zero<b>Matriks</b></div>
             <div class="header-controls">
-                
-                <!-- 10 BAHASA DIKEMBALIKAN KE HEADER APLIKASI -->
                 <select id="languageSelect" onchange="changeLanguage()" class="lang-select">
-                    <option value="id">ID</option>
-                    <option value="en">EN</option>
-                    <option value="jp">JP</option>
-                    <option value="zh">ZH</option>
-                    <option value="ru">RU</option>
-                    <option value="es">ES</option>
-                    <option value="fr">FR</option>
-                    <option value="de">DE</option>
-                    <option value="ar">AR</option>
-                    <option value="ko">KO</option>
+                    <option value="id">ID</option><option value="en">EN</option><option value="jp">JP</option><option value="zh">ZH</option><option value="ru">RU</option><option value="es">ES</option><option value="fr">FR</option><option value="de">DE</option><option value="ar">AR</option><option value="ko">KO</option>
                 </select>
-                
                 <div class="user-profile">
                     <div id="display-user" class="profile-info">Memuat...</div>
                     <button class="danger-btn outline" onclick="doLogout()" id="btn_logout">Keluar</button>
@@ -93,7 +94,7 @@
                 </ul>
                 <div class="sidebar-section">Asisten Virtual</div>
                 <ul>
-                    <li><a href="#" id="nav-gemini" onclick="navigate('gemini')" data-lang="nav_gemini" style="color:#a855f7;">🤖 AI Tutor (Gemini)</a></li>
+                    <li><a href="#" id="nav-gemini" onclick="navigate('gemini')" data-lang="nav_gemini" style="color:#60a5fa;">✨ Asisten Akademik</a></li>
                 </ul>
                 <div class="sidebar-section">Modul Pembelajaran</div>
                 <ul>
@@ -106,12 +107,11 @@
         </div>
     </div>
     
-    <!-- Parameter v=6 untuk memastikan sinkronisasi menyeluruh pada browser -->
-    <script src="app.js?v=6"></script>
-    <script src="auth.js?v=6"></script>
-    <script src="chat.js?v=6"></script>
-    <script src="quiz.js?v=6"></script>
-    <script src="materi.js?v=6"></script>
-    <script src="gemini.js?v=6"></script>
+    <script src="app.js?v=5"></script>
+    <script src="auth.js?v=5"></script>
+    <script src="chat.js?v=5"></script>
+    <script src="quiz.js?v=5"></script>
+    <script src="materi.js?v=5"></script>
+    <script src="gemini.js?v=5"></script>
 </body>
 </html>
