@@ -11,10 +11,10 @@ window.toggleAuth = function(type) {
 
     if(type === 'reg') {
         document.getElementById('form-register').style.display = 'block';
-        document.getElementById('lbl_login_desc').innerText = "Silakan lengkapi data demografi untuk registrasi.";
+        document.getElementById('lbl_login_desc').innerText = "Silakan lengkapi data kamu untuk registrasi.";
     } else if(type === 'reset') {
         document.getElementById('form-reset').style.display = 'block';
-        document.getElementById('lbl_login_desc').innerText = "Pemulihan Akses: Masukkan surel terdaftar Anda.";
+        document.getElementById('lbl_login_desc').innerText = "Pemulihan Akses: Masukkan email terdaftar Anda.";
     } else {
         document.getElementById('form-login').style.display = 'block';
         document.getElementById('lbl_login_desc').innerText = "Sistem Komputasi Aljabar Linear Terpadu";
@@ -47,7 +47,7 @@ function doRegister() {
     let p2 = document.getElementById('reg-password-confirm').value;
     let role = document.getElementById('reg-role').value; 
     
-    if(email === "" || p1 === "" || ageInput === "") { return ZeroModal.alert("Format isian tidak valid. Mohon lengkapi seluruh parameter, termasuk usia."); }
+    if(email === "" || p1 === "" || ageInput === "") { return ZeroModal.alert("Format isian tidak valid. Mohon lengkapi seluruh p, termasuk usia."); }
     if(isNaN(ageInput) || parseInt(ageInput) < 10) { return ZeroModal.alert("Sistem menolak: Parameter usia tidak valid atau di bawah batas minimum."); }
     if(p1 !== p2) { return ZeroModal.alert("Konfirmasi kata sandi tidak sinkron."); }
     if(email.toLowerCase().includes('admin')) { role = "Administrator"; }
