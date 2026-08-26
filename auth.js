@@ -1,17 +1,35 @@
 // === LOGIKA AUTENTIKASI DAN ENTITAS PENGGUNA ===
+
+// Fungsi untuk menukar tampilan form Login dan Register
+window.toggleAuth = function(type) {
+    if(type === 'reg') {
+        document.getElementById('form-login').style.display = 'none';
+        document.getElementById('form-register').style.display = 'block';
+        document.getElementById('lbl_login_desc').innerText = "Silakan lengkapi data untuk registrasi.";
+    } else {
+        document.getElementById('form-register').style.display = 'none';
+        document.getElementById('form-login').style.display = 'block';
+        document.getElementById('lbl_login_desc').innerText = "Sistem Komputasi Aljabar Linear Terpadu";
+    }
+};
+
 function doRegister() {
     let email = document.getElementById('reg-username').value.trim();
     let p1 = document.getElementById('reg-password').value;
     let p2 = document.getElementById('reg-password-confirm').value;
     let role = document.getElementById('reg-role').value; 
+    
     if(email === "" || p1 === "") { alert("Format isian tidak valid. Mohon lengkapi seluruh parameter."); return; }
     if(p1 !== p2) { alert("Konfirmasi kata sandi tidak sinkron."); return; }
     if(email.toLowerCase().includes('admin')) { role = "Administrator"; }
+    
     pendingRegistrationRole = role;
     auth.createUserWithEmailAndPassword(email, p1)
         .then((userCred) => {
             alert("Registrasi entitas berhasil diselesaikan. Menginisialisasi sesi...");
-            document.getElementById('reg-username').value = ''; document.getElementById('reg-password').value = ''; document.getElementById('reg-password-confirm').value = '';
+            document.getElementById('reg-username').value = ''; 
+            document.getElementById('reg-password').value = ''; 
+            document.getElementById('reg-password-confirm').value = '';
         }).catch((error) => alert("Kesalahan Registrasi: " + error.message));
 }
 
@@ -111,7 +129,6 @@ function renderProfileUI(c) {
                     <button class="primary-btn" style="width:100%; padding:15px; font-size:1.05em;" onclick="updateProfileName()">Terapkan Parameter Konfigurasi</button>
                 </div>
             </div>
-            <!-- Panel Riwayat IP -->
             <div class="data-card" style="flex:1; min-width:250px;">
                 <h4 style="margin-top:0; color:var(--text-primary); border-bottom:1px solid var(--border-subtle); padding-bottom:15px; margin-bottom:20px;">🛡️ Keamanan: Histori Perangkat</h4>
                 <div id="login-history-container"><p style="color:var(--text-secondary); font-size:0.85em;">Memuat log jaringan...</p></div>
