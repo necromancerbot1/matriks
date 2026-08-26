@@ -3,7 +3,7 @@ let activeChatId = null, activeChatName = null, activeChatType = null;
 
 function renderChatUI(c) {
     if(!activeChatId) {
-        let groupTitle = currentUserData.role === 'Administrator' ? "🛡️ Ruang Kelas Terdaftar (Akses Admin)" : t('my_groups');
+        let groupTitle = currentUserData.role === 'Administrator' ? "Ruang Kelas Terdaftar (Akses Admin)" : t('my_groups');
         c.innerHTML = `
             <h2 style="font-size:1.6em; margin-top:0;">${t('chat_title')}</h2><div class="method-desc">${t('chat_desc')}<br><br>ID Sinkronisasi Anda: <b class="uid-box" style="margin-left:10px;">${currentUserData.shortId}</b></div>
             <div style="display:flex; gap:30px; flex-wrap:wrap; margin-top:30px;">
