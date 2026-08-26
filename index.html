@@ -8,7 +8,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
     <div id="login-wrapper">
@@ -32,12 +32,20 @@
                 <button class="success-btn" onclick="doRegister()" id="btn_register">Buat Akun</button>
                 <div style="margin-top: 15px;"><a href="#" onclick="toggleAuth('login')" class="toggle-auth" id="lbl_toggle_log">Sudah Terdaftar? Masuk</a></div>
             </div>
+            
+            <!-- 10 BAHASA DIKEMBALIKAN KE PORTAL LOGIN -->
             <div class="lang-container-login">
                 <select id="login-lang" onchange="changeLangFromLogin()" class="lang-select">
                     <option value="id" selected>🇮🇩 ID - Indonesia</option>
                     <option value="en">🇬🇧 EN - English</option>
                     <option value="jp">🇯🇵 JP - 日本語</option>
                     <option value="zh">🇨🇳 ZH - 中文</option>
+                    <option value="ru">🇷🇺 RU - Русский</option>
+                    <option value="es">🇪🇸 ES - Español</option>
+                    <option value="fr">🇫🇷 FR - Français</option>
+                    <option value="de">🇩🇪 DE - Deutsch</option>
+                    <option value="ar">🇸🇦 AR - العربية</option>
+                    <option value="ko">🇰🇷 KO - 한국어</option>
                 </select>
             </div>
         </div>
@@ -47,9 +55,21 @@
         <header>
             <div class="logo">Zero<b>Matriks</b></div>
             <div class="header-controls">
+                
+                <!-- 10 BAHASA DIKEMBALIKAN KE HEADER APLIKASI -->
                 <select id="languageSelect" onchange="changeLanguage()" class="lang-select">
-                    <option value="id">ID</option><option value="en">EN</option><option value="jp">JP</option><option value="zh">ZH</option>
+                    <option value="id">ID</option>
+                    <option value="en">EN</option>
+                    <option value="jp">JP</option>
+                    <option value="zh">ZH</option>
+                    <option value="ru">RU</option>
+                    <option value="es">ES</option>
+                    <option value="fr">FR</option>
+                    <option value="de">DE</option>
+                    <option value="ar">AR</option>
+                    <option value="ko">KO</option>
                 </select>
+                
                 <div class="user-profile">
                     <div id="display-user" class="profile-info">Memuat...</div>
                     <button class="danger-btn outline" onclick="doLogout()" id="btn_logout">Keluar</button>
@@ -86,12 +106,12 @@
         </div>
     </div>
     
-    <!-- Parameter ?v=5 memaksa browser mengambil file JS yang baru -->
-    <script src="app.js?v=5"></script>
-    <script src="auth.js?v=5"></script>
-    <script src="chat.js?v=5"></script>
-    <script src="quiz.js?v=5"></script>
-    <script src="materi.js?v=5"></script>
-    <script src="gemini.js?v=5"></script>
+    <!-- Parameter v=6 untuk memastikan sinkronisasi menyeluruh pada browser -->
+    <script src="app.js?v=6"></script>
+    <script src="auth.js?v=6"></script>
+    <script src="chat.js?v=6"></script>
+    <script src="quiz.js?v=6"></script>
+    <script src="materi.js?v=6"></script>
+    <script src="gemini.js?v=6"></script>
 </body>
 </html>
