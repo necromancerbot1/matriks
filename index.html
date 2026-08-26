@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Matriks - Linear Algebra System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+    <div id="login-wrapper">
+        <div class="login-card">
+            <h2>Zero<b>Matriks</b></h2>
+            <p id="lbl_login_desc">Sistem Komputasi Aljabar Linear Terpadu</p>
+            
+            <div id="form-login">
+                <input type="email" id="login-username" class="login-input" placeholder="Alamat Surel..." autocomplete="off">
+                <input type="password" id="login-password" class="login-input" placeholder="Kata Sandi...">
+                <button class="primary-btn" onclick="doLogin()" id="btn_login">Masuk</button>
+                <div style="display:flex; justify-content:space-between; margin-top:15px; font-size:0.9em;">
+                    <a href="#" onclick="toggleAuth('reset')" style="color:var(--text-secondary); text-decoration:none; transition:0.2s;" onmouseover="this.style.color='var(--brand-main)'" onmouseout="this.style.color='var(--text-secondary)'">Lupa Kata Sandi?</a>
+                    <a href="#" onclick="toggleAuth('reg')" class="toggle-auth" id="lbl_toggle_reg" style="margin-top:0;">Registrasi</a>
+                </div>
+            </div>
+
+            <div id="form-register" style="display:none;">
+                <input type="email" id="reg-username" class="login-input" placeholder="Alamat Surel..." autocomplete="off">
+                <input type="number" id="reg-age" class="login-input" placeholder="Usia Anda (Angka)..." min="10" max="100">
+                <select id="reg-role" class="login-input" style="cursor:pointer;">
+                    <option value="Mahasiswa" id="opt_student">Mahasiswa / Pelajar</option>
+                    <option value="Dosen" id="opt_teacher">Dosen / Pengajar</option>
+                </select>
+                <input type="password" id="reg-password" class="login-input" placeholder="Buat Kata Sandi...">
+                <input type="password" id="reg-password-confirm" class="login-input" placeholder="Konfirmasi Kata Sandi...">
+                <button class="success-btn" onclick="doRegister()" id="btn_register">Buat Akun</button>
+                <div style="margin-top: 15px;"><a href="#" onclick="toggleAuth('login')" class="toggle-auth" id="lbl_toggle_log">Sudah Terdaftar? Masuk</a></div>
+            </div>
+
+            <div id="form-reset" style="display:none;">
+                <input type="email" id="reset-username" class="login-input" placeholder="Masukkan Surel Anda Terdaftar..." autocomplete="off">
+                <button class="primary-btn" onclick="sendResetLink()" style="background-color: var(--accent-warning); color: #fff;">Reset sandi</button>
+                <div style="margin-top: 15px;"><a href="#" onclick="toggleAuth('login')" class="toggle-auth">← Kembali ke Halaman Log Masuk</a></div>
+            </div>
+            
+            <div class="lang-container-login">
+                <select id="login-lang" onchange="changeLangFromLogin()" class="lang-select">
+                    <option value="id" selected>🇮🇩 ID - Indonesia</option>
+                    <option value="en">🇬🇧 EN - English</option>
+                    <option value="jp">🇯🇵 JP - 日本語</option>
+                    <option value="zh">🇨🇳 ZH - 中文</option>
+                    <option value="ru">🇷🇺 RU - Русский</option>
+                    <option value="es">🇪🇸 ES - Español</option>
+                    <option value="fr">🇫🇷 FR - Français</option>
+                    <option value="de">🇩🇪 DE - Deutsch</option>
+                    <option value="ar">🇸🇦 AR - العربية</option>
+                    <option value="ko">🇰🇷 KO - 한국어</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-wrapper">
+        <header>
+            <div class="logo">Zero<b>Matriks</b></div>
+            <div class="header-controls">
+                <select id="languageSelect" onchange="changeLanguage()" class="lang-select">
+                    <option value="id">ID</option><option value="en">EN</option><option value="jp">JP</option><option value="zh">ZH</option><option value="ru">RU</option><option value="es">ES</option><option value="fr">FR</option><option value="de">DE</option><option value="ar">AR</option><option value="ko">KO</option>
+                </select>
+                <div class="user-profile">
+                    <div id="display-user" class="profile-info">Memuat...</div>
+                    <button class="danger-btn outline" onclick="doLogout()" id="btn_logout">Keluar</button>
+                </div>
+            </div>
+        </header>
+        <div class="container">
+            <main class="main-content" id="app-content"></main>
+            <aside class="sidebar">
+                <div class="sidebar-section">Navigasi Komputasi</div>
+                <ul>
+                    <li><a href="#" id="nav-home" onclick="navigate('home')" class="active" data-lang="nav_home">Dasbor Utama</a></li>
+                    <li><a href="#" id="nav-gauss" onclick="navigate('gauss')" data-lang="nav_gauss">Eliminasi Gauss-Jordan</a></li>
+                    <li><a href="#" id="nav-cramer" onclick="navigate('cramer')" data-lang="nav_cramer">Aturan Cramer</a></li>
+                    <li><a href="#" id="nav-addsub" onclick="navigate('addsub')" data-lang="nav_addsub">Operasi Dasar (+/-)</a></li>
+                    <li><a href="#" id="nav-trans" onclick="navigate('trans')" data-lang="nav_trans">Transpos Matriks</a></li>
+                    <li><a href="#" id="nav-rank" onclick="navigate('rank')" data-lang="nav_rank">Peringkat (Rank)</a></li>
+                    <li><a href="#" id="nav-det" onclick="navigate('det')" data-lang="nav_det">Determinan</a></li>
+                    <li><a href="#" id="nav-cofactor" onclick="navigate('cofactor')" data-lang="nav_cofactor">Kofaktor</a></li>
+                    <li><a href="#" id="nav-inv" onclick="navigate('inv')" data-lang="nav_inv">Invers Matriks</a></li>
+                </ul>
+                <div class="sidebar-section">Asisten Virtual</div>
+                <ul>
+                    <li><a href="#" id="nav-gemini" onclick="navigate('gemini')" data-lang="nav_gemini" style="color:#60a5fa;">✨ Asisten Akademik</a></li>
+                </ul>
+                <div class="sidebar-section">Modul Pembelajaran</div>
+                <ul>
+                    <li><a href="#" id="nav-materi" onclick="navigate('materi')" data-lang="nav_materi" style="color:var(--brand-main);">Buku Referensi</a></li>
+                    <li><a href="#" id="nav-quiz" onclick="navigate('quiz')" data-lang="nav_quiz" style="color:var(--accent-warning);">Evaluasi & Peringkat</a></li>
+                    <li><a href="#" id="nav-chat" onclick="navigate('chat')" data-lang="nav_chat" style="color:var(--accent-success);">Forum Diskusi</a></li>
+                    <li><a href="#" id="nav-profile" onclick="navigate('profile')" data-lang="nav_profile" style="color:var(--text-secondary);">Pengaturan Profil</a></li>
+                </ul>
+            </aside>
+        </div>
+    </div>
+
+    <!-- ZERO MODAL SYSTEM (MENGGANTIKAN ALERT/CONFIRM/PROMPT) -->
+    <div id="zero-modal-overlay" style="display:none;">
+        <div class="zero-modal-card">
+            <div id="zero-modal-icon">ℹ️</div>
+            <h3 id="zero-modal-title">Pemberitahuan</h3>
+            <p id="zero-modal-desc">Pesan di sini.</p>
+            <input type="text" id="zero-modal-input" style="display:none;" placeholder="Ketik jawaban Anda di sini...">
+            <div class="zero-modal-actions">
+                <button id="zero-modal-btn-cancel" class="secondary-btn" style="display:none;">Batal</button>
+                <button id="zero-modal-btn-ok" class="primary-btn">Mengerti</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="app.js?v=12"></script>
+    <script src="auth.js?v=12"></script>
+    <script src="chat.js?v=12"></script>
+    <script src="quiz.js?v=12"></script>
+    <script src="materi.js?v=12"></script>
+    <script src="gemini.js?v=12"></script>
+</body>
+</html>
