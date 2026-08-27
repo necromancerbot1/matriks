@@ -2,9 +2,10 @@
 
 let pendingRegistrationRole = "";
 let pendingRegistrationAge = null;
+
+// Mengenerate token acak unik untuk setiap sesi login perangkat
 let localSessionToken = Math.random().toString(36).substring(2);
 
-// Navigasi Antar Form (Login / Register / Reset)
 window.toggleAuth = function(type) {
     document.getElementById('form-login').style.display = 'none';
     document.getElementById('form-register').style.display = 'none';
@@ -112,6 +113,21 @@ window.deleteAccount = function() {
     });
 };
 
+window.clearLoginHistory = function() {
+    ZeroModal.confirm("Sistem akan menghapus seluruh catatan aktivitas akses (Log Jaringan) perangkat Anda secara permanen. Lanjutkan pembersihan log?", function(res) {
+        if(res) {
+            db.collection("users").doc(auth.currentUser.uid).collection("login_history").get().then(snap => {
+                let batch = db.batch();
+                snap.forEach(doc => batch.delete(doc.ref));
+                batch.commit().then(() => {
+                    ZeroModal.alert("Pembersihan berhasil. Seluruh riwayat log perangkat telah dihapus.");
+                    renderProfileUI(document.getElementById('app-content'));
+                }).catch(err => ZeroModal.alert("Kegagalan pembersihan data: " + err.message));
+            });
+        }
+    });
+};
+
 window.sessionUnsubscribe = null;
 
 window.onload = () => {
@@ -160,6 +176,7 @@ window.onload = () => {
                         currentUserData.level = 1; currentUserData.exp = 0;
                         db.collection("users").doc(user.uid).set({ level: 1, exp: 0 }, {merge: true});
                     }
+                    
                     updateHeaderProfile(); 
                     changeLanguage(); 
                     if(document.getElementById('app-content').innerHTML === "") {
@@ -216,44 +233,63 @@ function renderProfileUI(c) {
     let ageDisplay = currentUserData.age ? `${currentUserData.age} Tahun` : "Tidak disetel";
 
     c.innerHTML = `
-        <h2 style="font-size:1.8em; margin-top:0; font-weight:700;">${t('profile_title')}</h2><div class="method-desc">${t('profile_desc')}</div>
+        <h2 style="font-size:1.8em; margin-top:0; font-weight:700;">${t('profile_title')}</h2>
+        <div class="method-desc">${t('profile_desc')}</div>
         <div style="display:flex; gap:30px; flex-wrap:wrap; align-items:flex-start;">
+            
             <div class="data-card" style="flex:2; min-width:300px; text-align:center;">
                 ${adminNotice}
+                
                 <div style="position:relative; width:120px; height:120px; margin:0 auto 25px; box-shadow:0 10px 20px rgba(0,0,0,0.2); border-radius:50%;">
                     ${avatarHtml}
                     <input type="file" id="upload-photo" style="display:none;" accept="image/*" onchange="handlePhotoUpload(event)">
                     <button onclick="document.getElementById('upload-photo').click()" style="position:absolute; bottom:0; right:-5px; background:var(--brand-main); border:2px solid var(--bg-base); color:white; border-radius:50%; width:40px; height:40px; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; padding:0; box-shadow:0 4px 10px rgba(0,0,0,0.3);" title="Perbarui Visual Entitas">📷</button>
                 </div>
+                
                 <p style="color:var(--text-secondary); margin-bottom:8px; font-size:0.9em; font-weight:700; text-transform:uppercase; letter-spacing:1px;">ID Sinkronisasi Akses:</p>
                 <b class="uid-box">${currentUserData.shortId}</b>
+                
                 <div style="margin:30px 0; padding:20px; background:rgba(15,23,42,0.4); border:1px solid var(--border-subtle); border-radius:16px; display:flex; justify-content:space-around;">
                     <div><span style="color:var(--text-secondary); font-size:0.85em; text-transform:uppercase; letter-spacing:1px; font-weight:600;">Otoritas</span><br><b style="color:var(--brand-main); font-size:1.2em;">${currentUserData.role}</b></div>
                     <div><span style="color:var(--text-secondary); font-size:0.85em; text-transform:uppercase; letter-spacing:1px; font-weight:600;">Demografi</span><br><b style="color:var(--accent-success); font-size:1.2em;">${ageDisplay}</b></div>
                     <div><span style="color:var(--text-secondary); font-size:0.85em; text-transform:uppercase; letter-spacing:1px; font-weight:600;">Peringkat</span><br><b style="color:var(--accent-warning); font-size:1.2em;">Lv. ${currentUserData.level || 1}</b></div>
                 </div>
+                
                 <div style="text-align:left; margin-bottom: 25px;">
                     <label style="color:var(--text-secondary); font-size:0.95em; margin-bottom:8px; display:block; font-weight:600;">Identitas Resolusi Tampilan (6-15 karakter)</label>
                     <input type="text" id="edit-name-input" value="${currentUserData.name}" placeholder="Input identitas..." style="margin-bottom:20px;">
                     <button class="primary-btn" style="width:100%; padding:15px; font-size:1.05em;" onclick="updateProfileName()">Terapkan Parameter Konfigurasi</button>
                 </div>
+                
                 <hr style="border:none; border-top:1px solid var(--border-subtle); margin:30px 0;">
                 <h4 style="text-align:left; margin:0 0 15px 0; color:var(--accent-danger); font-size:1.1em;">Zona Bahaya (Danger Zone)</h4>
                 <button class="danger-btn outline" style="width:100%; padding:15px; border-radius:12px;" onclick="deleteAccount()">Hapus Permanen Entitas Akun</button>
             </div>
+            
             <div class="data-card" style="flex:1; min-width:250px;">
-                <h4 style="margin-top:0; color:var(--text-primary); border-bottom:1px solid var(--border-subtle); padding-bottom:15px; margin-bottom:20px; font-size:1.1em;">🛡️ Histori Perangkat</h4>
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding-bottom:15px; margin-bottom:20px;">
+                    <h4 style="margin:0; color:var(--text-primary); font-size:1.1em;">🛡️ Histori Perangkat</h4>
+                    <button class="secondary-btn" style="padding:6px 12px; font-size:0.85em; border-radius:8px;" onclick="clearLoginHistory()" title="Bersihkan Catatan Log">Bersihkan</button>
+                </div>
                 <div id="login-history-container"><p style="color:var(--text-secondary); font-size:0.85em;">Memuat log jaringan...</p></div>
             </div>
+            
         </div>`;
         
-    db.collection("users").doc(auth.currentUser.uid).collection("login_history").orderBy("timestamp", "desc").limit(4).get().then(snap => {
+    db.collection("users").doc(auth.currentUser.uid).collection("login_history").orderBy("timestamp", "desc").limit(5).get().then(snap => {
         let histHtml = ""; 
-        if(snap.empty) { histHtml = "<p style='font-size:0.85em; color:var(--text-secondary);'>Log akses kosong.</p>"; }
+        if(snap.empty) { 
+            histHtml = "<p style='font-size:0.85em; color:var(--text-secondary); text-align:center; padding:20px 0; font-style:italic;'>Log akses kosong.</p>"; 
+        }
         snap.forEach(doc => {
             let d = doc.data(); 
             let dateStr = d.timestamp ? d.timestamp.toDate().toLocaleString('id-ID') : "Sesi Saat Ini";
-            histHtml += `<div style="margin-bottom:12px; padding:15px; border:1px solid var(--border-subtle); border-radius:12px; background:rgba(15,23,42,0.4); text-align:left;"><div style="font-size:0.8em; color:var(--text-secondary); margin-bottom:5px; font-weight:600;">🕒 ${dateStr}</div><div style="font-size:0.95em; color:var(--brand-main); font-weight:700;">📱 ${d.device}</div><div style="font-size:0.85em; color:var(--text-primary); margin-top:4px;">IP: ${d.ip}</div></div>`;
+            histHtml += `
+                <div style="margin-bottom:12px; padding:15px; border:1px solid var(--border-subtle); border-radius:12px; background:rgba(15,23,42,0.4); text-align:left;">
+                    <div style="font-size:0.8em; color:var(--text-secondary); margin-bottom:5px; font-weight:600;">🕒 ${dateStr}</div>
+                    <div style="font-size:0.95em; color:var(--brand-main); font-weight:700;">📱 ${d.device}</div>
+                    <div style="font-size:0.85em; color:var(--text-primary); margin-top:4px;">IP: ${d.ip}</div>
+                </div>`;
         });
         document.getElementById('login-history-container').innerHTML = histHtml;
     });
@@ -275,6 +311,7 @@ function updateProfileName() {
 window.handlePhotoUpload = function(event) {
     let file = event.target.files[0]; 
     if(!file) return; 
+    
     let reader = new FileReader();
     reader.onload = function(e) {
         let img = new Image();
@@ -290,6 +327,7 @@ window.handlePhotoUpload = function(event) {
             let base64 = canvas.toDataURL('image/jpeg', 0.8); 
             let fallback = document.getElementById('profile-pic-preview-fallback'); 
             if(fallback) fallback.style.display = 'none';
+            
             let imgEl = document.getElementById('profile-pic-preview'); 
             imgEl.style.display = 'block'; 
             imgEl.src = base64;

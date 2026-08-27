@@ -1,16 +1,19 @@
 // === LOGIKA JARINGAN KOMUNIKASI & FORUM KELAS ===
 
-let activeChatId = null, activeChatName = null, activeChatType = null;
-let pendingChatImageBase64 = null; // Menyimpan gambar sementara sebelum dikirim
+let activeChatId = null;
+let activeChatName = null;
+let activeChatType = null;
+let pendingChatImageBase64 = null;
+let currentGroupAdminUid = null; 
 
 function renderChatUI(c) {
     if(!activeChatId) {
         let groupTitle = currentUserData.role === 'Administrator' ? "🛡️ Direktori Ruang (Otoritas Mutlak Admin)" : t('my_groups');
         c.innerHTML = `
-            <h2 style="font-size:1.8em; margin-top:0; font-weight:700;">${t('chat_title')}</h2><div class="method-desc">${t('chat_desc')}<br><br>ID Sinkronisasi Anda: <b class="uid-box" style="margin-left:10px;">${currentUserData.shortId}</b></div>
+            <h2 style="font-size:1.8em; margin-top:0; font-weight:700;">${t('chat_title')}</h2>
+            <div class="method-desc">${t('chat_desc')}<br><br>ID Sinkronisasi Anda: <b class="uid-box" style="margin-left:10px;">${currentUserData.shortId}</b></div>
+            
             <div style="display:flex; gap:30px; flex-wrap:wrap; margin-top:30px;">
-                
-                <!-- KOLOM 1: PEER TO PEER (DM) -->
                 <div class="data-card" style="flex:1; min-width:300px;">
                     <h4 style="margin-top:0; color:var(--text-primary); font-size:1.15em; border-bottom:1px solid var(--border-subtle); padding-bottom:15px; margin-bottom:20px;">Koneksi Entitas Privat</h4>
                     <div style="display:flex; gap:12px; margin-bottom:20px;">
@@ -22,7 +25,6 @@ function renderChatUI(c) {
                     <div id="friend-list-container"><p style="color:var(--text-secondary); font-size:0.9em;">Menganalisis node jaringan...</p></div>
                 </div>
                 
-                <!-- KOLOM 2: FORUM KELAS (GRUP) -->
                 <div class="data-card" style="flex:1; min-width:300px;">
                     <h4 style="margin-top:0; color:var(--text-primary); font-size:1.15em; border-bottom:1px solid var(--border-subtle); padding-bottom:15px; margin-bottom:20px;">Registrasi Ruang Diskusi (Grup)</h4>
                     <div style="display:flex; gap:12px; margin-bottom:20px;">
@@ -37,7 +39,12 @@ function renderChatUI(c) {
         loadFriends(); 
         loadGroups();
     } else {
-        // TAMPILAN DALAM RUANG CHAT
+        // Tombol hapus grup dari dalam ruangan chat
+        let deleteInsideBtn = "";
+        if(activeChatType === 'group' && (auth.currentUser.uid === currentGroupAdminUid || currentUserData.role === 'Administrator')) {
+            deleteInsideBtn = `<button class="danger-btn outline" style="padding:8px 15px; font-size:0.85em; border-radius:10px; margin-left:15px;" onclick="deleteGroupInsideChat('${activeChatId}', '${activeChatName}')">🗑️ Hapus Ruang</button>`;
+        }
+
         c.innerHTML = `
             <button class="secondary-btn" onclick="leaveChat()" style="margin-bottom:20px; border-radius:12px;">← Terminasi Koneksi Ruang</button>
             <div class="chat-container">
@@ -46,11 +53,11 @@ function renderChatUI(c) {
                         <span style="font-size:0.85em; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px;">${activeChatType === 'dm' ? 'Jaringan Privat' : 'Jaringan Kelompok'}</span><br>
                         <b style="color:var(--text-primary); font-weight:800; font-size:1.3em;">${activeChatName}</b>
                     </div>
+                    <div>${deleteInsideBtn}</div>
                 </div>
                 
                 <div id="chat-messages" class="chat-messages"><p style="color:var(--text-secondary); text-align:center; margin-top:auto; margin-bottom:auto;">Menunggu sinkronisasi data teks...</p></div>
                 
-                <!-- AREA PREVIEW GAMBAR SEBELUM DIKIRIM -->
                 <div id="chat-img-preview-box" style="display:none; padding:10px 20px; background:var(--bg-surface-hover); border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); position:relative;">
                     <button onclick="removeChatImage()" style="position:absolute; top:5px; right:10px; background:var(--accent-danger); color:#fff; border:none; border-radius:50%; width:25px; height:25px; font-size:12px; cursor:pointer;">X</button>
                     <img id="chat-img-preview" src="" style="height:60px; border-radius:8px; object-fit:cover; border:2px solid var(--brand-main);">
@@ -67,9 +74,21 @@ function renderChatUI(c) {
     }
 }
 
+window.deleteGroupInsideChat = function(groupId, groupName) {
+    ZeroModal.confirm(`Peringatan: Menghapus grup [${groupName}] dari dalam ruang obrolan. Tindakan ini permanen. Lanjutkan?`, function(res) {
+        if(res) {
+            db.collection("groups").doc(groupId).delete().then(() => { 
+                ZeroModal.alert(`Ruang obrolan telah dimusnahkan.`);
+                leaveChat(); 
+            });
+        }
+    });
+}
+
 window.handleChatImageUpload = function(event) {
     let file = event.target.files[0]; 
     if(!file) return;
+    
     let reader = new FileReader();
     reader.onload = function(e) {
         let img = new Image();
@@ -82,7 +101,6 @@ window.handleChatImageUpload = function(event) {
             canvas.height = img.height * ratio; 
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
             
-            // Kompresi kualitas gambar (0.6) agar cepat dikirim dan tidak boros database
             pendingChatImageBase64 = canvas.toDataURL('image/jpeg', 0.6); 
             document.getElementById('chat-img-preview').src = pendingChatImageBase64;
             document.getElementById('chat-img-preview-box').style.display = 'block';
@@ -108,14 +126,11 @@ function sendFriendRequest() {
     }
     
     db.collection("users").where("shortId", "==", shortIdInput).get().then(snapshot => {
-        if(snapshot.empty) { 
-            return ZeroModal.alert("Kegagalan penelusuran. ID Entitas tidak terdaftar di sistem."); 
-        }
+        if(snapshot.empty) { return ZeroModal.alert("Kegagalan penelusuran. ID Entitas tidak terdaftar di sistem."); }
+        
         let fUid = snapshot.docs[0].id;
         db.collection("users").doc(myUid).collection("friends").doc(fUid).get().then(doc => {
-            if(doc.exists) { 
-                return ZeroModal.alert("Entitas tersebut telah terverifikasi dalam jaringan Anda."); 
-            }
+            if(doc.exists) { return ZeroModal.alert("Entitas tersebut telah terverifikasi dalam jaringan Anda."); }
             db.collection("users").doc(fUid).collection("friend_requests").doc(myUid).set({ 
                 senderName: currentUserData.name, 
                 senderShortId: currentUserData.shortId, 
@@ -138,7 +153,11 @@ function loadPendingRequests() {
         let html = `<div style="background:rgba(59, 130, 246, 0.05); border:1px solid rgba(59, 130, 246, 0.3); padding:15px; border-radius:12px; margin-bottom:20px;"><b style="color:var(--brand-main); font-size:0.85em; text-transform:uppercase; letter-spacing:1px;">Aktivitas Jaringan Tertunda:</b>`;
         snapshot.forEach(doc => {
             let req = doc.data();
-            html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; background:var(--bg-base); padding:12px 18px; border-radius:10px; border:1px solid var(--border-subtle);"><span style="font-size:0.95em; color:var(--text-primary); font-weight:600;">${req.senderName} <span style="color:var(--text-secondary); font-weight:400;">(${req.senderShortId})</span></span><button class="success-btn" style="padding:8px 16px; font-size:0.85em;" onclick="acceptFriend('${doc.id}', '${req.senderName}', '${req.senderShortId}')">Otorisasi</button></div>`;
+            html += `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; background:var(--bg-base); padding:12px 18px; border-radius:10px; border:1px solid var(--border-subtle);">
+                    <span style="font-size:0.95em; color:var(--text-primary); font-weight:600;">${req.senderName} <span style="color:var(--text-secondary); font-weight:400;">(${req.senderShortId})</span></span>
+                    <button class="success-btn" style="padding:8px 16px; font-size:0.85em;" onclick="acceptFriend('${doc.id}', '${req.senderName}', '${req.senderShortId}')">Otorisasi</button>
+                </div>`;
         });
         container.innerHTML = html + `</div>`;
     });
@@ -148,6 +167,7 @@ function acceptFriend(senderUid, senderName, senderShortId) {
     let myUid = auth.currentUser.uid;
     db.collection("users").doc(myUid).collection("friends").doc(senderUid).set({ name: senderName, shortId: senderShortId, addedAt: firebase.firestore.FieldValue.serverTimestamp() });
     db.collection("users").doc(senderUid).collection("friends").doc(myUid).set({ name: currentUserData.name, shortId: currentUserData.shortId, addedAt: firebase.firestore.FieldValue.serverTimestamp() });
+    
     db.collection("users").doc(myUid).collection("friend_requests").doc(senderUid).delete().then(() => { 
         ZeroModal.alert("Otorisasi selesai. Koneksi jaringan disetujui."); 
         loadFriends(); 
@@ -167,7 +187,14 @@ function loadFriends() {
         let html = "";
         snapshot.forEach(doc => {
             let f = doc.data();
-            html += `<div class="list-item"><div style="flex:1;" onclick="openChat('${doc.id}', '${f.name}', 'dm')"><b style="color:var(--text-primary); font-size:1.1em;">${f.name}</b><span style="display:block; font-size:0.85em; color:var(--text-secondary); margin-top:4px;">Kredensial: <span style="font-family:monospace; color:var(--brand-main);">${f.shortId}</span></span></div><button class="danger-btn outline" onclick="deleteFriend('${doc.id}', '${f.name}')">Terminasi</button></div>`;
+            html += `
+                <div class="list-item">
+                    <div style="flex:1;" onclick="openChat('${doc.id}', '${f.name}', 'dm')">
+                        <b style="color:var(--text-primary); font-size:1.1em;">${f.name}</b>
+                        <span style="display:block; font-size:0.85em; color:var(--text-secondary); margin-top:4px;">Kredensial: <span style="font-family:monospace; color:var(--brand-main);">${f.shortId}</span></span>
+                    </div>
+                    <button class="danger-btn outline" onclick="deleteFriend('${doc.id}', '${f.name}')">Terminasi</button>
+                </div>`;
         });
         container.innerHTML = html;
     });
@@ -192,7 +219,7 @@ function createNewGroup() {
     
     db.collection("groups").add({ 
         name: name, 
-        adminUid: auth.currentUser.uid, // Entitas yang membuat grup akan menjadi Admin Grup
+        adminUid: auth.currentUser.uid, 
         createdAt: firebase.firestore.FieldValue.serverTimestamp() 
     }).then(() => { 
         document.getElementById('new-group-name').value = ''; 
@@ -219,22 +246,20 @@ function loadGroups() {
             let isGroupAdmin = g.adminUid === myUid;
             
             let deleteBtn = "";
-            // Admin Mutlak bisa hapus grup mana saja (Hapus Mutlak)
             if (isAbsoluteAdmin) { 
                 deleteBtn = `<button class="danger-btn outline" style="border:none; padding:8px 12px; border-radius:8px;" onclick="event.stopPropagation(); deleteGroup('${doc.id}', '${g.name}')">Hapus Mutlak</button>`; 
-            } 
-            // Pemilik Grup bisa membongkar grup miliknya sendiri
-            else if (isGroupAdmin) { 
+            } else if (isGroupAdmin) { 
                 deleteBtn = `<button class="danger-btn outline" style="border:none; padding:8px 12px; border-radius:8px;" onclick="event.stopPropagation(); deleteGroup('${doc.id}', '${g.name}')">Bongkar Ruang</button>`; 
             }
 
-            html += `<div class="list-item" onclick="openChat('${doc.id}', '${g.name}', 'group')">
-                        <div style="flex:1;">
-                            <b style="color:var(--text-primary); font-size:1.1em;">${g.name}</b>
-                            ${isGroupAdmin ? '<span style="font-size:0.75em; color:var(--accent-warning); margin-left:8px; font-weight:700; background:rgba(245, 158, 11, 0.1); padding:4px 8px; border-radius:6px;">Pemilik Ruang</span>' : ''}
-                        </div>
-                        ${deleteBtn}
-                     </div>`;
+            html += `
+                <div class="list-item" onclick="openChat('${doc.id}', '${g.name}', 'group')">
+                    <div style="flex:1;">
+                        <b style="color:var(--text-primary); font-size:1.1em;">${g.name}</b>
+                        ${isGroupAdmin ? '<span style="font-size:0.75em; color:var(--accent-warning); margin-left:8px; font-weight:700; background:rgba(245, 158, 11, 0.1); padding:4px 8px; border-radius:6px;">Pemilik Ruang</span>' : ''}
+                    </div>
+                    ${deleteBtn}
+                </div>`;
         });
         container.innerHTML = html;
     });
@@ -252,26 +277,32 @@ window.deleteGroup = function(groupId, groupName) {
 }
 
 function openChat(id, name, type) {
-    // Protokol Keamanan: Mencegah Administrator Mutlak mengintip isi percakapan kelas
     if(type === 'group' && currentUserData.role === 'Administrator') {
-        return ZeroModal.alert("Otoritas Ditolak: Protokol privasi sistem mencegah Administrator Mutlak untuk masuk dan memantau isi percakapan di dalam ruang kelas.");
+        return ZeroModal.alert("Otoritas Ditolak: Protokol privasi sistem mencegah Administrator Mutlak untuk memantau isi percakapan di dalam ruang kelas.");
     }
     
-    if(type === 'dm') { 
+    if(type === 'group') {
+        db.collection("groups").doc(id).get().then(doc => {
+            if(doc.exists) currentGroupAdminUid = doc.data().adminUid;
+            activeChatId = id; 
+            activeChatName = name; 
+            activeChatType = type; 
+            navigate('chat');
+        });
+    } else {
         let uids = [auth.currentUser.uid, id].sort(); 
-        activeChatId = `dm_${uids[0]}_${uids[1]}`; 
-    } else { 
-        activeChatId = id; 
+        activeChatId = `dm_${uids[0]}_${uids[1]}`;
+        activeChatName = name; 
+        activeChatType = type; 
+        currentGroupAdminUid = null; 
+        navigate('chat');
     }
-    
-    activeChatName = name; 
-    activeChatType = type; 
-    navigate('chat');
 }
 
 function leaveChat() { 
     activeChatId = null; 
     pendingChatImageBase64 = null; 
+    currentGroupAdminUid = null; 
     if(unsubscribeChat) unsubscribeChat(); 
     navigate('chat'); 
 }
@@ -298,11 +329,19 @@ function listenMessages(chatId) {
             let isMe = m.senderUid === myUid; 
             let bubbleClass = isMe ? "msg-bubble outgoing" : "msg-bubble incoming";
             
-            // Format Pesan Teks dan Gambar (Bisa berdampingan)
             let imgTag = m.imageUrl ? `<img src="${m.imageUrl}" style="max-width:100%; border-radius:8px; margin-bottom:8px; display:block; cursor:pointer;">` : "";
             let textTag = m.text ? m.text.replace(/</g, "&lt;").replace(/>/g, "&gt;") : "";
             
-            html += `<div class="${bubbleClass}"><span class="msg-sender">${m.senderName}</span>${imgTag}${textTag}</div>`;
+            let roleTag = "";
+            if (activeChatType === 'group') {
+                if (m.senderUid === currentGroupAdminUid) {
+                    roleTag = `<span style="background:var(--accent-warning); color:#fff; padding:2px 6px; border-radius:4px; font-size:0.7em; margin-left:5px; vertical-align:middle;">🛡️ ADMIN</span>`;
+                } else {
+                    roleTag = `<span style="background:rgba(255,255,255,0.1); color:var(--text-primary); padding:2px 6px; border-radius:4px; font-size:0.7em; margin-left:5px; vertical-align:middle;">👤 MEMBER</span>`;
+                }
+            }
+
+            html += `<div class="${bubbleClass}"><span class="msg-sender" style="display:flex; align-items:center;">${m.senderName} ${roleTag}</span>${imgTag}${textTag}</div>`;
         });
         
         container.innerHTML = html; 
@@ -323,13 +362,10 @@ function sendChatMessage() {
         senderName: currentUserData.name, 
         timestamp: firebase.firestore.FieldValue.serverTimestamp() 
     };
-    
-    if(pendingChatImageBase64) {
-        msgData.imageUrl = pendingChatImageBase64;
-    }
+    if(pendingChatImageBase64) msgData.imageUrl = pendingChatImageBase64;
     
     input.value = ""; 
-    removeChatImage(); // Kosongkan preview gambar
+    removeChatImage(); 
     
     db.collection("chat_messages").doc(activeChatId).collection("msgs").add(msgData);
 }

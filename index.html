@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zero Matriks - Linear Algebra System</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <link rel="stylesheet" href="style.css?v=15">
+    
+    <link rel="stylesheet" href="style.css?v=17">
 </head>
 <body>
+    <!-- PORTAL AUTENTIKASI -->
     <div id="login-wrapper">
         <div class="login-card">
             <h2>Zero<b>Matriks</b></h2>
@@ -21,8 +24,8 @@
                 <input type="password" id="login-password" class="login-input" placeholder="Kata Sandi...">
                 <button class="primary-btn" onclick="doLogin()" id="btn_login">Otentikasi Masuk</button>
                 <div style="display:flex; justify-content:space-between; margin-top:15px; font-size:0.9em;">
-                    <a href="#" onclick="toggleAuth('reset')" style="color:var(--text-secondary); text-decoration:none; transition:0.2s;" onmouseover="this.style.color='var(--brand-main)'" onmouseout="this.style.color='var(--text-secondary)'">Lupa Kata Sandi?</a>
-                    <a href="#" onclick="toggleAuth('reg')" class="toggle-auth" id="lbl_toggle_reg" style="margin-top:0;">Registrasi Baru</a>
+                    <a href="#" onclick="toggleAuth('reset')" style="color:var(--text-secondary); text-decoration:none;">Lupa Kata Sandi?</a>
+                    <a href="#" onclick="toggleAuth('reg')" class="toggle-auth" id="lbl_toggle_reg">Registrasi Baru</a>
                 </div>
             </div>
 
@@ -36,13 +39,17 @@
                 <input type="password" id="reg-password" class="login-input" placeholder="Buat Kata Sandi...">
                 <input type="password" id="reg-password-confirm" class="login-input" placeholder="Konfirmasi Kata Sandi...">
                 <button class="success-btn" onclick="doRegister()" id="btn_register">Buat Akun</button>
-                <div style="margin-top: 15px;"><a href="#" onclick="toggleAuth('login')" class="toggle-auth" id="lbl_toggle_log">Sudah Terdaftar? Masuk</a></div>
+                <div style="margin-top: 15px;">
+                    <a href="#" onclick="toggleAuth('login')" class="toggle-auth" id="lbl_toggle_log">Sudah Terdaftar? Masuk</a>
+                </div>
             </div>
 
             <div id="form-reset" style="display:none;">
-                <input type="email" id="reset-username" class="login-input" placeholder="Masukkan Surel Anda Terdaftar..." autocomplete="off">
+                <input type="email" id="reset-username" class="login-input" placeholder="Masukkan Surel Terdaftar..." autocomplete="off">
                 <button class="primary-btn" onclick="sendResetLink()" style="background-color: var(--accent-warning); color: #fff;">Kirim Tautan Pemulihan</button>
-                <div style="margin-top: 15px;"><a href="#" onclick="toggleAuth('login')" class="toggle-auth">← Kembali ke Halaman Log Masuk</a></div>
+                <div style="margin-top: 15px;">
+                    <a href="#" onclick="toggleAuth('login')" class="toggle-auth">← Kembali ke Halaman Log Masuk</a>
+                </div>
             </div>
             
             <div class="lang-container-login">
@@ -62,21 +69,17 @@
         </div>
     </div>
 
+    <!-- ANTARMUKA SISTEM -->
     <div id="app-wrapper">
         <header>
             <div class="logo">Zero<b>Matriks</b></div>
             <div class="header-controls">
                 <select id="languageSelect" onchange="changeLanguage()" class="lang-select">
-                    <option value="id">ID</option>
-                    <option value="en">EN</option>
-                    <option value="jp">JP</option>
-                    <option value="zh">ZH</option>
-                    <option value="ru">RU</option>
-                    <option value="es">ES</option>
-                    <option value="fr">FR</option>
-                    <option value="de">DE</option>
-                    <option value="ar">AR</option>
-                    <option value="ko">KO</option>
+                    <option value="id">ID</option><option value="en">EN</option>
+                    <option value="jp">JP</option><option value="zh">ZH</option>
+                    <option value="ru">RU</option><option value="es">ES</option>
+                    <option value="fr">FR</option><option value="de">DE</option>
+                    <option value="ar">AR</option><option value="ko">KO</option>
                 </select>
                 <div class="user-profile">
                     <div id="display-user" class="profile-info">Memuat...</div>
@@ -118,7 +121,7 @@
         </div>
     </div>
 
-    <!-- ZERO MODAL -->
+    <!-- ZERO MODAL SYSTEM -->
     <div id="zero-modal-overlay" style="display:none;">
         <div class="zero-modal-card">
             <div id="zero-modal-icon">ℹ️</div>
@@ -132,11 +135,11 @@
         </div>
     </div>
     
-    <script src="app.js?v=15"></script>
-    <script src="auth.js?v=15"></script>
-    <script src="chat.js?v=15"></script>
-    <script src="quiz.js?v=15"></script>
-    <script src="materi.js?v=15"></script>
-    <script src="gemini.js?v=15"></script>
+    <script src="app.js?v=17"></script>
+    <script src="auth.js?v=17"></script>
+    <script src="chat.js?v=17"></script>
+    <script src="quiz.js?v=17"></script>
+    <script src="materi.js?v=17"></script>
+    <script src="gemini.js?v=17"></script>
 </body>
 </html>

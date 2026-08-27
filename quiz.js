@@ -1,41 +1,89 @@
 // === LOGIKA GAMIFIKASI & TRY OUT UTBK ===
 
-const quizDatabase = {
-    smp: [
-        { q: "Evaluasi: [2  3] + [1  4] = ?", options: ["[3  7]", "[2  12]", "[1  -1]", "[3  12]"], ans: 0 },
-        { q: "Evaluasi: [5  8] - [2  3] = ?", options: ["[3  5]", "[7  11]", "[10  24]", "[3  -5]"], ans: 0 },
-        { q: "Jika Matriks A = [4  2], kalkulasi skalar 3A:", options: ["[12  6]", "[7  5]", "[12  2]", "[4  6]"], ans: 0 },
-        { q: "Evaluasi Sistem Persamaan: x + y = 10 dan x - y = 4. Variabel x bernilai?", options: ["7", "6", "3", "5"], ans: 0 },
-        { q: "Evaluasi skalar: 2 * [3  -1] = ?", options: ["[6  -2]", "[5  1]", "[6  -1]", "[3  -2]"], ans: 0 },
-        { q: "Produk perkalian matriks baris [1  2] dengan matriks kolom [3; 4] berdasar kaidah algebra:", options: ["11", "5", "8", "3"], ans: 0 }
-    ],
-    sma: [
-        { q: "Kalkulasi Determinan ordo 2x2: \n| 3  2 |\n| 1  4 |", options: ["10", "14", "12", "5"], ans: 0 },
-        { q: "Matriks A=[2  1; 4  3]. Definisikan nilai Kofaktor C_12.", options: ["-4", "4", "-1", "2"], ans: 0 },
-        { q: "Operasi produk matriks P (2x3) dan matriks Q (3x4) mendefinisikan matriks baru berordo:", options: ["2x4", "3x3", "2x3", "Tidak Terdefinisi"], ans: 0 },
-        { q: "Matriks dengan parameter determinan absolut 0 diklasifikasikan sebagai:", options: ["Matriks Singular", "Matriks Invertible", "Matriks Identitas", "Matriks Simetris"], ans: 0 },
-        { q: "Diketahui A = [1 0; 0 1] dan B = [5 6; 7 8]. Evaluasi A * B:", options: ["[5 6; 7 8]", "[1 0; 0 1]", "[0 0; 0 0]", "[6 6; 7 9]"], ans: 0 },
-        { q: "Diketahui model: 2x + y = 5 dan x - y = 1. Identifikasi parameter Determinan Sistem (D):", options: ["-3", "3", "-1", "1"], ans: 0 }
-    ],
-    mahasiswa: [
-        { q: "Matriks A = [2 0; 0 2]. Evaluasi fungsi determinan eksponensial Det(A^3):", options: ["64", "8", "16", "32"], ans: 0 },
-        { q: "Identifikasi spektrum nilai eigen (λ) dari matriks identitas standar ordo 2x2:", options: ["λ = 1", "λ = 0", "λ = 2", "Null"], ans: 0 },
-        { q: "Tentukan indeks Rank terikat maksimum untuk matriks berdimensi 3x4:", options: ["3", "4", "7", "12"], ans: 0 },
-        { q: "Algoritma terstandar modifikasi matriks menjadi RREF:", options: ["Eliminasi Gauss-Jordan", "Metode Sarrus", "Ekspansi Kofaktor", "Dekomposisi LU"], ans: 0 },
-        { q: "Evaluasi transpos (A * B)^T berdasar fungsi parameter A^T = [1 2] dan B^T = [3; 4]:", options: ["B^T * A^T", "A^T * B^T", "A * B", "A^T + B^T"], ans: 0 },
-        { q: "Kalkulasi determinan struktur Matriks Segitiga Atas:\n| 2  5  7 |\n| 0  3  1 |\n| 0  0  4 |", options: ["24", "14", "0", "9"], ans: 0 }
-    ]
-};
+let activeQuizArray = []; 
+let currentQuestion = 0; 
+let score = 0; 
+let currentExpReward = 0;
+let userAnswers = []; 
 
-let activeQuizArray = [], currentQuestion = 0, score = 0, currentExpReward = 0;
-let userAnswers = []; // Melacak jawaban (Tipe Data: Array Null)
+// MESIN GENERATOR SOAL ACAK DINAMIS (PROCEDURAL GENERATOR)
+function generateQuestions(level, count) {
+    let generated = [];
+    for(let i = 0; i < count; i++) {
+        let qText = "", correctAns = "", options = [];
+        let type = Math.floor(Math.random() * 3);
+        
+        let a = Math.floor(Math.random() * 10) - 5; 
+        let b = Math.floor(Math.random() * 10) - 5;
+        let c = Math.floor(Math.random() * 10) - 5; 
+        let d = Math.floor(Math.random() * 10) - 5;
+        let e = Math.floor(Math.random() * 10) - 5; 
+        let f = Math.floor(Math.random() * 10) - 5;
+        let k = Math.floor(Math.random() * 5) + 2;
+
+        if(level === 'smp') {
+            if(type === 0) {
+                qText = `Diketahui Matriks A = [${a}  ${b} ; ${c}  ${d}] dan Matriks B = [${e}  ${f} ; ${a}  ${b}].<br>Tentukan hasil penjumlahan A + B :`;
+                correctAns = `[${a+e}  ${b+f} ; ${c+a}  ${d+b}]`;
+                options = [correctAns, `[${a-e}  ${b-f} ; ${c-a}  ${d-b}]`, `[${a+e+1}  ${b+f} ; ${c+a}  ${d+b-1}]`, `[${a+b}  ${c+d} ; ${e+f}  ${a+b}]`];
+            } else if(type === 1) {
+                qText = `Kalkulasi Skalar: Jika Matriks P = [${a}  ${b} ; ${c}  ${d}], tentukan nilai dari ${k}P :`;
+                correctAns = `[${k*a}  ${k*b} ; ${k*c}  ${k*d}]`;
+                options = [correctAns, `[${k*a}  ${k*c} ; ${k*b}  ${k*d}]`, `[${a+k}  ${b+k} ; ${c+k}  ${d+k}]`, `[${k*b}  ${k*a} ; ${k*d}  ${k*c}]`];
+            } else {
+                qText = `Tentukan hasil pengurangan dari Matriks [${e}  ${a}] - [${f}  ${b}] :`;
+                correctAns = `[${e-f}  ${a-b}]`;
+                options = [correctAns, `[${f-e}  ${b-a}]`, `[${e+f}  ${a+b}]`, `[${(e-f)*2}  ${(a-b)*2}]`];
+            }
+        } 
+        else if(level === 'sma') {
+            if(type === 0) {
+                qText = `Tentukan nilai Determinan dari matriks ordo 2x2 berikut:<br>| ${a}  ${b} |<br>| ${c}  ${d} |`;
+                let det = (a*d) - (b*c); 
+                correctAns = `${det}`;
+                options = [correctAns, `${det+2}`, `${(a*c)-(b*d)}`, `${det*-1}`];
+            } else if(type === 1) {
+                qText = `Diketahui Matriks Q = [${a}  ${b} ; ${c}  ${d}].<br>Bentuk Transpos (Q<sup>T</sup>) dari matriks tersebut adalah:`;
+                correctAns = `[${a}  ${c} ; ${b}  ${d}]`;
+                options = [correctAns, `[${d}  ${b} ; ${c}  ${a}]`, `[${-a}  ${-b} ; ${-c}  ${-d}]`, `[${a}  ${b} ; ${c}  ${d}]`];
+            } else {
+                qText = `Tentukan Trace (Jejak) dari matriks berordo 2x2 dengan elemen diagonal utama ${a} dan ${d} :`;
+                correctAns = `${a+d}`;
+                options = [correctAns, `${a*d}`, `${a-d}`, `${(a+d)*2}`];
+            }
+        } 
+        else {
+            if(type === 0) {
+                qText = `Jika diketahui Determinan dari Matriks A adalah ${k}. Berapakah nilai Determinan dari Matriks Transpos A ( Det(A<sup>T</sup>) )?`;
+                correctAns = `${k}`; 
+                options = [correctAns, `${parseFloat((1/k).toFixed(2))}`, `-${k}`, `${k*k}`];
+            } else if(type === 1) {
+                qText = `Sebuah Matriks Segitiga Atas memiliki elemen diagonal utama bernilai ${a}, ${b}, dan ${c}. Berapakah nilai determinannya?`;
+                let det = a * b * c; 
+                correctAns = `${det}`;
+                options = [correctAns, `${a+b+c}`, `0`, `${det*-1}`];
+            } else {
+                qText = `Matriks A berukuran 3x3 dikalikan dengan skalar ${k}. Jika Det(A) = ${b}, maka Det(${k}A) bernilai:`;
+                let det = Math.pow(k, 3) * b; 
+                correctAns = `${det}`;
+                options = [correctAns, `${k*b}`, `${Math.pow(k,2)*b}`, `${k+b}`];
+            }
+        }
+        
+        let shuffledOptions = [...options].sort(() => Math.random() - 0.5);
+        let correctIdx = shuffledOptions.indexOf(correctAns);
+        
+        generated.push({ q: qText, options: shuffledOptions, ans: correctIdx });
+    }
+    return generated;
+}
 
 function renderQuizUI(c) {
     let adminResetBtn = currentUserData.role === 'Administrator' ? `<button class="danger-btn outline" style="width:100%; margin-top:20px;" onclick="resetLeaderboard()">⚠️ Reset Mutlak Peringkat Global</button>` : '';
     
     c.innerHTML = `
         <h2 style="font-size:1.8em; margin-top:0; font-weight:700;">📝 Simulasi Try Out Akademik</h2>
-        <div class="method-desc">Latih kemampuan komputasi matriks Anda melalui modul simulasi layaknya Ujian Masuk Perguruan Tinggi.</div>
+        <div class="method-desc">Latih kemampuan komputasi matriks Anda melalui modul simulasi layaknya Ujian Masuk Perguruan Tinggi. Soal di-<i>generate</i> secara dinamis setiap sesi.</div>
         
         <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-surface); padding:20px 30px; border-radius:16px; border:1px solid var(--border-subtle); margin-bottom:30px; box-shadow:0 10px 20px rgba(0,0,0,0.1);">
             <div>
@@ -48,22 +96,21 @@ function renderQuizUI(c) {
         <div id="quiz-main-container">
             <h3 style="color:var(--text-primary); font-weight:700; border-bottom:1px solid var(--border-subtle); padding-bottom:15px; margin-bottom:25px;">Pilih Instrumen Ujian</h3>
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:20px;">
-                <div class="data-card" style="cursor:pointer; transition:0.3s;" onclick="startQuiz('smp', 10)" onmouseover="this.style.borderColor='var(--accent-success)'" onmouseout="this.style.borderColor='var(--border-subtle)'">
+                <div class="data-card" style="cursor:pointer; transition:0.3s;" onclick="startQuiz('smp', 20, 10)" onmouseover="this.style.borderColor='var(--accent-success)'" onmouseout="this.style.borderColor='var(--border-subtle)'">
                     <b style="color:var(--accent-success); font-size:1.2em; display:block; margin-bottom:10px;">■ Fundamental (Dasar)</b>
-                    <p style="color:var(--text-secondary); font-size:0.95em; margin:0;">Fokus Operasi Dasar (+/-).<br>Reward: +10 EXP per soal.</p>
+                    <p style="color:var(--text-secondary); font-size:0.95em; margin:0;"><b>20 Soal.</b> Fokus Operasi Dasar (+/-).<br>Reward: +10 EXP per soal.</p>
                 </div>
-                <div class="data-card" style="cursor:pointer; transition:0.3s;" onclick="startQuiz('sma', 15)" onmouseover="this.style.borderColor='var(--brand-main)'" onmouseout="this.style.borderColor='var(--border-subtle)'">
+                <div class="data-card" style="cursor:pointer; transition:0.3s;" onclick="startQuiz('sma', 50, 15)" onmouseover="this.style.borderColor='var(--brand-main)'" onmouseout="this.style.borderColor='var(--border-subtle)'">
                     <b style="color:var(--brand-main); font-size:1.2em; display:block; margin-bottom:10px;">■ Intermediat (Menengah)</b>
-                    <p style="color:var(--text-secondary); font-size:0.95em; margin:0;">Determinan & Kofaktor 2x2.<br>Reward: +15 EXP per soal.</p>
+                    <p style="color:var(--text-secondary); font-size:0.95em; margin:0;"><b>50 Soal.</b> Determinan & Transpos 2x2.<br>Reward: +15 EXP per soal.</p>
                 </div>
-                <div class="data-card" style="cursor:pointer; transition:0.3s;" onclick="startQuiz('mahasiswa', 25)" onmouseover="this.style.borderColor='var(--accent-danger)'" onmouseout="this.style.borderColor='var(--border-subtle)'">
+                <div class="data-card" style="cursor:pointer; transition:0.3s;" onclick="startQuiz('mahasiswa', 100, 25)" onmouseover="this.style.borderColor='var(--accent-danger)'" onmouseout="this.style.borderColor='var(--border-subtle)'">
                     <b style="color:var(--accent-danger); font-size:1.2em; display:block; margin-bottom:10px;">■ Akademik Lanjut (S1)</b>
-                    <p style="color:var(--text-secondary); font-size:0.95em; margin:0;">Dekomposisi & Vektor Eigen.<br>Reward: +25 EXP per soal.</p>
+                    <p style="color:var(--text-secondary); font-size:0.95em; margin:0;"><b>100 Soal.</b> Sifat Matriks & Analisis.<br>Reward: +25 EXP per soal.</p>
                 </div>
             </div>
         </div>
 
-        <!-- MODAL PERINGKAT GLOBAL -->
         <div id="leaderboard-modal" style="display:none; background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:20px; padding:30px; box-shadow:0 15px 40px rgba(0,0,0,0.3);">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; border-bottom:1px solid var(--border-subtle); padding-bottom:15px;">
                 <h3 style="margin:0; font-size:1.4em; color:var(--accent-warning);">🏆 Indeks Prestasi Global (Top 10)</h3>
@@ -88,8 +135,23 @@ window.toggleLeaderboard = function() {
     }
 }
 
-function startQuiz(levelKey, expPerQuestion) { 
-    activeQuizArray = quizDatabase[levelKey]; 
+let calcStr = "";
+window.calcPress = function(val) { 
+    if(val === 'C') { calcStr = ""; } 
+    else { calcStr += val; } 
+    let disp = document.getElementById('calc-display');
+    if(disp) disp.value = calcStr || "0"; 
+}
+window.calcEval = function() { 
+    try { calcStr = eval(calcStr).toString(); } 
+    catch(e) { calcStr = "Error"; } 
+    let disp = document.getElementById('calc-display');
+    if(disp) disp.value = calcStr; 
+    calcStr = ""; 
+}
+
+function startQuiz(levelKey, totalQuestions, expPerQuestion) { 
+    activeQuizArray = generateQuestions(levelKey, totalQuestions); 
     currentExpReward = expPerQuestion; 
     currentQuestion = 0; 
     score = 0; 
@@ -102,24 +164,35 @@ function startQuiz(levelKey, expPerQuestion) {
 function buildUTBKLayout() {
     let main = document.getElementById('quiz-main-container');
     let navBtns = '';
-    
-    // Membuat Grid Nomor Navigasi UTBK
     for(let i=0; i<activeQuizArray.length; i++) { 
         navBtns += `<button class="utbk-nav-btn ${i===currentQuestion?'active':''}" id="nav-btn-${i}" onclick="jumpToQuestion(${i})">${i+1}</button>`; 
     }
 
     main.innerHTML = `
         <div class="utbk-container">
-            <!-- Kolom Kiri: Pertanyaan -->
-            <div class="utbk-question-card" id="utbk-question-area">
-                <!-- Diisi oleh renderCurrentQuestion() -->
+            <div class="utbk-question-card" id="utbk-question-area" style="flex:2.5;">
+                <!-- Pertanyaan -->
             </div>
             
-            <!-- Kolom Kanan: Navigasi dan Kalkulator -->
-            <div class="utbk-nav-card">
-                <span style="font-weight:700; color:var(--text-primary); text-transform:uppercase; letter-spacing:1px; font-size:0.9em;">Navigasi Soal</span>
-                <div class="utbk-nav-grid">${navBtns}</div>
-                <button class="primary-btn" style="width:100%; margin-top:25px; border-radius:12px;" onclick="submitUTBK()">Akhiri Ujian</button>
+            <div style="flex:1; display:flex; flex-direction:column; gap:20px; min-width:280px;">
+                <div class="utbk-nav-card" style="position:static; margin-bottom:0; padding:20px;">
+                    <span style="font-weight:700; color:var(--text-primary); text-transform:uppercase; letter-spacing:1px; font-size:0.9em;">Navigasi Soal</span>
+                    <div class="utbk-nav-grid" style="grid-template-columns:repeat(5, 1fr); max-height:200px; overflow-y:auto; padding-right:5px; margin-bottom:15px;">
+                        ${navBtns}
+                    </div>
+                    <button class="success-btn" style="width:100%; border-radius:12px; margin-top:10px;" onclick="submitUTBK()">Selesaikan Ujian</button>
+                </div>
+
+                <div class="data-card" style="padding:20px;">
+                    <h4 style="margin:0 0 15px 0; color:var(--text-primary); text-align:center; font-size:0.9em; text-transform:uppercase; letter-spacing:1px;">Kalkulator Sistem</h4>
+                    <input type="text" id="calc-display" style="width:100%; padding:12px; font-size:1.2em; text-align:right; margin-bottom:15px; background:rgba(15,23,42,0.6); color:var(--text-primary); border:1px solid var(--border-subtle); border-radius:8px; font-family:monospace;" readonly placeholder="0.00">
+                    <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px;">
+                        <button class="secondary-btn" style="padding:10px;" onclick="calcPress('7')">7</button><button class="secondary-btn" style="padding:10px;" onclick="calcPress('8')">8</button><button class="secondary-btn" style="padding:10px;" onclick="calcPress('9')">9</button><button class="primary-btn" style="padding:10px;" onclick="calcPress('/')">÷</button>
+                        <button class="secondary-btn" style="padding:10px;" onclick="calcPress('4')">4</button><button class="secondary-btn" style="padding:10px;" onclick="calcPress('5')">5</button><button class="secondary-btn" style="padding:10px;" onclick="calcPress('6')">6</button><button class="primary-btn" style="padding:10px;" onclick="calcPress('*')">×</button>
+                        <button class="secondary-btn" style="padding:10px;" onclick="calcPress('1')">1</button><button class="secondary-btn" style="padding:10px;" onclick="calcPress('2')">2</button><button class="secondary-btn" style="padding:10px;" onclick="calcPress('3')">3</button><button class="primary-btn" style="padding:10px;" onclick="calcPress('-')">-</button>
+                        <button class="danger-btn" style="padding:10px;" onclick="calcPress('C')">C</button><button class="secondary-btn" style="padding:10px;" onclick="calcPress('0')">0</button><button class="success-btn" style="padding:10px;" onclick="calcEval()">=</button><button class="primary-btn" style="padding:10px;" onclick="calcPress('+')">+</button>
+                    </div>
+                </div>
             </div>
         </div>
     `;
@@ -135,8 +208,7 @@ window.jumpToQuestion = function(idx) {
 function renderCurrentQuestion() {
     let qData = activeQuizArray[currentQuestion]; 
     let qArea = document.getElementById('utbk-question-area');
-    let formattedQuestion = qData.q.replace(/\n/g, "<br>");
-    let optionsHtml = '';
+    let optionsHtml = ''; 
     const letters = ['A', 'B', 'C', 'D'];
     
     qData.options.forEach((opt, idx) => { 
@@ -150,11 +222,10 @@ function renderCurrentQuestion() {
 
     qArea.innerHTML = `
         <div style="display:flex; justify-content:space-between; margin-bottom:25px; border-bottom:1px solid var(--border-subtle); padding-bottom:15px;">
-            <b style="color:var(--text-secondary); font-size:1.1em;">Soal No. ${currentQuestion + 1}</b>
+            <b style="color:var(--text-secondary); font-size:1.1em;">Soal No. ${currentQuestion + 1} dari ${activeQuizArray.length}</b>
         </div>
-        <p style="font-size:1.2em; line-height:1.7; color:var(--text-primary); margin-bottom:30px;">${formattedQuestion}</p>
+        <p style="font-size:1.2em; line-height:1.7; color:var(--text-primary); margin-bottom:30px;">${qData.q}</p>
         <div style="display:flex; flex-direction:column; gap:10px;">${optionsHtml}</div>
-        
         <div style="display:flex; justify-content:space-between; margin-top:40px; border-top:1px solid var(--border-subtle); padding-top:20px;">
             <button class="secondary-btn" onclick="if(currentQuestion>0) jumpToQuestion(currentQuestion-1)">← Soal Sebelumnya</button>
             <button class="primary-btn" onclick="if(currentQuestion<activeQuizArray.length-1) jumpToQuestion(currentQuestion+1) ; else submitUTBK()">Selanjutnya →</button>
@@ -172,8 +243,6 @@ function updateNavUI() {
     for(let i=0; i<activeQuizArray.length; i++) {
         let btn = document.getElementById(`nav-btn-${i}`);
         if(!btn) continue;
-        
-        // Logika warna grid: aktif (biru), sudah dijawab (hijau), kosong (abu-abu)
         btn.className = `utbk-nav-btn ${i===currentQuestion?'active':''} ${userAnswers[i]!==null && i!==currentQuestion ?'answered':''}`;
     }
 }
@@ -185,7 +254,6 @@ window.submitUTBK = function() {
     ZeroModal.confirm(msg, function(res) {
         if(res) {
             score = 0;
-            // Evaluasi jawaban
             for(let i=0; i<activeQuizArray.length; i++) { 
                 if(userAnswers[i] === activeQuizArray[i].ans) score += currentExpReward; 
             }
